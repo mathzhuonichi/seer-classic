@@ -1,7 +1,7 @@
 import {useSyncExternalStore} from 'react';
 import {gameAudio} from '../shared/audio/game-audio.ts';
 import './AudioSettings.css';
-const VOLUMES=[['musicVolume','战斗音乐'],['sfxVolume','音效']] as const;
+const VOLUMES=[['musicVolume','音乐'],['sfxVolume','音效']] as const;
 export default function AudioSettings(){
  const settings=useSyncExternalStore(gameAudio.subscribe,gameAudio.snapshot);
  return <fieldset className="audio-settings"><legend>声音</legend>

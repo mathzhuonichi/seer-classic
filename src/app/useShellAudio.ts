@@ -1,15 +1,22 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { battleLevelGained } from './action-sounds.ts';
 import { gameAudio } from '../shared/audio/game-audio.ts';
 import type { GameSnapshot } from '../kernel/contract.ts';
+import { campaignLocation } from '../features/challenges/index.ts';
+import { locationTrack, readWorldPreference, type WorldLocationId } from '../domain/world/world.ts';
 import { useGame, type GameStore } from '../shared/ui/use-game.ts';
 import type { BattleView } from '../shared/views.ts';
 
 const partyLevels = (battle: BattleView) => new Map(battle.party.map(mon => [mon.uid, mon.level]));
 
-/** Audio that follows the shell: gesture unlock, tab visibility, battle music and the post-battle level-up cue. */
-export function useShellAudio(store: GameStore<GameSnapshot>, preparing: boolean) {
+/**
+ * Audio that follows the shell: gesture unlock, tab visibility, battle music, the world theme of the scene on screen (the world
+ * map's, or a campaign stage's, staged at its first encounter's location) and the post-battle level-up cue.
+ */
+export function useShellAudio(store: GameStore<GameSnapshot>, preparing: boolean, campaignId: string | null) {
   const battleOpen = useGame(store, s => !!s.battle);
+  const [place, setPlace] = useState<WorldLocationId>(readWorldPreference);
+  const theme = locationTrack((campaignId ? campaignLocation(store.snapshot(), campaignId) : undefined) ?? place);
   const levels = useRef<Map<string, number> | null>(null), levelUp = useRef(false);
   useEffect(() => {
     const unlock = () => { void gameAudio.unlock(); };
@@ -31,7 +38,12 @@ export function useShellAudio(store: GameStore<GameSnapshot>, preparing: boolean
       levelUp.current = false;
     }
   }, [battleOpen, preparing]);
+  useEffect(() => gameAudio.setSceneMusic(theme), [theme]);
   return {
+    /** The world map shows a scene. */
+    showScene: useCallback(({ planetId, regionId }: WorldLocationId) => {
+      setPlace(old => old.planetId === planetId && old.regionId === regionId ? old : { planetId, regionId });
+    }, []),
     /** A new battle's party levels: the baseline for the level-up cue. */
     track(battle: BattleView) { levels.current = partyLevels(battle); },
     /** Just before a battle closes: a won battle that raised a level plays the cue once it is gone. */
