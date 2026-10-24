@@ -3,7 +3,8 @@
 Status: current. Follows the user decision of 2026-10-24 in [handoff-2026-10-22](handoff-2026-10-22.md): 「哪有boss无法消强，我认为是你的错误」.
 The five `stages_unclearable` rules were recorded in `data/boss-evidence-v56.json` as inferred and unverified, with no source.
 Rule: remove each unless a 2009-2013 mainland source says outright that the player could not clear that Boss's boosts; model a
-narrower statement exactly. Section 5 records the 必中 change of the same day. Checks: `boss-rules-v56`, `campaign-mechanics`.
+narrower statement exactly. Section 5 records the 必中 change of the same day, section 6 counts the Boss rules still recorded with no
+source. Checks: `boss-rules-v56`, `campaign-mechanics`.
 
 ## 1. Where the five rules came from
 
@@ -91,3 +92,35 @@ User decision of 2026-10-24 (option b of [boss-ai-engine-2026-10-24](boss-ai-eng
   the boost, a clear such as 金光闪烁 (accuracy 100) works on 战虎.
 - Checks: `boss-rules-v56` ("After 气机锁定 a move is 必中 ...", on the real Bosses and skills) and `campaign-mechanics` (the rule
   pair on a fixture). Rules: `battle/RULES.md` section 4 step 3 and section 10.1.
+
+## 6. Boss rules still recorded with no source
+
+Of the evidence ledger's 440 rule nodes (rules, member rules, variant rules and phase ops of the 180 encounters), 422 on 110
+encounters are still `inferred`, `unverified`, with no source (2026-10-24, read-only count). The other 18: 7 observed in a period
+report (纳特, 伊索里, 暗夜冰狐, 劳克蒙德's three fields, 魔狮迪露's type chart), 2 user policies, and 9 inferred with a source attached
+(战虎's clear immunity among them). As with the five clear immunities, "no source" is the builder's default for a rule nobody curated:
+every one of the 422 is on an encounter whose data lists period source URLs, so how many rest on no evidence at all is open until
+each is read against them.
+
+| Rule id | Nodes | Encounters | Examples |
+|---|---|---|---|
+| `stat_stage` (phase op: innate and triggered boosts) | 75 | 67 | 布莱克, 白虎·战虎与电虎, 麒麟·阿瑞斯真身 |
+| `immune_stage_down` | 42 | 41 | 白虎·五大守护兽, 麒麟·日月之轮, 麒麟·天地之轮 |
+| `immune_skill_list` | 29 | 29 | 白虎·战虎与电虎, 白虎·泰格尔, 白虎·五大守护兽 |
+| `immune_status_list` | 24 | 23 | 白虎·泰格尔, 白虎·五大守护兽, 青龙·朵拉格 |
+| `unlimited_pp` | 19 | 13 | 白虎·五大守护兽, 麒麟·阿瑞斯真身, 卡修斯 |
+| `immune_status` | 18 | 18 | 白虎·战虎与电虎, 白虎·五大守护兽, 麒麟·炽天之轮 |
+| `player_team_size` | 17 | 17 | 布莱克, 盖亚, 谱尼·第一封印 |
+| `always_moves_first` | 13 | 13 | 布莱克, 白虎·战虎与电虎, 白虎·泰格尔 |
+| `immune_pct_damage` / `immune_percent_damage` | 10 / 8 | 10 / 8 | 巴索尔, 凯洛亚, 卡伦尼 / 白虎·战虎与电虎, 麒麟·炽天之轮 |
+| `heal_full_below` | 9 | 9 | 布林克克, 谱尼真身, 阿克希亚 |
+| `immune_ohko` | 9 | 9 | 白虎·五大守护兽, 厄尔塞拉, 哈莫雷特 |
+| `status_on_attacker` | 9 | 7 | 白虎·战虎与电虎, 白虎·泰格尔, 青龙·四大守护兽 |
+| `always_hit` | 8 | 7 | 白虎·五大守护兽, 厄尔塞拉, 克拉尼特 |
+| `always_crit_below_pct` | 7 | 2 | 青龙·四大守护兽, 玄武·六大守护兽 |
+| `reflect_damage` | 7 | 7 | 白虎·五大守护兽, 朱雀·三重影, 帕多尼 |
+| `campaign_qilin_damage_filter`, `crit_rate_up`, `damage_only_from`, `foe_accuracy_penalty` | 6 each | 4, 6, 4, 6 | 麒麟 wheels; 米诺斯; 谱尼 seals; 塔西亚 |
+| `always_crit`, `lives`, `require_player_species`, `set_ai` | 5 each | 5, 3, 5, 3 | 雷纳多; 朱雀·三重影; 雷伊特训; 奈尼芬多 |
+| `heal_flat_each_turn`, `status_moves_always_miss` | 4 each | 4, 2 | 青龙·朵拉格; 谱尼真身 |
+| 7 ids with 3 nodes, 8 with 2 | 37 | | `drain_each_turn`, `only_sure_hit_moves_land`, `ko_attacker_on_big_hit`, `revive`, `level_drops_per_attempt`, ... |
+| 29 ids with 1 node | 29 | | 哈莫雷特's `no_repeat_type` and `type_rotation`, 尤纳斯's barrier, 普兰特's `random_priority`, ... |
