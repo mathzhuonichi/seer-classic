@@ -253,6 +253,9 @@
     "recruitment-acquisition.ts": {
       "status": "gate"
     },
+    "scene-music-browser.mjs": {
+      "status": "needs-browser"
+    },
     "scene-music.mjs": {
       "status": "gate"
     },
