@@ -60,6 +60,7 @@ export function isActing(side: 0 | 1, frame: Shown, action: Shown): boolean {
  * take it to 0 while its clip is still at the target, and it goes down when it is home.
  */
 export const shownDown = (hp: number, acting: boolean) => hp <= 0 && !acting;
+
 /** The move reaches its target here: a hit, or a miss that shows MISS where the hit would have hurt. */
 const strikes = (frame: BattlePresentationFrame | undefined) => frame?.kind === 'hit' || frame?.kind === 'miss';
 

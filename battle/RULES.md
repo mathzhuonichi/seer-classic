@@ -461,9 +461,9 @@ smart trainer plans first and may restore PP with an item instead.
   script, counts as a change, except 药剂反噬 while the foe is under it), one
   RNG value decides: below `BOSS_STATUS_CHANCE` (0.2, the same for every Boss)
   it picks among those skills, scaled to their number; otherwise it uses the
-  highest expected damage. With no such skill there is no draw and it uses the highest
-  expected damage. Remaining ties go to the higher single-hit estimate, then
-  to skill order. [chosen: the community model of the Boss AI, BWIKI
+  highest expected damage. With no such skill there is no draw and it uses
+  the highest expected damage. Remaining ties go to the higher single-hit
+  estimate, then to skill order. [chosen: the community model of the Boss AI, BWIKI
   赛尔号PVE概论 and jiangshibiao PVE百科全书, which period guides fit: 「他强化
   （碰运气）」「如果它选择强化」, and 哈莫雷特 「没技能前会用很多招龙之意志」]
   The project keeps two deviations from that model: a status skill that

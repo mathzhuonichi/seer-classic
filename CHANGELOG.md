@@ -2,6 +2,14 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Battle follow-ups (2026-10-24)
+
+- **Damage display.** The log now orders a move's lines as the dialogue shows them; a damaging move that a block (`protected`, `damage_blocked`) stops entirely shows −0 with its block line; a creature knocked out by a counter is counted down on its team strip only when it greys ([damage-display-2026-10-23](design/notes/damage-display-2026-10-23.md)).
+- **Boss AI.** 奈尼芬多 no longer re-casts 药剂反噬 while the foe is still under it, and its re-cast after a faint replacement is checked to come on time; `boss-ai-isolation-v56` no longer depends on its seeds (binomial bounds, the status chance right after a status move, recorded priorities); the `when.ts` turn-order fallback is measured and deferred ([boss-ai-engine-2026-10-24](design/notes/boss-ai-engine-2026-10-24.md)).
+- **Move clips.** A creature whose body teleports or is taken over (the 10 listed clips, among 18 at live sizes) now stays inside the arena; move paths are computed at clip load in short tasks (169's longest task 80 ms -> 30 ms); 1327's attack and 50's status move hit at their original frames ([battle-move-clips-2026-10-24](design/notes/battle-move-clips-2026-10-24.md)).
+- **Skill effects and loading.** Leaving a battle's loading screen no longer counts as a lost fight or spends anything (the contract action `abandonBattle`); a skill effect whose SWF failed or stalled is requested once more, so it plays from a later use; no encounter gains moves mid-battle today; Chrome's first-battle long task is 皮皮's HD atlas upload ([skill-effects-seamless-2026-10-22](design/notes/skill-effects-seamless-2026-10-22.md)).
+- **Period evidence.** Six open rules researched in 2009-2013 mainland sources, with no code change ([period-evidence-2026-10-24](design/notes/period-evidence-2026-10-24.md)).
+
 ## The browser package, 0.0.1 (2026-10-23 to 2026-10-24)
 
 - **One folder for Windows and macOS.** `npm run package` builds `releases/SeerClassic-0.0.1-browser.zip` (2.77 GiB, 3.10 GiB unpacked): 启动游戏-Windows.bat, 启动游戏-macOS.command, the official Node 24 runtimes (win-x64, darwin-arm64, darwin-x64), `server.mjs` on 127.0.0.1:1426 (the origin of the dev server, so a browser's save carries over), the web build and the checked payload. Windows opens Edge as an app window; macOS opens Chrome or Edge when installed, because Safari may delete a site's storage after 7 days without a visit ([browser-package-2026-10-23](design/notes/browser-package-2026-10-23.md)).
