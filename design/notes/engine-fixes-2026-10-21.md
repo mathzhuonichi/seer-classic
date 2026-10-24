@@ -44,7 +44,7 @@ execution order. No random number is added or removed.
 (`appliedTurnFor`), 急速闪避 (effect 52, 28 skills, `lastActedTurn`), `seer_eff_39`, the streak counter. The `when.ts` fallback
 `b.turnOrder[0] === c.self.side` is untouched: it feeds only read-only AI estimates made outside a move (for example
 `estimateDamage` when a turn opens, where `turnOrder` is the previous turn's execution order); a real move always passes its
-own flag.
+own flag. Studied and deferred on 2026-10-24: [boss-ai-engine-2026-10-24](boss-ai-engine-2026-10-24.md) section 4.
 
 **Blast radius.**
 - All 10 NPC trainers have `allow_switch`: on a turn where one switches, the player's lone move now holds 先手权.
