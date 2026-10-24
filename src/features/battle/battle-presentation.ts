@@ -1,10 +1,10 @@
 // Pure battle presentation: replaying engine events into immutable display frames.
 import type { BattleEvent, DataSet } from '../../../battle/core/src/index.ts';
 import { LINE_SEPARATOR, battleSteps, shownStepText, type EventOf } from './battle-log.ts';
-import { damageBlocks, damageTallies, type BlockShare, type DamageTally, type TallyShare } from './battle-damage-tally.ts';
+import { damageBlocks, damageTallies, immuneMoves, type BlockShare, type DamageTally, type TallyShare } from './battle-damage-tally.ts';
 import type { BattleMonsterView, BattlePresentationFrame } from '../../shared/views.ts';
 import { moveSkill, portrait, statusLabel, typeLabel } from '../../shared/view-common.ts';
-import { typeMatchup } from './type-matchup.ts';
+import { typeEffect, typeMatchup } from './type-matchup.ts';
 
 export interface BattlePresentationState { player: BattleMonsterView; enemy: BattleMonsterView; party: BattleMonsterView[]; enemyParty: BattleMonsterView[] }
 
@@ -105,13 +105,14 @@ export interface FrameOptions {
  * frame each, with its hurt and its HP, and count up one number (`damageTallies`); the last of them carries the line of the total.
  * A counter, or a block of one, shows with the hit that drew it (`withCounter`), so a move's hits into a reflection follow each
  * other as any others. The block line of a damaging move that was stopped before any of it reached its target shows −0 there
- * (`BlockShare.stopped`).
+ * (`BlockShare.stopped`), and so does the line of a move its target's type is immune to (`immuneMoves`). The number of a move on
+ * its target names the move's type rating, as the original's prefix (`BattlePresentationFrame.typeEffect`).
  */
 export function eventFrames(events: readonly BattleEvent[], before: BattlePresentationState, options: FrameOptions): BattlePresentationFrame[] {
   const { data, hideEnemyHp, challenge } = options;
   const foe = (mon: BattleMonsterView) => hideEnemyHp ? concealHp(mon) : mon;
   const frames: BattlePresentationFrame[] = [], tallies = damageTallies(events);
-  const blocks: ReadonlyMap<BattleEvent, BlockShare> = damageBlocks(events), numberIds = new Map<DamageTally, number>();
+  const blocks: ReadonlyMap<BattleEvent, BlockShare> = damageBlocks(events), immune = immuneMoves(events), numberIds = new Map<DamageTally, number>();
   /** The number a tally shows: the id of the frame or counter that first showed it, from `id` on. */
   const numberOf = (tally: DamageTally, id: number) => {
     const first = numberIds.get(tally);
@@ -139,10 +140,12 @@ export function eventFrames(events: readonly BattleEvent[], before: BattlePresen
     if (e.type === 'move_used') damaging = motion.kind !== 'status';
     if (!text && motion.kind === 'message') continue;
     const capture = e.type === 'capture_attempt' ? e : undefined, id = options.nextFrameId();
+    const immuneStop = immune.has(e), stopped = immuneStop || !!block?.stopped && damaging;
     const frame: BattlePresentationFrame = {
       id, side, kind: motion.kind, text, numberId: share && numberOf(share.tally, id),
       amount: share ? share.shown : e.type === 'heal' ? e.amount : undefined, critical: e.type === 'damage' && e.crit,
-      captureSuccess: capture?.success, capsuleName: capture && data.items.get(capture.item)?.name?.zh, stopped: block && block.stopped && damaging,
+      captureSuccess: capture?.success, capsuleName: capture && data.items.get(capture.item)?.name?.zh, stopped,
+      typeEffect: immuneStop ? 'immune' : typeEffect(share ? share.tally.effectiveness : stopped ? block?.effectiveness : undefined),
       skillId: motion.skillId, targetSide: motion.targetSide, ...sceneOf(shown, foe, data),
     };
     frames.push(frame);

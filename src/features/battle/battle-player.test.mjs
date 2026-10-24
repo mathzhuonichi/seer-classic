@@ -164,6 +164,20 @@ test('a stopped move\'s block line shows −0 on its target with the line, in th
   assert.deepEqual(ui.numbers(), [], 'gone DAMAGE_NUMBER_MS after it showed');
 });
 
+test('a move\'s number keeps its type rating as it counts up, an immunity\'s −0 names 无效, and the counter names none', () => {
+  const frames = [frame(1, 'physical', 0, {targetSide: 1}), hit(2, 1, 20, {typeEffect: 'strong', counter: {id: 3, amount: 5}}),
+    hit(4, 1, 40, {numberId: 2, typeEffect: 'strong'}), frame(5, 'physical', 0, {targetSide: 1}),
+    frame(6, 'message', 1, {text: '布布花免疫了这次攻击。', stopped: true, typeEffect: 'immune'})];
+  const ui = screen(frames);
+  ui.player.play(ui.shown.battle);
+  ui.clock.advance(3000);
+  assert.deepEqual(ui.player.state().numbers.map(({id, side, amount, kind, typeEffect, row}) => ({id, side, amount, kind, typeEffect, row})), [
+    {id: 2, side: 1, amount: 40, kind: 'damage', typeEffect: 'strong', row: 0}, {id: 3, side: 0, amount: 5, kind: 'damage', typeEffect: undefined, row: 0},
+    {id: 6, side: 1, amount: 0, kind: 'damage', typeEffect: 'immune', row: 1},
+  ]);
+  assert(!('typeEffect' in ui.player.state().numbers[1]), 'a number without a rating has no field for it');
+});
+
 test('a critical hit keeps its number critical through the later hits, and another number on the creature takes the next row', () => {
   const ui = screen([hit(1, 1, 30, {critical: true}), hit(2, 1, 61, {numberId: 1}), frame(3, 'message', 0, {text: '中毒'}), hit(4, 1, 12)]);
   ui.player.play(ui.shown.battle);

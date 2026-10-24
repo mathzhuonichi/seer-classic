@@ -16,6 +16,12 @@ export interface DamageTally {
   shown: number;
   /** One of them was a critical hit. */
   critical: boolean;
+  /**
+   * A move's damage on its target: the type multiplier of its first attack hit (`damage.effectiveness`), the move's type against
+   * the target's. The original's one `lostHP` per move carried one such rating (`effectName`). Undefined on the move's user, for
+   * damage outside a move, and for a move whose damage the chart did not rate (fixed, percentage or true damage alone).
+   */
+  effectiveness?: number;
 }
 
 /** One damage event's place in its tally. */
@@ -86,6 +92,7 @@ export function damageTallies(events: readonly BattleEvent[]): Map<Damage, Tally
     tally.events.push(event);
     tally.shown += displayedDamage(event);
     tally.critical ||= event.crit;
+    if (joins && event.side !== user) tally.effectiveness ??= event.effectiveness;
     shares.set(event, { tally, index: tally.events.length - 1, shown: tally.shown, drawnBy: drawn.get(event) });
   }
   return shares;
@@ -102,6 +109,8 @@ export interface BlockShare {
    * number of the move (`damageTallies`). A damaging move shows −0 there: the original drew its one `lostHP` per move, 0 here.
    */
   stopped: boolean;
+  /** For `stopped`: the type multiplier of the move's first stopped attack hit (`damage_blocked.effectiveness`), if any. */
+  effectiveness?: number;
   /** It stopped a counter to this hit (`counterHits`); the battle screen shows it with that hit. */
   drawnBy?: Damage;
 }
@@ -112,8 +121,11 @@ export interface BlockShare {
  * stands alone.
  */
 export function damageBlocks(events: readonly BattleEvent[]): Map<Block, BlockShare> {
-  /** One line's blocks; `struck`: a damage event of the move reached the side, `damaged`: one did damage, `target`: the move's target. */
-  const groups: { blocks: Block[]; struck: boolean; damaged: boolean; target: boolean }[] = [], drawn = counterHits(events);
+  /**
+   * One line's blocks; `struck`: a damage event of the move reached the side, `damaged`: one did damage, `target`: the move's
+   * target, `effectiveness`: the first stopped attack hit's multiplier.
+   */
+  const groups: { blocks: Block[]; struck: boolean; damaged: boolean; target: boolean; effectiveness?: number }[] = [], drawn = counterHits(events);
   let open: Map<0 | 1, (typeof groups)[number]> | undefined, user: 0 | 1 | undefined;
   for (const event of events) {
     if (event.type === 'move_used' || MOVE_ENDS.has(event.type)) {
@@ -126,16 +138,34 @@ export function damageBlocks(events: readonly BattleEvent[]): Map<Block, BlockSh
       groups.push(group = { blocks: [], struck: false, damaged: false, target: user !== undefined && event.side !== user });
       open?.set(event.side, group);
     }
-    if (event.type !== 'damage') group.blocks.push(event);
-    else if (!event.status) {
+    if (event.type !== 'damage') {
+      group.blocks.push(event);
+      if (event.type === 'damage_blocked') group.effectiveness ??= event.effectiveness;
+    } else if (!event.status) {
       group.struck = true;
       group.damaged ||= displayedDamage(event) > 0;
     }
   }
-  return new Map(groups.flatMap(({ blocks, struck, damaged, target }) => {
+  return new Map(groups.flatMap(({ blocks, struck, damaged, target, effectiveness }) => {
     const lined = blocks.every(block => drawn.has(block)) ? blocks.length - 1 : 0;
-    return blocks.map((block, index) => [block, {
-      lined: index === lined, partial: damaged, stopped: index === lined && target && !struck, drawnBy: drawn.get(block),
-    }] as const);
+    return blocks.map((block, index) => {
+      const stopped = index === lined && target && !struck;
+      return [block, { lined: index === lined, partial: damaged, stopped, ...stopped && { effectiveness }, drawnBy: drawn.get(block) }] as const;
+    });
   }));
+}
+
+/**
+ * The `immune` events of `events` (one dispatch's) that stopped a move before any of its damage reached its target: the target's
+ * type is immune to the move's (免疫了这次攻击。). The original drew that move's one `lostHP`, 0, with the rating 无效: 无效-0.
+ */
+export function immuneMoves(events: readonly BattleEvent[]): Set<BattleEvent> {
+  const stopped = new Set<BattleEvent>();
+  let struck: Set<0 | 1> | undefined;
+  for (const event of events) {
+    if (event.type === 'move_used' || MOVE_ENDS.has(event.type)) struck = event.type === 'move_used' ? new Set() : undefined;
+    else if (event.type === 'damage' && !event.status) struck?.add(event.side);
+    else if (event.type === 'immune' && struck && !struck.has(event.side)) stopped.add(event);
+  }
+  return stopped;
 }

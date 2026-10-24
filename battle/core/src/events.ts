@@ -28,7 +28,8 @@ interface EventFields {
     side: 0 | 1; slot: number; name: string; amount: number; kind: DamageKind; crit: boolean; status?: string;
     sourceSide?: 0 | 1; sourceName?: string; effectiveness?: number; skill?: number; overkill: number;
   };
-  damage_blocked: { side: 0 | 1; rule: string };
+  /** A Boss rule stopped this damage; `effectiveness` is the stopped attack hit's type multiplier, as on `damage`. */
+  damage_blocked: { side: 0 | 1; rule: string; effectiveness?: number };
   shield_absorb: { side: 0 | 1; amount: number; left: number };
   endure: { side: 0 | 1 };
   faint: { side: 0 | 1; slot: number; species: number; by: { side: 0 | 1; skill?: number; crit: boolean } | null };

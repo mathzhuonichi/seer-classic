@@ -270,7 +270,7 @@ function applyDamage(b: Battle, target: Mon, raw: number, info: DamageInfo): num
   const src = info.source;
   const { dmg, blocked } = computeDamage(b, target, raw, info, false);
   if (blocked) {
-    b.emit({ type: 'damage_blocked', side: target.side, rule: blocked });
+    b.emit({ type: 'damage_blocked', side: target.side, rule: blocked, effectiveness: info.effectiveness });
     return 0;
   }
   breakBarrier(b, info, target);
