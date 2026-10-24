@@ -9,7 +9,7 @@
     "build:desktop": "tsc --noEmit && vite build --mode desktop --configLoader native",
     "preview": "vite preview --host 127.0.0.1 --port 1420",
     "typecheck": "tsc --noEmit",
-    "test": "node --test \"src/**/*.test.mjs\" \"battle/**/*.test.mjs\" \"raising/**/*.test.mjs\"",
+    "test": "node --test \"src/**/*.test.mjs\" \"battle/**/*.test.mjs\" \"raising/**/*.test.mjs\" \"tools/distribution/**/*.test.mjs\"",
     "verify": "node tools/verification/run.mjs",
     "desktop": "tauri dev",
     "stage:desktop": "node tools/distribution/third-party-notices.mjs && python3 tools/distribution/stage_desktop_payload.py --notices releases/desktop-notices/THIRD-PARTY-NOTICES.txt",
