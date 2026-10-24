@@ -35,11 +35,31 @@ export function unreadableSaves(): UnreadableSave[] {
   return keys.filter(key => key.startsWith(UNREADABLE_SAVE_PREFIX)).sort().map(name => ({ name, text: localStorage.getItem(name) ?? '' }));
 }
 
+/** The save's key, as the save slots (save-slots.ts) adopt it. */
+export const LEGACY_SAVE_KEY = SAVE_KEY;
+/** An unreadable save's key: this prefix, the time it was kept (milliseconds since 1970) and a counter. */
+export const LEGACY_UNREADABLE_PREFIX = UNREADABLE_SAVE_PREFIX;
+
+/** The save's text (null when there is none) and the unreadable saves kept beside it, oldest first. */
+export interface LegacySaves { save: string | null; unreadable: { key: string; text: string }[] }
+
+/** Reads the save and its kept unreadable saves; none when local storage is absent or blocked. */
+export function readLegacySaves(): LegacySaves {
+  try {
+    if (typeof localStorage === 'undefined') return { save: null, unreadable: [] };
+    const keys = Array.from({ length: localStorage.length }, (_, index) => localStorage.key(index) ?? '');
+    const unreadable = keys.filter(key => key.startsWith(LEGACY_UNREADABLE_PREFIX)).sort().map(key => ({ key, text: localStorage.getItem(key) ?? '' }));
+    return { save: localStorage.getItem(LEGACY_SAVE_KEY), unreadable };
+  } catch {
+    return { save: null, unreadable: [] };
+  }
+}
+
 let writeProblem: string | null = null;
 const problemListeners = new Set<() => void>();
 /** Records a write's outcome: a failure is kept until a later write succeeds. */
 export function saveWriteSettled(failure?: unknown) {
-  const next = failure === undefined ? null : failure instanceof Error ? failure.message : String(failure);
+  const next = failure === undefined ? null : failure instanceof Error ? failure.message || failure.name : String(failure);
   if (next === writeProblem) return;
   writeProblem = next;
   problemListeners.forEach(listener => listener());
