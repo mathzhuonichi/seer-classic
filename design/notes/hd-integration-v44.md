@@ -12,7 +12,8 @@ Revision 44 replaces the low-resolution scene and interface references with sour
 - On 2026-10-23, at the user's request, the superseded files that no runtime path names were deleted: the 17 native atlas exports
   that the mixed compositions replaced (the `galaxy-*`, `selector-*`, `planet-1`, `planet-102` and `planet-726` 4x PNGs and the
   `planet-29`, `-484`, `-702` and `-717` SVGs in `public/ui/classic/maps/hd/`) and the first map 726 restoration `726-v44.png`, which
-  `726-v44b.png` replaced. Their manifest rows stay as the record, so `tools/verification/hd-assets-v44.py` reports the 17 as missing.
+  `726-v44b.png` replaced. Their manifest rows stay as the record. The static audit `tools/verification/hd-assets-v44.py`, which
+  reported them as missing and could no longer pass (its baseline commit was gone), was deleted on 2026-10-24.
 
 Source hashes, generation prompts, rejected candidates, alpha handling, viewport registration, and per-asset reviews are stored in the respective public manifests and asset specifications. Larger generated images and embedded-image SVGs are gitignored. This local development checkout includes those files; Git metadata alone is not a complete artifact transfer. Source recovery tools and pinned manifests are under `tools/assets/`; reviewed AI pixels must be transferred with their manifests to reproduce the exact local result.
 
