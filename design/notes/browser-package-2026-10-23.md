@@ -125,10 +125,19 @@ The save is the browser's `localStorage` for http://127.0.0.1:1426 (the web buil
    `.command` and the node binaries 755), deflate where it saves space and stored bytes for images, audio and `.gz`. It
    deliberately writes no ZIP64: it refuses more than 65,535 entries or 4 GiB. The packer also refuses names Windows cannot
    create, names that differ only in case, and paths over 180 characters.
+6. The player guide again beside the ZIP, `releases/运行说明.md`.
 
 Measured (2026-10-23, Apple M4): `releases/SeerClassic-0.9.0-browser.zip` is 2,973,183,804 B (2.77 GiB), 15,668 entries (1,828
 deflated), for 3.10 GiB unpacked (game/ 2.8 GiB, runtime/ 353 MiB). 4 min 50 s with the runtime downloads, 56 s with a warm cache
 (the ZIP itself 42-45 s). Rebuilt after the independent check (below): 2,973,185,942 B, the same entries, the ZIP in 43 s.
+
+**Release 0.0.1** (2026-10-24, the main checkout after the Tauri app's removal): `releases/SeerClassic-0.0.1-browser.zip` is
+2,973,183,902 B (2.77 GiB, 2.97 GB), 15,666 entries (1,826 deflated), SHA-256
+`036dcae5efe114671b6f317eaaa0f5cf7e00cb4b85d0a0610680ee243fb2811d`, for 3,332,420,322 B unpacked (3.10 GiB, 3.33 GB): the
+payload's 15,626 files (2,812.4 MiB), the web build, the runtime and the root files. Two fewer entries than 0.9.0: Pixi's
+chunks without its unsafe-eval entry. The guide beside it is 6,965 B. About 7 min with the runtime downloads (a fresh
+`.cache/node-runtime/`) and a 91 s watchdog stop; the ZIP itself 41 s. Staging printed no stale exclusion. The 0.9.0 ZIP was
+deleted once this one passed its gate.
 
 **Ruffle's own third-party code.** `tools/distribution/ruffle_licenses.mjs --work <scratch>` writes
 `tools/distribution/ruffle-licenses.json` (737 KiB, 161 distinct texts) for the installed Ruffle: a sparse checkout of Ruffle's
@@ -169,6 +178,12 @@ After the fixes of the independent check (2026-10-24, the rebuilt ZIP): 10 of 11
 `browser-regressions` 56 of 56 and the WebKit smoke passing. The Chrome smoke's battle did not end within its 30 s after the load
 watchdog had stopped the gate for 91 s at a load of 12.4: every request of the page goes through the stopped process. Rerun with
 `--skip-suites`: 9 of 9, the smoke in both engines. `npm test` runs 260 tests, one skipped here (above).
+
+Release 0.0.1 (2026-10-24): 10 of 11 in the first run, with `battle-skill-effects` 9 of 9, `browser-regressions` 56 of 56, the
+static checks, the guide and the WebKit smoke passing. The Chrome smoke saw 14 world-map image requests fail (toolbar icons,
+portraits, the scene) while the load watchdog stopped the gate twice for 91 s at loads of 8.3 and 9.9, as the page's requests
+go through the stopped process. Rerun with `--skip-suites` and no stop: 9 of 9, the smoke in both engines. `npm test` runs 259
+tests, one skipped.
 
 ## Player guide (`运行说明.md`)
 
@@ -231,7 +246,7 @@ about keeping to the newest version. Not changed:
 - **Windows has not run anything.** Checked only statically or with a mocked platform: cmd's reading of the `.bat` (CRLF,
   `chcp 65001` inside a batch, `%~dp0` with spaces and Chinese characters), Edge's app window and the `explorer.exe` fallback,
   the console close reaching Node as SIGHUP, Chinese text in the console, SmartScreen and the downloaded-file warning (the guide
-  says how to pass them), Defender's cost on the first start and on unzipping 15,668 files, Explorer's extraction time and its
+  says how to pass them), Defender's cost on the first start and on unzipping 15,666 files, Explorer's extraction time and its
   path limit (the longest path inside the ZIP is about 70 characters), OneDrive folders. node.exe is the pinned file; its own
   Authenticode signature was not checked here.
 - **No real port was used.** The sandbox here refuses local TCP connections, so the listening server on 127.0.0.1:1426 with a real
