@@ -26,7 +26,8 @@ const positive = (stages: StageMap): StageMap => Object.fromEntries(Object.entri
 
 /** Rules whose condition (named `name`, params as its state) reacts through a script hook. */
 const SCRIPTED: Record<string, RuleSpec & {name: string}> = {
-  only_sure_hit_moves_land: {name: '虚无封印', on: ['on_foe_move'], hook: c => c.targetsHolder && c.skill?.accuracy !== null ? 'miss' : undefined},
+  // 必中 is the engine's one notion (ctx.sureHit): an accuracy of null, or a force-hit effect such as 气机锁定's cond_sure_hit.
+  only_sure_hit_moves_land: {name: '虚无封印', on: ['on_foe_move'], hook: c => c.targetsHolder && !c.ctx.sureHit ? 'miss' : undefined},
   status_moves_always_miss: {name: '圣洁封印', on: ['on_foe_move'], hook: c => c.targetsHolder && c.skill?.category === 'status' ? 'miss' : undefined},
   ko_attacker_on_big_hit: {name: '能量封印', on: ['on_hurt'], hook: c => {
     const {holder, source, info, amount} = c;

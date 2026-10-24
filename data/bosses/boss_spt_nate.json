@@ -105,7 +105,7 @@
     "zh": "强化消不掉、弱化无效，用水系、圣灵系精灵车轮战（布鲁卡卡、鲁斯王、迈尔斯、斯加尔卡、斯普林特）。"
   },
   "engine_notes": [
-    "stages_unclearable: the innate stat stages applied at battle start cannot be removed by the player's clear_stages (消强) effects.",
+    "stages_unclearable: the player cannot clear its stat boosts (4399 2012-10-12: 天生攻击等级+2，无法消强化; the guide calls 不能被消强化 a trait seldom seen before).",
     "status_on_attacker: after the player's pet attacks it, the attacker is burned for 2-3 turns (必出现2-3回合烧伤).",
     "速度奇慢（比速度184的鲁斯王还慢）: spe x0.4 estimate so every player pet moves first.",
     "immune_pct_damage: 海洋之心 and other 'lose X% of current/max HP' (大比例扣血) skills deal no damage / miss against this boss (ops pct_damage, and 同生共死-style HP-equalising scripts).",

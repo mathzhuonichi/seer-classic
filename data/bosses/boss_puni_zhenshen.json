@@ -301,6 +301,7 @@
   "engine_notes": [
     "Six lives = six consecutive Puni team members (7k7k 2011: '普尼有6命，其实就是6v6多精灵对战'). Each member carries its own seal traits in member_rules / member_phases — the engine needs per-team-member rules (encounter rules apply to all).",
     "Life traits: 7k7k 2011 gives life 1 = 虚无+圣洁 with 天生攻击+2, life 5 = 圣洁+虚无+永恒 with 天生双防+2, life 6 = 轮回(准)+圣洁+永恒 refilling below 1000 HP; lives 2-4 = 元素/能量/生命 per the spinoff summary (TapTap) which matches 7k7k on lives 1, 5, 6.",
+    "虚无 on lives 1 and 5 (only_sure_hit_moves_land with damage_only_from {sure_hit:true}) reads the engine's one 必中 (battle/RULES.md section 4 step 3): accuracy null, or a force-hit effect such as 气机锁定's cond_sure_hit, so an attack after 气机锁定 lands and deals its damage, its fixed or percent riders included (user decision 2026-10-24). 圣洁 still makes every status move aimed at 谱尼 miss.",
     "HP per life 7000 / 8000 / 9000 / 12000 / 20000 / 65000: the official map-108 table, the 7k7k 2010-10-28 per-life table and 4399 2012-10-18 agree, except life 4, where both 2010 sources give 12000 and the table and the 2012 guide give 10000; 12000 is kept.",
     "heal_full_below 1000 on life 6: to win, the final hit must take it from ≥1000 to 0 in one blow (hence '血量低于1300时可使用大招').",
     "4399 2010 also says the player's hit rate drops when 谱尼 is below 10000 HP (命中率70%) and that its crits remove the player's defence boosts (暴击破防) — not encoded.",

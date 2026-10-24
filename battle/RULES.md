@@ -104,7 +104,12 @@ In order:
    [sourced: 赛学必修1, cv34339526: 「闪避：非必中技能必定miss（对必中技能不影响）」;
    圣洁 kept by user decision 2026-10-21] Otherwise
    hit if `rng < accuracy/100 × stage multiplier × condition multipliers`.
-   [sourced formula shape]
+   [sourced formula shape] The Boss rules that name 必中 read this same one
+   (`MoveCtx.sureHit`, set when the move starts): the campaign rule 虚无封印
+   (`only_sure_hit_moves_land`), `damage_only_from {sure_hit}` and
+   `stages_unclearable {except_sure_hit}` (section 10.1), so an attack after
+   气机锁定 or another `cond_sure_hit` boost lands on 谱尼's 虚无 and deals its
+   damage. [user decision 2026-10-24]
 4. **Damage** (attack skills, power > 0), section 5.
 5. **Effects** in listed order, each with its own `chance`. Effects run even if
    damage was 0 because of type immunity only if the op is `target: self`.
@@ -315,7 +320,7 @@ both for the player.
 | `immune_stage_down {stats?, except_attacks?}` | foe cannot lower its stages (only `stats` when listed; all, accuracy and evasion included, otherwise), a `stage_blocked` event; with `except_attacks`, a drop that an attacking (physical or special) skill makes as its own effect still lands, while drops from status moves, conditions and traits fail; its own drops still apply |
 | `immune_fixed_damage` / `immune_percent_damage` | those damage kinds do 0 |
 | `damage_cap_per_hit {amount}` | each hit capped (not `true` damage) |
-| `damage_only_from {types?, skills?, categories?, crit?, super_effective?, sure_hit?, kinds?}` | all other damage from the foe does 0 |
+| `damage_only_from {types?, skills?, categories?, crit?, super_effective?, sure_hit?, kinds?}` | all other damage from the foe does 0; `sure_hit` lets through the damage of a 必中 move (section 4 step 3), its effects' fixed, percent and OHKO damage included |
 | `no_repeat_type` | an attack of the same type as the previous attack that hit it does 0 |
 | `hp_floor_until {skill \| skills}` | cannot drop below 1 HP until hit by one of those skills |
 | `barrier_until_skill {skill}` | the foe's attacks do 0 until its hit by that skill breaks the barrier |
@@ -359,10 +364,13 @@ it as it was.
 
 `stages_unclearable {stats?, except_sure_hit?, except_skills_zh?}`: the foe
 cannot clear the boss's stages (only `stats`, when listed). A clear by a
-sure-hit skill (`accuracy: null`) with `except_sure_hit`, or by a skill named
-in `except_skills_zh`, still works. A move's clear, including the critical-hit
-defence clear, passes its skill to `on_stage_incoming`; a clear outside a move
-has none and is blocked.
+必中 move (section 4 step 3, a force-hit effect such as `cond_sure_hit`
+included) with `except_sure_hit`, or by a skill named in `except_skills_zh`,
+still works. A move's clear, including the critical-hit defence clear, passes
+its move context (its skill and its 必中) to `on_stage_incoming`; a clear
+outside a move has none and is blocked. A refused clear refuses only the
+clear: the move still deals its damage and its other effects. [user decision
+2026-10-24, 战虎]
 
 `ignore_player_damage_reduction {skills_zh?, except_skills_zh?}`: the boss's
 moves ignore the player's protections: damage reductions (`modify_damage_taken`

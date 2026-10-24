@@ -120,7 +120,7 @@
     "zh": "飞行/超能系克制：帕罗狄亚带禁制领域与大招为主力，斯加尔卡或斯普林特自杀辅助；尽量在它1/4血以上时打出大伤害。"
   },
   "engine_notes": [
-    "stages_unclearable for def/spd only: normal 消强 removes its atk boost but not the double-defence boost.",
+    "stages_unclearable for def/spd only: normal 消强 removes its atk boost but not the double-defence boost (4399 2012-12-10 and 聚侠 2012-12-07: 正常消强化技能不可消除双防强化). 帕罗狄亚's 禁制领域, the guides' answer, still works: it disables boosts for 5 turns (seer_eff_156) instead of clearing them.",
     "foe_cannot_boost: the player's pets cannot raise their stat stages during this fight (我方不能强化).",
     "Below 1/4 HP its attack damage doubles.",
     "immune_pct_damage: 海洋之心 and other 'lose X% of current/max HP' (大比例扣血) skills deal no damage / miss against this boss (ops pct_damage, and 同生共死-style HP-equalising scripts).",
@@ -138,7 +138,8 @@
     ]
   },
   "sources": [
-    "https://m.juxia.com/news/2012-12-7/70413.html"
+    "https://m.juxia.com/news/2012-12-7/70413.html",
+    "https://news.4399.com/seer/spt/201212-10-220873.html"
   ],
   "source_note": "聚侠 2012-12-07: 100级, 10000体力, 天生攻击/防御/特防+2, 1/4以下伤害翻倍, 我方不能强化."
 }

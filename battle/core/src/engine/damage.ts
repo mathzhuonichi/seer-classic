@@ -9,7 +9,7 @@ import { attackTypes, effectiveness, hasAttackType, typeIdentity } from '../type
 import { hookCtx, levelMult, runHookEffects, skillScripts } from './conditions.ts';
 import { breakBarrier, checkEnd, findRule, hasRule, ignoresProtection, ruleBlocks, ruleSide, statusKoRevival } from './rules.ts';
 import { traceHit } from './journal.ts';
-import { dealsDamage } from './move.ts';
+import { dealsDamage, isSureHit } from './move.ts';
 
 export interface AttackOptions { estimate?: boolean; roll?: number; crit?: boolean }
 export interface Attack { damage: number; crit: boolean; effectiveness: number; base: number; power: number }
@@ -141,11 +141,11 @@ export function probeDamage(b: Battle, user: Mon, target: Mon, skill: Skill, opt
   b.hitTrace = null;
   b.probeUnknownRules = opts.unknownRulesSide ?? null;
   try {
-    const crit = !!opts.crit;
-    const ctx: Partial<MoveCtx> = { skill, hit: true, crit, damageDealt: 0, effectiveness: 1, actedFirst: opts.actedFirst, user, target };
+    const crit = !!opts.crit, sureHit = isSureHit(b, user, skill);
+    const ctx: Partial<MoveCtx> = { skill, hit: true, crit, damageDealt: 0, effectiveness: 1, actedFirst: opts.actedFirst, sureHit, user, target };
     const r = b.calcAttack(user, target, skill, ctx, { roll, crit });
     if (r.effectiveness === 0) return 0;
-    const { dmg, blocked } = computeDamage(b, target, r.damage, { kind: 'attack', source: user, skill, crit, effectiveness: r.effectiveness }, true);
+    const { dmg, blocked } = computeDamage(b, target, r.damage, { kind: 'attack', source: user, skill, crit, effectiveness: r.effectiveness, sureHit }, true);
     return blocked ? 0 : dmg;
   } finally {
     b.probing = wasProbing;

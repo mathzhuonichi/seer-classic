@@ -97,6 +97,7 @@ export interface DamageInfo {
   forcedExecution?: boolean; // Explicit user-adopted boss policy; not ordinary OHKO mechanics.
   noReflect?: boolean;
   status?: string;          // DoT damage: which status dealt it
+  sureHit?: boolean;        // damage of a 必中 move (MoveCtx.sureHit), its effects' damage included
 }
 
 export type BattlePhase = 'choose' | 'replace' | 'ended';

@@ -150,8 +150,8 @@ function reachesTarget(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: Mov
   return hit;
 }
 
-/** 必中 (RULES.md 4): the one definition that the accuracy roll and the evasion shields read, through `MoveCtx.sureHit`. */
-function isSureHit(b: Battle, user: Mon, skill: Skill): boolean {
+/** 必中 (RULES.md 4): the one definition. The accuracy roll, the evasion shields and the Boss rules read it through `MoveCtx.sureHit`. */
+export function isSureHit(b: Battle, user: Mon, skill: Skill): boolean {
   return skill.accuracy === null || b.hooks(user, 'modify_accuracy').some((h) => h.force_hit);
 }
 
@@ -192,7 +192,7 @@ function strike(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: MoveCtx, a
     landed++;
   }
   if (hits > 1) b.emit({ type: 'multi_hit', side: user.side, hits: landed });
-  if (criticalDamage) clearCriticalDefence(b, target, skill);
+  if (criticalDamage) clearCriticalDefence(b, target, skill, ctx);
 }
 
 /** One hit, journaled; null when the target is immune. */
@@ -216,7 +216,7 @@ function oneHit(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: MoveCtx, h
       const m = entry.modifyDamage?.({ battle: b, user, foe: target, skill, ctx }, op.params, dmg);
       if (typeof m === 'number') dmg = m;
     }
-    dealt = b.dealDamage(target, dmg, { kind: 'attack', source: user, skill, crit: r.crit, effectiveness: r.effectiveness });
+    dealt = b.dealDamage(target, dmg, { kind: 'attack', source: user, skill, crit: r.crit, effectiveness: r.effectiveness, sureHit: ctx.sureHit });
   } finally {
     b.hitTrace = outer;
   }
@@ -230,11 +230,11 @@ function oneHit(b: Battle, user: Mon, target: Mon, skill: Skill, ctx: MoveCtx, h
  * after the damage sequence; exact historical per-hit timing is unverified
  * (design/notes/damage-formula-research.md).
  */
-function clearCriticalDefence(b: Battle, target: Mon, skill: Skill): void {
+function clearCriticalDefence(b: Battle, target: Mon, skill: Skill, ctx: MoveCtx): void {
   const defenceStat = skill.category === 'physical' ? 'def' : 'spd';
   const defenceStage = target.stages[defenceStat];
   if (target.fainted || !(defenceStage > 0)) return;
-  const blocked = b.fire(target, 'on_stage_incoming', { stat: defenceStat, delta: -defenceStage, byFoe: true, clear: true, skill }).includes(false);
+  const blocked = b.fire(target, 'on_stage_incoming', { stat: defenceStat, delta: -defenceStage, byFoe: true, clear: true, skill, ctx }).includes(false);
   if (blocked) b.emit({ type: 'stage_blocked', side: target.side, stat: defenceStat });
   else {
     target.stages[defenceStat] = 0;

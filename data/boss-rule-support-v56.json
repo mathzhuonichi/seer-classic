@@ -3,10 +3,10 @@
   "scope": "Every top-level encounter, team member, variant, phase, condition and objective in data/bosses/*.json. Implementation coverage is not proof of official behavior.",
   "summary": {
     "encounters": 180,
-    "handledEntries": 741,
+    "handledEntries": 740,
     "unsupportedEntries": 0,
     "encountersWithUnsupported": [],
-    "approximatedEntries": 133,
+    "approximatedEntries": 131,
     "unexpectedContractGaps": 0,
     "waivedEntries": 4,
     "replacementPolicies": 1
@@ -1888,15 +1888,6 @@
       "id": "boss_dark_door9_dipulide",
       "handled": [
         {
-          "rule": "script",
-          "id": "stages_unclearable",
-          "scope": "root/rules/0",
-          "fields": [
-            "stats"
-          ],
-          "implementation": "install"
-        },
-        {
           "rule": "objective:ko_all",
           "scope": "root/win/0",
           "fields": []
@@ -1918,7 +1909,13 @@
         }
       ],
       "unsupported": [],
-      "approximated": [],
+      "approximated": [
+        {
+          "rule": "catalog_reconstruction",
+          "scope": "engine_notes/2",
+          "reason": "Raises its attack by 6 stages at the start (百科 citing 4399 2013-08-19, the only source for +6). 百科 also says 无法消除, but the 4399 guide it cites (98372, archived 2011-05-31 and 2013-03-28) does not, and no period source says so; the boost can be cleared (user 2026-10-24)."
+        }
+      ],
       "waived": [],
       "replacements": []
     },
@@ -2999,7 +2996,9 @@
           "rule": "script",
           "id": "stages_unclearable",
           "scope": "root/rules/0",
-          "fields": [],
+          "fields": [
+            "stats"
+          ],
           "implementation": "install"
         },
         {
@@ -3065,11 +3064,6 @@
       ],
       "unsupported": [],
       "approximated": [
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/0",
-          "reason": "stages_unclearable: the innate stat stages applied at battle start cannot be removed by the player's clear_stages (消强) effects."
-        },
         {
           "rule": "catalog_reconstruction",
           "scope": "engine_notes/1",
@@ -4999,11 +4993,6 @@
       "approximated": [
         {
           "rule": "catalog_reconstruction",
-          "scope": "engine_notes/0",
-          "reason": "stages_unclearable: the innate stat stages applied at battle start cannot be removed by the player's clear_stages (消强) effects."
-        },
-        {
-          "rule": "catalog_reconstruction",
           "scope": "engine_notes/2",
           "reason": "速度奇慢（比速度184的鲁斯王还慢）: spe x0.4 estimate so every player pet moves first."
         }
@@ -6013,13 +6002,7 @@
         }
       ],
       "unsupported": [],
-      "approximated": [
-        {
-          "rule": "catalog_reconstruction",
-          "scope": "engine_notes/0",
-          "reason": "stages_unclearable for def/spd only: normal 消强 removes its atk boost but not the double-defence boost."
-        }
-      ],
+      "approximated": [],
       "waived": [],
       "replacements": []
     },

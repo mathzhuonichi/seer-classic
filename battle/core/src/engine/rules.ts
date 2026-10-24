@@ -120,7 +120,7 @@ export function ruleBlocks(b: Battle, side: Side, info: DamageInfo, target: Mon)
       (!only.categories || (sk && only.categories.includes(sk.category))) &&
       (!only.crit || info.crit) &&
       (!only.super_effective || (info.effectiveness ?? 1) > 1) &&
-      (!only.sure_hit || (sk && sk.accuracy === null)) &&
+      (!only.sure_hit || info.sureHit) &&
       (!only.kinds || only.kinds.includes(info.kind));
     if (!ok) return 'damage_only_from';
   }
