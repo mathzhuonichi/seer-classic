@@ -48,9 +48,14 @@ const TINT_SHARE = .9, SHAPES_SHARE = .5;
 /** CSS and canvas px the layer may differ from the arena by (rounding). */
 const BOX_SLACK = 2;
 const TURN_TIMEOUT_MS = 30_000;
-/** The loading screen's own pauses once its art and animations are in (DEPLOY_MS + START_MS, src/app/useBattlePreparation.ts). */
-const LAST_PAUSES_MS = 950;
-/** Beyond those pauses, this much more counts as the effects holding the loading screen up. */
+/**
+ * The loading screen's last pause, from its 100 % step 「战斗开始！」 (START_MS, src/app/useBattlePreparation.ts). The effects can hold
+ * the screen only there, so the hold is timed from that step: the 90 % step's pause (DEPLOY_MS) stretches in WebKit under the
+ * main-thread work of the battle mounted behind the screen and, on the first battle, of Ruffle's start
+ * (design/notes/battle-entry-longtask-2026-10-24.md, section 10).
+ */
+const LAST_PAUSE_MS = 350;
+/** Beyond that pause, this much more counts as the effects holding the loading screen up. */
 const WAIT_SLACK_MS = 250;
 /** The longest a loading screen waits for the effects, from its 90 % step (SKILL_EFFECTS_WAIT_MS, src/features/battle/skill-effect-session.ts). */
 const EFFECTS_WAIT_MS = 3000;
@@ -85,8 +90,11 @@ async function fixtures() {
 }
 
 /**
- * Init script: into window.__host, Ruffle's instance lines with what showed then, each loading screen's progress steps, and
- * each battle's first frame (whether the host is in the arena layer) and how long its canvas took to take the layer's size.
+ * Init script: into window.__host, Ruffle's instance lines with what showed then, each loading screen's progress steps as they
+ * are set, and each battle's reveal, as its loading screen goes (whether the host is in the arena layer) and how long the
+ * host's canvas then took to take the layer's size. A mutation observer stamps the steps and the reveal in the task that
+ * changes the DOM: the battle mounted behind the screen holds the frame that would show the 90 % step for hundreds of
+ * milliseconds in WebKit, so a frame's time would undercount what follows that step.
  */
 function watchHost(tag) {
   const host = window.__host = {instances: [], steps: [], reveals: []}, log = console.log;
@@ -99,16 +107,21 @@ function watchHost(tag) {
     return log.apply(this, args);
   };
   let step = null, reveal = null;
-  const tick = now => {
+  const effectLayer = () => document.querySelector('.battle-layer .battle-skill-effects');
+  new MutationObserver(() => {
+    const now = performance.now();
     const progress = document.querySelector('.battle-loading .loading-progress')?.getAttribute('aria-valuenow') ?? null;
     if (progress !== null && progress !== step) host.steps.push({progress: Number(progress), t: now});
     step = progress;
-    const layer = document.querySelector('.battle-layer .battle-skill-effects');
+    const layer = effectLayer();
     if (!layer || !shown()) reveal = null;
     else if (!reveal) host.reveals.push(reveal = {t: now, inLayer: !!layer.querySelector(`:scope > ${tag}`), sizedMs: null});
-    const canvas = layer?.querySelector(`:scope > ${tag}`)?.shadowRoot?.querySelector('canvas');
+  }).observe(document, {childList: true, subtree: true, attributes: true, attributeFilter: ['aria-valuenow']});
+  const tick = now => {
+    const layer = effectLayer(), canvas = layer?.querySelector(`:scope > ${tag}`)?.shadowRoot?.querySelector('canvas');
     if (reveal && reveal.sizedMs === null && canvas && Math.abs(canvas.width - parseFloat(layer.style.width) * devicePixelRatio) <= 2) {
-      reveal.sizedMs = now - reveal.t;
+      // A frame's timestamp precedes the stamp of a reveal in its own task.
+      reveal.sizedMs = Math.max(0, now - reveal.t);
     }
     requestAnimationFrame(tick);
   };
@@ -269,7 +282,10 @@ const hostState = page => page.evaluate(tag => {
     suspended: players.map(player => player.ruffle().suspended), instances: window.__host.instances};
 }, PLAYER);
 
-/** Starts the wild battle and waits for its commands; the time from the fight click to the battle's first frame, and from the 90 % step. */
+/**
+ * Starts the wild battle and waits for its commands; the time from the fight click to the battle's reveal, from the 90 % step
+ * (the effects start there, so their wait limit counts from it) and from the 100 % step (the screen's last pause).
+ */
 async function enterBattle(page) {
   await talkToCreature(page);
   const from = await page.evaluate(() => ({t: performance.now(), steps: window.__host.steps.length, reveals: window.__host.reveals.length}));
@@ -277,8 +293,9 @@ async function enterBattle(page) {
   await waitCommands(page);
   await wait(SIZED_MS);
   return page.evaluate(from => {
-    const reveal = window.__host.reveals[from.reveals], last = window.__host.steps.slice(from.steps).find(step => step.progress === 90);
-    return {...reveal, loadingMs: Math.round(reveal.t - from.t), afterArtMs: last ? Math.round(reveal.t - last.t) : null};
+    const reveal = window.__host.reveals[from.reveals], steps = window.__host.steps.slice(from.steps);
+    const after = progress => { const step = steps.find(entry => entry.progress === progress); return step ? Math.round(reveal.t - step.t) : null; };
+    return {...reveal, loadingMs: Math.round(reveal.t - from.t), afterArtMs: after(90), lastPauseMs: after(100)};
   }, from);
 }
 
@@ -333,12 +350,13 @@ function checkCleared(result, label) {
   assert.deepEqual({players, parked, suspended}, {players: 1, parked: 1, suspended: [true]}, `${label}: the host does not wait parked and suspended`);
 }
 
-/** The loading screen did not wait for the effects beyond its own last pauses. */
+/** The loading screen did not wait for the effects beyond its own last pause. */
 function checkEntryWait(entry, label) {
-  assert(entry.afterArtMs <= LAST_PAUSES_MS + WAIT_SLACK_MS, `${label}: the loading screen waited ${entry.afterArtMs} ms after its art (pauses ${LAST_PAUSES_MS})`);
+  assert(entry.lastPauseMs <= LAST_PAUSE_MS + WAIT_SLACK_MS,
+    `${label}: the loading screen went ${entry.lastPauseMs} ms after its 100 % step (pause ${LAST_PAUSE_MS})`);
 }
 
-/** The battle's first frame has the host in the arena layer, its canvas sized at once, and the screen did not wait for the effects. */
+/** As the battle is revealed the host is in the arena layer, its canvas takes the arena's size at once, and the screen did not wait for the effects. */
 function checkEntry(entry, label) {
   assert(entry.inLayer, `${label}: the host was not in the arena layer at the battle's first frame`);
   assert(entry.sizedMs !== null && entry.sizedMs <= SIZED_MS, `${label}: the host's canvas took ${entry.sizedMs} ms to cover the arena`);
@@ -391,7 +409,9 @@ function checkRun(result, label) {
   const {instances, ...after} = result.battle2.afterClose;
   assert.deepEqual(after, {players: 1, parked: 1, suspended: [true]}, `${label}: after the second battle`);
   assert.deepEqual(instances, [{kind: 'created', loading: true, battle: false}], `${label}: Ruffle instances over two battles`);
-  return {...placement, firstAfterArtMs: result.first.afterArtMs, secondAfterArtMs: result.second.afterArtMs, layering: result.layering};
+  const {first, second} = result;
+  return {...placement, firstAfterArtMs: first.afterArtMs, firstLastPauseMs: first.lastPauseMs, secondAfterArtMs: second.afterArtMs,
+    secondLastPauseMs: second.lastPauseMs, layering: result.layering};
 }
 
 /**
