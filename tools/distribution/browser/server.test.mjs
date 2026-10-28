@@ -184,7 +184,7 @@ test('the probe path answers with the game and its version', async () => {
 /** Whether this process may open local TCP connections: the sandbox of the development machine refuses them. */
 async function canConnect() {
   const probeServer = http.createServer((_, response) => response.end());
-  await new Promise(resolve => probeServer.listen(0, '127.0.0.1', resolve));
+  if (!await new Promise(resolve => probeServer.once('error', () => resolve(false)).listen(0, '127.0.0.1', () => resolve(true)))) return false;
   try {
     return await new Promise(resolve => http.get({host: '127.0.0.1', port: probeServer.address().port}, response => {
       response.resume();
@@ -194,9 +194,11 @@ async function canConnect() {
     probeServer.close();
   }
 }
-const blocked = !await canConnect() && 'local TCP connections are refused here (the sandbox)';
 
-test('a taken port is told apart: this game already running, or another program', {skip: blocked}, async () => {
+// Checked inside the test: a top-level await here let the runner finish the file, and its `after` delete the root, before
+// the tests below it ran.
+test('a taken port is told apart: this game already running, or another program', async t => {
+  if (!await canConnect()) return t.skip('local TCP connections are refused here (the sandbox)');
   const game = (await listen(createGameServer(root, VERSION), 0)).server, other = http.createServer((_, response) => response.end('<!doctype html>'));
   await new Promise(resolve => other.listen(0, '127.0.0.1', resolve));
   try {
