@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  addMonster, computeStats, createMonster, deposit, hatchEssence, healAll, PARTY_MAX, rename, setPartyOrder, withdraw,
+  addMonster, computeStats, createMonster, deposit, hatchEssence, healAll, PARTY_MAX, rename, setPartyOrder, swapWithBox, withdraw,
 } from './index.ts';
 import {dex, emptySave, guard, rng} from './test-fixture.mjs';
 
@@ -23,6 +23,15 @@ test('the box takes any number of monsters once the party is full', () => {
   const s = saveWith(PARTY_MAX), crowded = {...s, storage: [...s.storage, ...Array.from({length: LARGE_BOX}, (_, i) => ({...s.storage[0], uid: `b${i}`}))]};
   const added = addMonster(crowded, mon('x'));
   assert.deepEqual([boxOf(added).length, boxOf(added).at(-1).uid, added.party], [LARGE_BOX + 1, 'x', s.party]);
+});
+
+test('a box monster takes a party monster\'s slot, also in a full party', () => {
+  const s = saveWith(PARTY_MAX + 1), swapped = swapWithBox(s, 'm2', 'm6');
+  assert.deepEqual([swapped.party, boxOf(swapped).map((m) => m.uid)], [['m0', 'm1', 'm6', 'm3', 'm4', 'm5'], ['m2']]);
+  assert.equal(swapped.storage, s.storage);
+  assert.throws(() => swapWithBox(s, 'm6', 'm2'), /not in the party/);
+  assert.throws(() => swapWithBox(s, 'm2', 'm3'), /already in the party/);
+  assert.throws(() => swapWithBox(s, 'm2', 'nope'), /no monster nope/);
 });
 
 test('deposit and withdraw keep at least one party monster and at most six', () => {

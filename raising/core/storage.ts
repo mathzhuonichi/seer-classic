@@ -63,6 +63,17 @@ export function withdraw(save: Save, uid: string): Save {
   return { ...save, party: [...save.party, uid] };
 }
 
+// The box monster `boxUid` takes the party slot of `partyUid`, which goes to the box: a full party can still take a box monster.
+export function swapWithBox(save: Save, partyUid: string, boxUid: string): Save {
+  const slot = save.party.indexOf(partyUid);
+  if (slot < 0) throw new Error(`${partyUid} is not in the party`);
+  if (save.party.includes(boxUid)) throw new Error(`${boxUid} is already in the party`);
+  findMon(save, boxUid);
+  const party = [...save.party];
+  party[slot] = boxUid;
+  return { ...save, party };
+}
+
 // Reorders the party; the first monster is the one sent out first.
 export function setPartyOrder(save: Save, order: string[]): Save {
   const same = order.length === save.party.length && order.every((u) => save.party.includes(u));

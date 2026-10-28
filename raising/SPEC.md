@@ -175,8 +175,10 @@ consumer needs the formulas. `medium_slow` really does need *less* EXP for level
 - 背包 (party): 1–6 ordered monsters, the first is sent out first. 精灵仓库 (box):
   everything else, with no limit [chosen].
 - A newly obtained monster joins the party if there is room, else the box.
-- Deposit, withdraw, reorder, rename (≤12 characters). The last party monster
-  can't be deposited. A monster is never released: there is no 放生 [chosen].
+- Deposit, withdraw, reorder, rename (≤12 characters), and swap a box monster
+  into a party monster's slot (that one goes to the box), which works in a full
+  party. The last party monster can't be deposited. A monster is never
+  released: there is no 放生 [chosen].
 - 精灵恢复舱: `healAll` restores HP, PP and status for free [chosen; Seer charged
   赛尔豆 without 超能NoNo, which has no meaning here].
 

@@ -2,6 +2,13 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Source on GitHub, a frozen art pack and an easier pet storage (2026-10-28)
+
+- **GitHub.** The source, data and notes are public at https://github.com/mathzhuonichi/seer-classic. The history was filtered to hold no art: images, audio, fonts and the skill-effect SWFs are ignored everywhere.
+- **Art pack.** Players keep the art of the 0.0.1 package and take only new source. `tools/distribution/art-pack.json` lists its 15,714 files; `art-pack.mjs` installs it into `public/` from a package's `game/` folder or another workspace and checks it; the `payload` gate fails on art outside it. See [ART.md](ART.md).
+- **Pet storage.** Picking a monster in the 精灵仓库 shows it beside the list with 放入背包, 替换背包精灵 (a one-step swap that keeps the slot, for a full bag) and 查看详情; the box keeps twelve cards per page, ordered by 最近获得 by default, and an empty party slot opens it. The PetBag's side icons now match the 2013 client (仓库 opens the box with 743, 首发 uses 748). See [pet-storage-2026-10-28](design/notes/pet-storage-2026-10-28.md).
+- **Checks.** `npm test` 313 tests (new: the art pack's install and check, the storage swap); `npm run verify` 77/77; `browser-regressions` passes in Chrome and WebKit with the new storage check; `payload` on a staged payload, including a rejected extra image; a source-only clone installed from the workspace passes `art-pack.mjs check`. `battle-skill-effects` fails one WebKit loading-time check (1235 ms after its art, limit 950); it does not touch the PetBag.
+
 ## Version 0.0.2, not packaged: the launcher window closes by itself (2026-10-27)
 
 - **Version.** The source is at 0.0.2 (关于, the player guide, the package name it will get); no package was built, as the user is still checking bugs locally. `releases/` holds only the 0.0.1 ZIP, which predates everything below.

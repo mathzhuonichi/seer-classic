@@ -34,6 +34,9 @@ const NEIGHBOUR_ID = 'fusion_bead_301';
 const RAISED_LEVEL = 100;
 const RAISED_COINS = 999_999;
 const RAISED_ENGRAVING = '10001';
+/** The box save adds these to the three starters: the first three fill the bag, the other two wait in the box. */
+const BOX_SPECIES = [70, 15, 12, 300, 400];
+const BOX_LEVEL = 10;
 /** 玄武, whose encyclopedia entry leads to its campaign stage scene. */
 const CAMPAIGN_SPECIES = 501;
 /**
@@ -108,6 +111,7 @@ async function fixtures() {
     });
     const hatching = journey({[SHOWN_ESSENCE.id]: SHOWN_ESSENCE.copies, [PICKED_ESSENCE.id]: PICKED_ESSENCE.copies, [NEIGHBOUR_ID]: 1});
     const plain = journey(), lab = journey({[LAB_ESSENCE]: 1}, game => labParents(game, dispatch));
+    const box = journey({}, game => { for (const species of BOX_SPECIES) dispatch(game, {type: 'cheatAcquire', species, level: BOX_LEVEL}); });
     // 盖亚 takes one monster (team_max 1), so the practice fight is entered with the other starters deposited.
     const solo = journey({}, game => { for (const uid of game.snapshot().party.slice(1)) dispatch(game, {type: 'party', uid, add: false}); });
     const labPlace = entries(() => writeWorldPreference({...locations.LABORATORY_LOCATION, ...LAB_POSITION, visited: []}));
@@ -130,7 +134,7 @@ async function fixtures() {
       localStorage.setItem(LEGACY_SAVE_KEY, JSON.stringify(save));
     });
     const saves = {
-      journey: plain.slot, solo: solo.slot, raised: raised.slot, essence: hatching.slot, lab: {...lab.slot, ...labPlace}, tower: tower.slot,
+      journey: plain.slot, box: box.slot, solo: solo.slot, raised: raised.slot, essence: hatching.slot, lab: {...lab.slot, ...labPlace}, tower: tower.slot,
       facilities: {...plain.slot, ...hallPlace}, niao: {...plain.slot, ...niaoPlace}, counter: fighters(DISPLAY_PARTY, LOW_HP),
       blocked: fighters(DISPLAY_PARTY), rated: fighters(RATED_PARTY), immune: fighters(RATED_PARTY),
     };
@@ -316,6 +320,24 @@ async function dialogueEscape({page}) {
 
 /** The state of the window's layers: windows, the engraving picker and the item tooltip. */
 const layers = async page => ({windows: await windows(page), picker: await count(page, '.engraving-picker'), tooltip: await count(page, '.item-tooltip')});
+
+/** A monster picked in the box shows beside the list, and with the bag full it takes the party slot picked next. */
+async function storageSwap({page, fixture}) {
+  await waitWorld(page);
+  await openTool(page, tool(fixture, 'monsters'));
+  await page.click('.petbag-nav-storage');
+  const name = card => card.locator('.petbag-party-identity strong').textContent(), picked = page.locator('.storage-slot-grid > *').nth(1);
+  const incoming = await name(picked);
+  await picked.click();
+  assert.equal(await page.locator('.storage-info > header strong').textContent(), incoming, 'the picked monster is shown');
+  assert.equal(await count(page, '.petbag-storage'), 1, 'picking a monster keeps the box open');
+  await page.click('.storage-actions button:text-is("替换背包精灵")');
+  const slot = page.locator('.petbag-party-strip > *').nth(1), outgoing = await name(slot);
+  await slot.click();
+  await wait(SETTLE_MS);
+  assert.equal(await name(slot), incoming, 'the picked monster takes the second slot');
+  assert.equal(await page.locator('.storage-status').textContent(), `${incoming}已换入背包第 2 位，${outgoing}已放回仓库。`);
+}
 
 async function nestedEscape({page, fixture}) {
   await waitWorld(page);
@@ -622,6 +644,7 @@ const CHECKS = [
   {name: 'the arrows do not walk the hidden robot during a campaign stage scene, and walk again after leaving it', run: arrowsBehindCampaign},
   {name: 'the scene is inert behind a window and the modifier: Tab cannot reach exits or creatures, and Enter does not use them', run: inertScene},
   {name: 'the world dialogue closes on Escape with the focus on any of its buttons', run: dialogueEscape},
+  {name: 'a monster picked in the box shows beside it, and with the bag full swaps into the party slot picked next', save: 'box', run: storageSwap},
   {name: 'Escape closes an item tooltip, then the engraving slot picker, then the window', save: 'raised', run: nestedEscape},
   {name: 'an item tile opens its tooltip on keyboard focus, not on the focus a click gives', run: tooltipFocus},
   {name: 'once the essence the bag shows, or one picked in its content tab, runs out, the bag selects nothing and 确认孵化 is disabled', save: 'essence',
