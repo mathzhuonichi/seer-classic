@@ -42,6 +42,9 @@ and the `payload` gate proves every path the build can request is staged and non
 
 - Listens on 127.0.0.1 only, on port **1426**, fixed: the browser keeps the save under the origin http://127.0.0.1:1426, the one
   `test.command` has always used, so the user's save in a browser is the browser package's save in that same browser.
+- Since 2026-10-27 the launcher's console only starts the game and then closes, and the server runs in the background until the
+  game is no longer played ([The launcher window closes](#the-launcher-window-closes-2026-10-27), below); the bullets below
+  describe the server itself.
 - Serves `game/` with a strict resolver: one percent-decoding; a NUL, backslash, colon (drive letters, NTFS streams), empty,
   `.` or `..` segment refuses the path, so `C:\…`, `//server/share`, `..%5c` and `%2e%2e` cannot leave the folder; a folder or
   a missing file is a 404. Files are streamed, never read into memory.
@@ -67,11 +70,11 @@ and the `payload` gate proves every path the build can request is staged and non
 - Opens the game: on Windows Microsoft Edge as an app window (`msedge --app=`, from Program Files (x86), Program Files or
   LocalAppData), then `explorer.exe <url>`, which hands it to the default browser; on macOS Google Chrome, else Microsoft Edge
   (`open -a`, from the system's or the user's Applications folder), else the default browser (Saves, below). It prints
-  where the game runs, where the save lives and that closing the window stops the game, and sets the console title to say so.
-- Stops on Ctrl+C, SIGTERM and SIGHUP (a closed Terminal window, and on Windows a closed console window, which Node raises as
-  SIGHUP), and Ctrl+Break on Windows. On Windows the console and the guide name only closing the window: after Ctrl+C, cmd asks
-  `终止批处理操作吗(Y/N)?` (either answer closes it). After a failure it has explained and the player acknowledged, it exits with 3,
-  so the Windows launcher does not pause a second time; any other failure makes the launcher show its own message and pause.
+  where the game runs and that the window closes by itself; when no browser starts, it says where the save lives and waits for
+  a key.
+- After a failure it has explained and the player acknowledged, the console exits with 3, so the Windows launcher does not
+  pause a second time; any other failure makes the launcher show its own message and pause. (Until 2026-10-27 the console was
+  the server and stopped it on Ctrl+C, SIGTERM, SIGHUP and Ctrl+Break, that is when its window closed.)
 
 ## Saves
 
@@ -272,20 +275,62 @@ and may take over ten minutes (or another unzip program), that Safari may have u
 antivirus program blocks the launcher; its intro is one line. Not changed in the package: a `.md` file has no default app on
 Windows 10 or macOS, and the guide must stay Markdown, so the message sending the ZIP says how to open it (Player guide, above).
 
+## The launcher window closes (2026-10-27)
+
+The user asked whether the Terminal window that the launcher opens could close by itself. It was the server: closing it stopped
+the game, so the guide told players to keep it open. Now the console only starts the game and the server stops on its own.
+
+- **The console** (`node server.mjs`) checks payload.json and the files as before, starts the server as a background process of
+  its own (`startInBackground`: this Node.js running `server.mjs --serve <version>`, detached, no stdio, `windowsHide`, with an
+  IPC channel), and waits for its first message: listening, or what `listen()` found (this version already running, another
+  version, a taken or refused port), or an error. Failures are explained and wait for a key as before. Otherwise it opens the
+  browser and exits with 0, and the window closes: on Windows the `.bat` ends, which closes its console; on macOS see below.
+  When no browser starts, it shows the address and waits for a key first.
+- **The background server** (`serve`) is detached from the console (its own session, parent 1, no tty), so closing the
+  window or Terminal leaves it running. Its process title is 赛尔经典 · 游戏服务.
+- **When it stops.** The served page gets `<script>new EventSource('/__seer-classic/presence')</script>` before `</head>`
+  (`sendPage`; the page is read whole and sent with no validators, so a cached copy never lacks it). Each open page holds that
+  stream (`text/event-stream`, `retry: 1000`); `createPresence` counts them, and the server exits once none has been open for
+  `LAST_PAGE_MS` (60 s), or none came within `FIRST_PAGE_MS` (3 min) of its start. A reload or a computer waking from
+  sleep reconnects well within the minute (the monotonic timer does not run during sleep). The app's code
+  is unchanged: the browser suites' build has no presence stream, and `_browser.mjs` answers it with an ended stream that
+  retries in an hour when it runs the suites against a package (its IPC proxy waits for whole answers).
+- **macOS's window.** A `.command`'s window stays open after its script ends unless the Terminal profile's "When the shell
+  exits" closes it (the default keeps it). `closeTerminalWindow`, only when `TERM_PROGRAM` is `Apple_Terminal`, asks Terminal
+  synchronously for the id of the window whose tab runs on this console's tty and has processes (a finished window may show the
+  same tty name, and only a live tab owns it), and starts a detached `osascript` that closes that window once no process is
+  left in it, checking every 0.25 s for 5 s; it never sends anything while Terminal is not running, and a window that closed
+  by itself has no tab to ask. These Apple events go from Terminal's own process tree to Terminal, and no automation consent
+  dialog appeared in the checks below.
+- **The development launcher.** `../test.command` now runs `tools/dev/play.mjs`, which does the same with Vite: a background
+  `createServer` on 127.0.0.1:1426 (strict port), counting the pages whose Vite client is connected (`vite:client:connect` and
+  `vite:client:disconnect`), then `open <url>` in the default browser as before, and the same window close.
+- **Checks on this Mac** (sandbox off): a staged folder with this `server.mjs`, the macOS launcher and Homebrew's Node 26 as its
+  runtime, with `open` replaced by a stub that logs. The console printed its lines, opened `open -a …Google Chrome.app
+  http://127.0.0.1:1426/` and exited with 0 at once; the server answered the probe and the page with the script; a second start
+  took the already-running branch; after a presence stream of 3 s closed, the server exited after 60 s. Run from Terminal, the
+  window closed both with the user's profile (which closes on exit) and with the window switched to the profile "Pro" (which
+  keeps it), with a finished window of the same tty name and a closed, hidden window in Terminal's list both left alone; with the
+  closer disabled the "Pro" window stayed, as expected. No consent dialog appeared. `tools/dev/play.mjs` passed the same checks
+  with a Vite HMR WebSocket client in place of a page. The 0.0.1 ZIP predates this change; a new package is needed for players.
+- **Fixed on the way.** `server.test.mjs` failed in about half its runs on the base: a top-level `await canConnect()` let the
+  runner finish the file, so its `after` deleted the test folder before the tests below it ran. The check now runs inside its
+  test, which skips when local connections are refused.
+
 ## Open points (untested)
 
 - **Windows has not run anything.** Checked only statically or with a mocked platform: cmd's reading of the `.bat` (CRLF,
   `chcp 65001` inside a batch, `%~dp0` with spaces and Chinese characters), Edge's app window and the `explorer.exe` fallback,
-  the console close reaching Node as SIGHUP, Chinese text in the console, SmartScreen and the downloaded-file warning (the guide
+  the background server outliving its console (a detached process has no console to close), Chinese text in the console, SmartScreen and the downloaded-file warning (the guide
   says how to pass them), Defender's cost on the first start and on unzipping 15,666 files, Explorer's extraction time and its
   path limit (the longest path inside the ZIP is about 70 characters), OneDrive folders. node.exe is the pinned file; its own
   Authenticode signature was not checked here.
-- **No real port was used.** The sandbox here refuses local TCP connections, so the listening server on 127.0.0.1:1426 with a real
-  browser, the probe of a taken port and `main()`'s opening of the browser did not run; the suites reach the same server code over
-  in-memory connections. A reserved port was only simulated (a listen failing with `EACCES`); `net stop winnat` was not run.
+- **No real browser on a real port.** The suites reach the server over in-memory connections, as the sandbox here refuses local
+  TCP connections. On 2026-10-27 the background server, its probe and its presence stream ran on 127.0.0.1:1426 with the sandbox
+  off (above), but with a stubbed browser; whether Chrome's Memory Saver discards an idle game tab, which closes its stream and
+  so stops the server a minute later, was not tried (the guide says to start the game again when its page cannot be reached). A reserved port was only simulated (a listen failing with `EACCES`); `net stop winnat` was not run.
 - **macOS.** The Gatekeeper dialog of a quarantined `.command` was not clicked through (no window is opened on this screen), nor
   Terminal's request for Downloads or Documents, nor `open -a` with Chrome or Edge; the Intel node was only signature-checked;
   Firefox was not tried. Whether Safari's 7-day deletion applies to 127.0.0.1 is unknown.
 - The save lives in one browser's site data; clearing it deletes the journey. The guide says so and how to export.
-- **The guide's dialog wording** (SmartScreen, 打开文件 - 安全警告, 全部解压缩 and 提取, macOS 15's 完成 and 仍要打开, Terminal's
-  终止) follows those systems' Chinese wording as documented and remembered, not as seen here: no such dialog was opened.
+- **The guide's dialog wording** (SmartScreen, 打开文件 - 安全警告, 全部解压缩 and 提取, macOS 15's 完成 and 仍要打开) follows those systems' Chinese wording as documented and remembered, not as seen here: no such dialog was opened.
