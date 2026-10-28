@@ -20,7 +20,7 @@ Players: [运行说明.md](tools/distribution/browser/运行说明.md) (Chinese)
 
 ## Run and check
 
-Requires Node.js 22.18 or newer and npm. The workspace layout around this repository (the `../analysis` research data, the ignored runtime assets in `public/`, the `.cache/` inputs) is described in [AGENTS.md](AGENTS.md#workspace-layout).
+Requires Node.js 22.18 or newer and npm. The workspace layout around this repository (the `../analysis` research data, the ignored runtime assets in `public/`, the `.cache/` inputs) is described in [AGENTS.md](AGENTS.md#workspace-layout). A fresh checkout has no art: install the frozen art pack first ([ART.md](ART.md)).
 
 ```sh
 npm ci

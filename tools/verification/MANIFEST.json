@@ -1,7 +1,7 @@
 {
   "statuses": {
     "gate": "Runs from a Git checkout plus npm ci, and must pass before every commit.",
-    "needs-assets": "Needs the Git-ignored runtime assets under public/ (the asset archive).",
+    "needs-assets": "Needs the Git-ignored art under public/ (the art pack, see ART.md).",
     "needs-browser": "Needs a local Google Chrome (or SEER_CHROME) and the runtime assets; also runs in Playwright WebKit when that is installed.",
     "known-failure": "Fails on purpose until the linked open item is fixed.",
     "tool": "A measurement or export script, not a pass/fail check.",

@@ -57,7 +57,7 @@ The engine never imports an AI policy: `createGameContext` (`src/kernel/context.
 | `raising/core/` | Pure raising rules: stats, growth curves, monsters, storage, items, rewards and the dex. They draw from the `Rng` they are given; the game passes the battle core's. `types.ts` defines the save shapes. |
 | `data/` | The catalog and remake data; see [data/README.md](data/README.md). |
 | `tools/` | `catalog.mjs` (`loadCatalogNode()`, the catalog for Node scripts and suites); `assets/` (data and asset generators); `audit/` (evidence ledgers, development data that no screen shows); `verification/` (suites, `MANIFEST.json`, `run.mjs`, `_harness.mjs`, `_browser.mjs`, the architecture gate); `distribution/` (the browser package: its packer, game server, launchers, player guide and notices). |
-| `public/` | Runtime assets. Large ones are ignored by Git and travel in a separate asset archive. |
+| `public/` | Runtime assets. The art is ignored by Git and comes from the frozen art pack ([ART.md](ART.md)). |
 | `design/` | Design notes ([index](design/notes/INDEX.md)), preserved source snapshots, the official logos and favicon (`branding/`) and `approved-plan.json`, the user's decisions through revision 50. |
 
 ## Data flow
@@ -139,4 +139,4 @@ The game extends the engine when it sets up a battle (`features/battle/battle-se
 
 ## Assets
 
-Runtime assets are in `public/`: portraits, battle animations and their HD atlases, the original skill-effect SWFs (`public/battle-effects/swf/`), maps, interface art and audio, each with a manifest that records its source and hashes. Large binaries are ignored by Git and travel in a separate asset archive. Research inputs and HD-generation caches live in the ignored `.cache/`, and research data in the sibling `../analysis` directory (see the workspace layout in [AGENTS.md](AGENTS.md#workspace-layout)). The design notes record where each asset came from.
+Runtime assets are in `public/`: portraits, battle animations and their HD atlases, the original skill-effect SWFs (`public/battle-effects/swf/`), maps, interface art and audio, each with a manifest that records its source and hashes. The art is ignored by Git and comes from the frozen art pack described in [ART.md](ART.md). Research inputs and HD-generation caches live in the ignored `.cache/`, and research data in the sibling `../analysis` directory (see the workspace layout in [AGENTS.md](AGENTS.md#workspace-layout)). The design notes record where each asset came from.

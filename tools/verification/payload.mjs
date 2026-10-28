@@ -20,6 +20,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {parseArgs} from 'node:util';
 import {parseSync} from 'vite';
+import {LOCK, lockFrom, trackedPublic} from '../distribution/art-pack.mjs';
 import {root, suite} from './_harness.mjs';
 
 const {values: args} = parseArgs({options: {dist: {type: 'string'}, payload: {type: 'string'}}});
@@ -157,6 +158,13 @@ check('the payload is public/ without the exclusion list, with no .DS_Store or .
   const expected = files(PUBLIC).filter(file => !excluded(file));
   assert.deepEqual(expected.filter(file => !payload.has(file)), [], 'public files left out');
   assert.deepEqual(staged.filter(file => !expected.includes(file) && ![MANIFEST, NOTICES].includes(file)), [], 'unexpected payload files');
+});
+check('the payload\'s art (what Git does not track) is the frozen art pack of tools/distribution/art-pack.json', () => {
+  const pack = JSON.parse(fs.readFileSync(LOCK, 'utf8')).entries;
+  const art = lockFrom(JSON.parse(fs.readFileSync(path.join(PAYLOAD, MANIFEST), 'utf8')), trackedPublic()).entries;
+  assert.deepEqual(Object.keys(art).filter(file => !pack[file]), [], 'art outside the pack (a new art version is the user\'s decision: ART.md)');
+  assert.deepEqual(Object.keys(pack).filter(file => !art[file]), [], 'pack files missing from the payload');
+  assert.deepEqual(Object.keys(art).filter(file => pack[file] && art[file].join() !== pack[file].join()), [], 'art that differs from the pack');
 });
 check('every path the build can request is in the payload, and none is excluded', () => {
   const known = [...new Set([...staged, ...files(PUBLIC)])], {found, unread} = requestable(readBuild(), known);

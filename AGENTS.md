@@ -21,7 +21,7 @@ All paths are relative, so the workspace folder can be moved to another computer
 ```
 <workspace>/
   seer-classic/          this repository
-    public/              runtime assets; art (images, audio, fonts) is ignored by Git and travels separately, manifests are tracked
+    public/              runtime assets; the art is a frozen pack ignored by Git (ART.md), the manifests are tracked
     .cache/              ignored research inputs and HD-generation caches
   analysis/              research data and verification evidence, read as ../analysis
 ```
@@ -51,6 +51,7 @@ Never write an absolute or home-directory path into a tracked file, a generated 
    - New or changed functions stay under about 80 lines, and lines under about 160 characters.
    - Do not grow `src/kernel/game.ts` or `battle/core/src/engine/battle.ts`; extract instead.
 9. **Documentation:** index every design note in `design/notes/INDEX.md` with a status. Repository files are written in English.
-10. **Concurrency:** keep commits small, use one branch or worktree per agent, and do not reformat whole files.
+10. **Art:** the art pack is frozen and players keep it while the source changes. Read [ART.md](ART.md) before you touch `public/` or add a visual.
+11. **Concurrency:** keep commits small, use one branch or worktree per agent, and do not reformat whole files.
 
 The refactor plan that these rules come from is `design/notes/refactor-survey-2026-10-18.md`.
