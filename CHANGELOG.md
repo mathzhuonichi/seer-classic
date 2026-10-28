@@ -2,7 +2,9 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
-## The launcher window closes by itself (2026-10-27)
+## Version 0.0.2, not packaged: the launcher window closes by itself (2026-10-27)
+
+- **Version.** The source is at 0.0.2 (关于, the player guide, the package name it will get); no package was built, as the user is still checking bugs locally. `releases/` holds only the 0.0.1 ZIP, which predates everything below.
 
 - **Launchers.** Both package launchers and the development launcher `../test.command` now only start the game: the console checks the files, starts the game server as a background process of its own, opens the browser and closes (on macOS also when the Terminal profile keeps finished windows). The server stops by itself about a minute after the last game page closes, through a presence stream the server adds to the page (Vite's client connection in development); failures are still explained in the window, which waits for a key. The player guide says to close the game page instead of the window ([browser-package-2026-10-23](design/notes/browser-package-2026-10-23.md), "The launcher window closes").
 - **Checks.** `npm test` 308 tests (`server.test.mjs` no longer fails in about half its runs: its top-level await let the runner delete the test folder early); a staged folder with this server and the macOS launcher, run from Terminal with a stubbed browser on this Mac: the console exits at once, the background server answers and stops 60 s after the last page, and the window closes with both a closing and a keeping Terminal profile. The 0.0.1 ZIP predates the change.

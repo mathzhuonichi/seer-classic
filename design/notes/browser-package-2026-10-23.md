@@ -312,7 +312,7 @@ the game, so the guide told players to keep it open. Now the console only starts
   window closed both with the user's profile (which closes on exit) and with the window switched to the profile "Pro" (which
   keeps it), with a finished window of the same tty name and a closed, hidden window in Terminal's list both left alone; with the
   closer disabled the "Pro" window stayed, as expected. No consent dialog appeared. `tools/dev/play.mjs` passed the same checks
-  with a Vite HMR WebSocket client in place of a page. The 0.0.1 ZIP predates this change; a new package is needed for players.
+  with a Vite HMR WebSocket client in place of a page. The 0.0.1 ZIP predates this change; the source is at 0.0.2 since (user, 2026-10-27), not packaged while bugs are checked locally.
 - **Fixed on the way.** `server.test.mjs` failed in about half its runs on the base: a top-level `await canConnect()` let the
   runner finish the file, so its `after` deleted the test folder before the tests below it ran. The check now runs inside its
   test, which skips when local connections are refused.
