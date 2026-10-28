@@ -21,7 +21,7 @@ All paths are relative, so the workspace folder can be moved to another computer
 ```
 <workspace>/
   seer-classic/          this repository
-    public/              runtime assets; large ones are ignored by Git and travel separately
+    public/              runtime assets; art (images, audio, fonts) is ignored by Git and travels separately, manifests are tracked
     .cache/              ignored research inputs and HD-generation caches
   analysis/              research data and verification evidence, read as ../analysis
 ```
