@@ -5,7 +5,7 @@ skill-effect SWFs are ignored by `.gitignore` and were filtered out of the whole
 
 A playable workspace is two parts:
 
-- **The source**, from the private GitHub repository `mathzhuonichi/seer-classic`. It keeps changing.
+- **The source**, from the GitHub repository `mathzhuonichi/seer-classic` (https://github.com/mathzhuonichi/seer-classic). It keeps changing.
 - **The art pack**: 15,714 files (2.77 GiB) under `public/`, frozen at the 0.0.1 release. It does not change. Each file is
   listed with its size and SHA-256 in [`tools/distribution/art-pack.json`](tools/distribution/art-pack.json).
 
