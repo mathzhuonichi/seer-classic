@@ -3,12 +3,15 @@
  * game/ folder beside it at http://127.0.0.1:1426/ and opens the game in the player's browser, whose storage for that origin
  * holds the save. It uses Node's own modules only (design/notes/browser-package-2026-10-23.md).
  *
+ * The launcher's console only starts the game: it checks the files, starts the server in the background, opens the browser
+ * and closes. The server stops by itself once no game page has been open for LAST_PAGE_MS.
+ *
  * Usage: node server.mjs
  */
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
-import {spawn} from 'node:child_process';
+import {execFileSync, spawn} from 'node:child_process';
 import {pipeline} from 'node:stream';
 import {fileURLToPath} from 'node:url';
 
@@ -17,6 +20,16 @@ export const HOST = '127.0.0.1';
 export const PORT = 1426;
 /** Answers with this game's name and version, so a second start can tell a running game server from another program. */
 export const PROBE_PATH = '/__seer-classic';
+/** An event stream each open game page holds, so that the server knows when the game is no longer played. */
+export const PRESENCE_PATH = '/__seer-classic/presence';
+/** Added to the served page before `</head>`: the page opens its presence stream. */
+export const PRESENCE_SCRIPT = `<script>new EventSource('${PRESENCE_PATH}')</script>`;
+/** The background server waits this long for the first page: a browser may start slowly, or the player opens it by hand. */
+export const FIRST_PAGE_MS = 3 * 60_000;
+/** It stops this long after the last page closed; a reload or a computer waking from sleep reconnects well within it. */
+export const LAST_PAGE_MS = 60_000;
+/** The argument that runs this file as the background server, followed by the game's version. */
+export const SERVE_FLAG = '--serve';
 export const APP = 'seer-classic';
 /** game/payload.json: the version and every staged file's size and SHA-256 (tools/distribution/stage_payload.py). */
 const PAYLOAD = 'payload.json';
@@ -124,8 +137,48 @@ function sendFile(request, response, file, stat) {
   pipeline(fs.createReadStream(file, {start, end}), response, () => {});
 }
 
-/** The game server for `root` (the game/ folder). It never reads a file into memory and answers only GET and HEAD. */
-export function createGameServer(root, version) {
+/** The game's page with PRESENCE_SCRIPT. It is read whole (a few hundred bytes) and has no validators, so it is always sent again. */
+function sendPage(request, response, file) {
+  fs.readFile(file, 'utf8', (error, html) => {
+    if (error) return sendText(response, 404, 'not found');
+    const body = Buffer.from(html.replace('</head>', `${PRESENCE_SCRIPT}</head>`));
+    response.writeHead(200, {
+      'Content-Type': MIME['.html'], 'Content-Length': body.length, 'Cache-Control': CACHE_REVALIDATE, 'X-Content-Type-Options': 'nosniff',
+    });
+    response.end(request.method === 'HEAD' ? undefined : body);
+  });
+}
+
+/** Holds a page's presence stream open, counted by `presence` until the page closes it. */
+function sendPresence(request, response, presence) {
+  response.writeHead(200, {'Content-Type': 'text/event-stream', 'Cache-Control': 'no-store'});
+  if (request.method === 'HEAD') return response.end();
+  // A dropped stream reconnects after a second, not the browser's default of about three.
+  response.write('retry: 1000\n\n');
+  presence.opened();
+  response.once('close', presence.closed);
+}
+
+/**
+ * Counts the open game pages. `onUnused` runs once no page has been open for `lastMs`, or none came within `firstMs` of the
+ * start.
+ */
+export function createPresence(onUnused, {firstMs = FIRST_PAGE_MS, lastMs = LAST_PAGE_MS} = {}) {
+  let pages = 0, timer = setTimeout(onUnused, firstMs);
+  return {
+    opened() { pages++; clearTimeout(timer); },
+    closed() { if (--pages === 0) timer = setTimeout(onUnused, lastMs); },
+  };
+}
+
+const UNCOUNTED = {opened() {}, closed() {}};
+
+/**
+ * The game server for `root` (the game/ folder), counting open pages in `presence` (createPresence). It never reads a game
+ * file into memory, except the small page, and answers only GET and HEAD.
+ */
+export function createGameServer(root, version, presence = UNCOUNTED) {
+  const page = path.join(path.resolve(root), 'index.html');
   return http.createServer((request, response) => {
     const name = (request.headers.host ?? '').toLowerCase().replace(/:\d*$/, '');
     if (!LOCAL_NAMES.has(name)) return sendText(response, 403, 'forbidden');
@@ -136,8 +189,10 @@ export function createGameServer(root, version) {
       response.writeHead(200, {'Content-Type': MIME['.json'], 'Content-Length': Buffer.byteLength(body), 'Cache-Control': 'no-store'});
       return response.end(request.method === 'HEAD' ? undefined : body);
     }
+    if (pathname === PRESENCE_PATH) return sendPresence(request, response, presence);
     const file = resolvePath(root, pathname);
     if (!file) return sendText(response, 404, 'not found');
+    if (file === page) return sendPage(request, response, file);
     fs.stat(file, (error, stat) => {
       if (error || !stat.isFile()) return sendText(response, 404, 'not found');
       sendFile(request, response, file, stat);
@@ -231,8 +286,71 @@ export function openBrowser(commands, run = launch) {
   });
 }
 
-/** Signals that stop the server: Ctrl+C, a closed Terminal or console window (Node raises SIGHUP on Windows), Ctrl+Break. */
-export const stopSignals = platform => ['SIGINT', 'SIGTERM', 'SIGHUP', ...(platform === 'win32' ? ['SIGBREAK'] : [])];
+/**
+ * Starts `args` with this Node.js as a background process of its own (no console window, and closing the launcher's leaves
+ * it running) and resolves to its first message, or {error} when it ends or fails before sending one.
+ */
+export function startInBackground(args) {
+  return new Promise(resolve => {
+    const child = spawn(process.execPath, args, {detached: true, stdio: ['ignore', 'ignore', 'ignore', 'ipc'], windowsHide: true});
+    child.once('message', answer => { child.disconnect(); child.unref(); resolve(answer); });
+    child.once('exit', code => resolve({error: `exit ${code}`}));
+    child.once('error', error => resolve({error: error.message}));
+  });
+}
+
+/**
+ * The id of the Terminal window whose tab runs on the tty given, while something runs there: only a live tab owns its tty's
+ * name, which a finished window may also still show. Windows Terminal keeps hidden after they closed have no tab to ask.
+ */
+const TERMINAL_WINDOW_OF_TTY = [
+  'on run argv',
+  'tell application "Terminal"',
+  'repeat with w in windows',
+  'try',
+  'if tty of selected tab of w is item 1 of argv and (count of processes of selected tab of w) > 0 then return id of w',
+  'end try',
+  'end repeat',
+  'end tell',
+  'return ""',
+  'end run',
+];
+/**
+ * Closes the Terminal window of the id given once no process is left in it (its shell has exited), checking for 5 seconds: a
+ * .command keeps its window open after it ends unless the Terminal profile closes it, which leaves no tab to ask. Nothing is
+ * sent while Terminal is not running, as that would start it.
+ */
+const CLOSE_FINISHED_TERMINAL_WINDOW = [
+  'on run argv',
+  'set mine to (item 1 of argv) as integer',
+  'repeat 20 times',
+  'delay 0.25',
+  'if application "Terminal" is not running then return',
+  'tell application "Terminal"',
+  'try',
+  'if (count of processes of selected tab of window id mine) is 0 then',
+  'close window id mine',
+  'return',
+  'end if',
+  'on error',
+  'return',
+  'end try',
+  'end tell',
+  'end repeat',
+  'end run',
+];
+const appleScript = (lines, ...args) => [...lines.flatMap(line => ['-e', line]), ...args];
+
+/** Lets the Terminal window of this console close once it has finished, on macOS when it runs in Apple's Terminal. */
+export function closeTerminalWindow() {
+  if (process.platform !== 'darwin' || process.env.TERM_PROGRAM !== 'Apple_Terminal') return;
+  let window;
+  try {
+    const tty = execFileSync('tty', {stdio: ['inherit', 'pipe', 'ignore'], encoding: 'utf8'}).trim();
+    window = execFileSync('osascript', appleScript(TERMINAL_WINDOW_OF_TTY, tty), {stdio: ['ignore', 'pipe', 'ignore'], encoding: 'utf8'}).trim();
+  } catch { return; }
+  if (window) launch({command: 'osascript', args: appleScript(CLOSE_FINISHED_TERMINAL_WINDOW, window)}, () => {});
+}
 
 /**
  * Listens on `port`, or finds it taken: resolves to {server}, {running: version} when a game server already answers there,
@@ -249,18 +367,18 @@ export function listen(server, port, host = HOST) {
   });
 }
 
-/** Waits for one key when a person can press one (the console stays open to show a message), then exits. */
-function exitAfterKey(code) {
-  if (!process.stdin.isTTY) process.exit(code);
+/** Waits for one key when a person can press one (the console stays open to show a message). */
+export function waitForKey() {
+  if (!process.stdin.isTTY) return Promise.resolve();
   console.log('按任意键关闭这个窗口…');
   process.stdin.setRawMode(true);
-  process.stdin.once('data', () => process.exit(code));
-  process.stdin.resume();
+  return new Promise(resolve => process.stdin.once('data', () => { process.stdin.setRawMode(false); process.stdin.pause(); resolve(); }));
 }
 
-function fail(lines) {
+async function fail(lines) {
   console.error(['', ...lines, ''].join('\n'));
-  exitAfterKey(EXIT_EXPLAINED);
+  await waitForKey();
+  process.exit(EXIT_EXPLAINED);
 }
 
 const SAVE_ORIGIN_LINE = `存档保存在浏览器的 http://${HOST}:${PORT} 网站数据中，必须使用这个端口。`;
@@ -273,23 +391,27 @@ export function refusedPortLines(platform, code) {
     '依次输入 net stop winnat 和 net start winnat（每行输完按回车），然后关闭那个窗口，再启动游戏。'];
 }
 
-/** What the console says once the game runs. Ctrl+C makes cmd ask whether to end the batch job, so Windows names the window only. */
-export function runningLines(version, url, platform) {
+/** What the console says once the game runs in the background, as its window closes. */
+export function runningLines(version, url) {
+  return [`赛尔经典 · Seer Classic ${version}`, '', `游戏正在后台运行：${url}`,
+    '正在浏览器中打开游戏，这个窗口会自动关闭。关闭所有游戏页面约 1 分钟后，游戏会自动停止。'];
+}
+
+/** What the console says, before it waits for a key, when no browser could be started. */
+export function noBrowserLines(url, platform) {
   const browsers = platform === 'darwin' ? 'Chrome 或 Edge（Safari 可能在一周不玩后删除存档）' : 'Edge 或 Chrome';
-  return [`赛尔经典 · Seer Classic ${version}`, '', `游戏正在运行：${url}`,
-    `正在浏览器中打开游戏。如果浏览器没有自动打开，请把上面的地址复制到 ${browsers} 的地址栏。`,
-    `存档保存在这个浏览器的 ${url} 网站数据中，请一直用同一个浏览器玩。`, '',
-    `关闭这个窗口${platform === 'win32' ? '' : '（或按 Ctrl+C）'}即可停止游戏。玩游戏时请不要关闭它。`];
+  return ['', `没能自动打开浏览器。请在 3 分钟内把 ${url} 复制到 ${browsers} 的地址栏并打开。`,
+    `存档保存在这个浏览器的 ${url} 网站数据中，请一直用同一个浏览器玩。`];
 }
 
 /**
  * What the console says when the game server answering on the port is of another version (listen's {running: version}). The
  * browser is not opened, as it would show that other version, and the console waits for a key: on Windows a start that exits
- * at once closes its window before anyone can read it.
+ * at once closes its window before anyone can read it. A version from before the background server runs in its own window.
  */
 export function otherVersionLines(running, version) {
-  return [`无法启动：赛尔经典 ${running} 已经在另一个窗口中运行，不是这个文件夹的 ${version} 版。`,
-    `要玩 ${version} 版，请先关闭那个窗口（Windows 上是黑色窗口，Mac 上是“终端”窗口），再启动这个文件夹里的游戏。`];
+  return [`无法启动：赛尔经典 ${running} 正在运行，不是这个文件夹的 ${version} 版。`,
+    `要玩 ${version} 版，请先关闭 ${running} 版的所有游戏页面（还开着它的黑色窗口或“终端”窗口的话，也关闭），约 1 分钟后再启动这个文件夹里的游戏。`];
 }
 
 /** What the console says when the system denies reading the game files (readPayload's {denied: code}). */
@@ -299,9 +421,25 @@ export function deniedLines(platform, code) {
     '请打开“系统设置 > 隐私与安全性 > 文件和文件夹 > 终端”，打开游戏文件夹所在位置（例如“下载”或“文稿”）的开关，再启动游戏。'];
 }
 
+/**
+ * The background server: listens, tells the starting console what it found, and serves until the game is no longer played
+ * (createPresence). Its errors go to the console, which has no other way to see them.
+ */
+async function serve(root, version) {
+  process.title = '赛尔经典 · 游戏服务';
+  try {
+    const presence = createPresence(() => process.exit(0)), result = await listen(createGameServer(root, version, presence), PORT);
+    process.send(result.server ? {listening: true} : result, () => { if (!result.server) process.exit(0); });
+  } catch (error) {
+    process.send({error: error.message}, () => process.exit(1));
+  }
+}
+
 async function main() {
-  const root = path.join(path.dirname(fileURLToPath(import.meta.url)), 'game'), url = `http://${HOST}:${PORT}/`;
-  process.title = '赛尔经典 · 游戏服务（关闭这个窗口即停止游戏）';
+  const file = fileURLToPath(import.meta.url), root = path.join(path.dirname(file), 'game'), url = `http://${HOST}:${PORT}/`;
+  const serving = process.argv.indexOf(SERVE_FLAG);
+  if (serving >= 0) return serve(root, process.argv[serving + 1]);
+  process.title = '赛尔经典 · 正在启动游戏';
   const {payload, denied} = readPayload(root);
   if (denied) return fail(deniedLines(process.platform, denied));
   if (!payload) return fail(['找不到游戏文件（game 文件夹不完整）。', '请删除这个文件夹，把下载的 ZIP 完整解压后再启动。']);
@@ -310,21 +448,20 @@ async function main() {
     return fail([`游戏文件不完整：有 ${problems.length} 个文件缺失或已损坏，例如 ${problems.slice(0, LISTED_PROBLEMS).join('、')}。`,
       '请删除这个文件夹，把下载的 ZIP 完整解压后再启动（解压时需要约 7 GB 可用磁盘空间）。']);
   }
-  const result = await listen(createGameServer(root, payload.version), PORT);
+  const result = await startInBackground([file, SERVE_FLAG, payload.version]);
+  if (result.error) return fail([`游戏服务没能启动（${result.error}）。`, '请把这个窗口里的文字截图发给提供游戏的人。']);
   if (result.refused) return fail(refusedPortLines(process.platform, result.refused));
   if (result.taken) {
     return fail([`无法启动：端口 ${PORT} 已被其他程序占用（例如开发版的 test.command 或另一个程序）。`,
       `请关闭占用端口 ${PORT} 的程序后再启动。`, SAVE_ORIGIN_LINE]);
   }
   if (result.running && result.running !== payload.version) return fail(otherVersionLines(result.running, payload.version));
-  if (result.running) {
-    console.log(`赛尔经典 ${result.running} 已经在另一个窗口中运行，正在打开浏览器…`);
-    await openBrowser(browserCommands(url));
-    return;
+  console.log(result.running ? `赛尔经典 ${result.running} 已经在运行，正在打开浏览器…` : runningLines(payload.version, url).join('\n'));
+  if (!await openBrowser(browserCommands(url))) {
+    console.log(noBrowserLines(url, process.platform).join('\n'));
+    await waitForKey();
   }
-  for (const signal of stopSignals(process.platform)) process.on(signal, () => { result.server.closeAllConnections(); process.exit(0); });
-  console.log(runningLines(payload.version, url, process.platform).join('\n'));
-  if (!await openBrowser(browserCommands(url))) console.log('没能自动打开浏览器，请手动打开上面的地址。');
+  closeTerminalWindow();
 }
 
 if (import.meta.main) await main();

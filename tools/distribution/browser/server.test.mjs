@@ -8,25 +8,20 @@ import {duplexPair} from 'node:stream';
 import {after, before, test} from 'node:test';
 import zlib from 'node:zlib';
 import {
-  APP, MIME, browserCommands, checkFiles, contentType, createGameServer, deniedLines, listen, openBrowser, otherVersionLines, parseRange, probe,
-  readPayload, refusedPortLines, resolvePath, runningLines, stopSignals,
+  APP, LAST_PAGE_MS, MIME, PRESENCE_PATH, PRESENCE_SCRIPT, browserCommands, checkFiles, contentType, createGameServer, createPresence, deniedLines,
+  listen, noBrowserLines, openBrowser, otherVersionLines, parseRange, probe, readPayload, refusedPortLines, resolvePath, runningLines,
 } from './server.mjs';
 
 const VERSION = '9.9.9';
 const BYTES = Buffer.from('0123456789abcdef');
 const GZIP = zlib.gzipSync(Buffer.from('{"hello":"world"}'));
-let root, server;
+let root, server, pages = 0;
 
 /**
  * A request through Node's HTTP client and the game server over an in-memory connection (this machine's sandbox refuses local
  * TCP connections), with the path exactly as written: fetch would normalize `..`.
  */
 function request(pathname, {method = 'GET', headers = {}} = {}) {
-  const createConnection = () => {
-    const [client, socket] = duplexPair();
-    server.emit('connection', socket);
-    return client;
-  };
   return new Promise((resolve, reject) => {
     const outgoing = http.request({path: pathname, method, headers, createConnection}, response => {
       const chunks = [];
@@ -38,13 +33,19 @@ function request(pathname, {method = 'GET', headers = {}} = {}) {
   });
 }
 
+function createConnection() {
+  const [client, socket] = duplexPair();
+  server.emit('connection', socket);
+  return client;
+}
+
 before(async () => {
   root = fs.mkdtempSync(path.join(os.tmpdir(), 'seer-server-test-'));
   const write = (relative, content) => {
     fs.mkdirSync(path.dirname(path.join(root, relative)), {recursive: true});
     fs.writeFileSync(path.join(root, relative), content);
   };
-  write('index.html', '<!doctype html><title>t</title>');
+  write('index.html', '<!doctype html><head><title>t</title></head>');
   write('assets/index-abc.js', 'export {};');
   write('ruffle/core.wasm', BYTES);
   write('battle-animations/1.json.gz', GZIP);
@@ -52,7 +53,7 @@ before(async () => {
   write('portraits/中文 名.png', BYTES);
   write('empty.json', '');
   fs.writeFileSync(path.join(path.dirname(root), `${path.basename(root)}-secret.txt`), 'outside');
-  server = createGameServer(root, VERSION);
+  server = createGameServer(root, VERSION, {opened: () => { pages++; }, closed: () => { pages--; }});
 });
 after(() => {
   fs.rmSync(root, {recursive: true, force: true});
@@ -106,6 +107,9 @@ test('GET serves the page, WebAssembly and gzip files as their own bytes', async
   assert.equal(page.status, 200);
   assert.equal(page.headers['content-type'], 'text/html; charset=utf-8');
   assert.equal(page.headers['cache-control'], 'no-cache');
+  assert.equal(page.body.toString(), `<!doctype html><head><title>t</title>${PRESENCE_SCRIPT}</head>`);
+  assert.equal(page.headers['content-length'], String(page.body.length));
+  assert.equal((await request('/index.html')).body.toString(), page.body.toString());
   const wasm = await request('/ruffle/core.wasm');
   assert.equal(wasm.headers['content-type'], 'application/wasm');
   assert.deepEqual(wasm.body, BYTES);
@@ -184,7 +188,7 @@ test('the probe path answers with the game and its version', async () => {
 /** Whether this process may open local TCP connections: the sandbox of the development machine refuses them. */
 async function canConnect() {
   const probeServer = http.createServer((_, response) => response.end());
-  await new Promise(resolve => probeServer.listen(0, '127.0.0.1', resolve));
+  if (!await new Promise(resolve => probeServer.once('error', () => resolve(false)).listen(0, '127.0.0.1', () => resolve(true)))) return false;
   try {
     return await new Promise(resolve => http.get({host: '127.0.0.1', port: probeServer.address().port}, response => {
       response.resume();
@@ -194,9 +198,11 @@ async function canConnect() {
     probeServer.close();
   }
 }
-const blocked = !await canConnect() && 'local TCP connections are refused here (the sandbox)';
 
-test('a taken port is told apart: this game already running, or another program', {skip: blocked}, async () => {
+// Checked inside the test: a top-level await here let the runner finish the file, and its `after` delete the root, before
+// the tests below it ran.
+test('a taken port is told apart: this game already running, or another program', async t => {
+  if (!await canConnect()) return t.skip('local TCP connections are refused here (the sandbox)');
   const game = (await listen(createGameServer(root, VERSION), 0)).server, other = http.createServer((_, response) => response.end('<!doctype html>'));
   await new Promise(resolve => other.listen(0, '127.0.0.1', resolve));
   try {
@@ -275,18 +281,18 @@ test('on macOS the game opens in Chrome, else Edge (Safari may delete the save),
   assert.deepEqual(browserCommands(url, {platform: 'darwin', env: {}, exists: file => file === edge}), [{command: 'open', args: [url]}]);
 });
 
-test('the running console names the browsers to use, and Ctrl+C only where it stops the game without a question', () => {
-  const url = 'http://127.0.0.1:1426/', text = platform => runningLines('9.9.9', url, platform).join('\n');
-  assert.match(text('darwin'), /Chrome 或 Edge（Safari 可能在一周不玩后删除存档）/);
-  assert.match(text('darwin'), /按 Ctrl\+C/);
-  assert.doesNotMatch(text('win32'), /Ctrl\+C|Safari/);
-  for (const platform of ['darwin', 'win32']) assert(text(platform).includes(url), platform);
+test('the console says the game runs in the background, and names the browsers to use when none opened', () => {
+  const url = 'http://127.0.0.1:1426/', none = platform => noBrowserLines(url, platform).join('\n');
+  assert.match(runningLines('9.9.9', url).join('\n'), /游戏正在后台运行：http:\/\/127\.0\.0\.1:1426\/[^]*这个窗口会自动关闭/);
+  assert.match(none('darwin'), /Chrome 或 Edge（Safari 可能在一周不玩后删除存档）/);
+  assert.doesNotMatch(none('win32'), /Safari/);
+  for (const platform of ['darwin', 'win32']) assert(none(platform).includes(url), platform);
 });
 
-test('another version already running is named with this folder\'s, and the player is told to close its window', () => {
+test('another version already running is named with this folder\'s, and the player is told to close its pages', () => {
   const text = otherVersionLines('0.9.0', VERSION).join('\n');
-  assert.match(text, /赛尔经典 0\.9\.0 已经在另一个窗口中运行，不是这个文件夹的 9\.9\.9 版/);
-  assert.match(text, /请先关闭那个窗口/);
+  assert.match(text, /赛尔经典 0\.9\.0 正在运行，不是这个文件夹的 9\.9\.9 版/);
+  assert.match(text, /请先关闭 0\.9\.0 版的所有游戏页面/);
 });
 
 test('a browser that cannot start hands over to the next command', async () => {
@@ -297,7 +303,43 @@ test('a browser that cannot start hands over to the next command', async () => {
   assert.equal(await openBrowser([{command: 'msedge.exe', args: []}], run), null);
 });
 
-test('closing the console window stops the server on both systems', () => {
-  assert.deepEqual(stopSignals('win32'), ['SIGINT', 'SIGTERM', 'SIGHUP', 'SIGBREAK']);
-  assert.deepEqual(stopSignals('darwin'), ['SIGINT', 'SIGTERM', 'SIGHUP']);
+test('each open page holds a presence stream, counted until the page closes it', async () => {
+  const response = await new Promise((resolve, reject) => {
+    const outgoing = http.get({path: PRESENCE_PATH, headers: {host: '127.0.0.1:1426'}, createConnection}, resolve);
+    outgoing.on('error', reject);
+  });
+  assert.equal(response.statusCode, 200);
+  assert.equal(response.headers['content-type'], 'text/event-stream');
+  assert.equal(response.headers['cache-control'], 'no-store');
+  assert.equal(String(await new Promise(resolve => response.once('data', resolve))), 'retry: 1000\n\n');
+  assert.equal(pages, 1);
+  // The page goes: its end of the in-memory connection ends, as a closed TCP connection would.
+  response.socket.end();
+  await new Promise(resolve => setTimeout(resolve, 10));
+  assert.equal(pages, 0);
+  assert.equal((await request(PRESENCE_PATH, {method: 'HEAD'})).status, 200);
+  assert.equal(pages, 0, 'HEAD holds no stream');
+});
+
+test('the server is unused once no page came at first, or none has been open for a minute since the last closed', t => {
+  t.mock.timers.enable({apis: ['setTimeout']});
+  let unused = 0;
+  const presence = createPresence(() => { unused++; }, {firstMs: 1000});
+  t.mock.timers.tick(999);
+  presence.opened();
+  presence.opened();
+  presence.closed();
+  t.mock.timers.tick(10 * LAST_PAGE_MS);
+  assert.equal(unused, 0, 'a page is still open');
+  presence.closed();
+  t.mock.timers.tick(LAST_PAGE_MS - 1);
+  presence.opened();
+  presence.closed();
+  t.mock.timers.tick(LAST_PAGE_MS - 1);
+  assert.equal(unused, 0, 'a reload restarts the wait');
+  t.mock.timers.tick(1);
+  assert.equal(unused, 1);
+  createPresence(() => { unused++; }, {firstMs: 1000});
+  t.mock.timers.tick(1000);
+  assert.equal(unused, 2, 'no page came');
 });

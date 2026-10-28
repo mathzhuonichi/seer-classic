@@ -1,6 +1,7 @@
 @echo off
-rem Seer Classic for Windows: double-click to play. Starts the game server with the bundled Node.js; server.mjs opens the
-rem game in Microsoft Edge (or the default browser) and prints, in Chinese, where it runs. Closing this window stops it.
+rem Seer Classic for Windows: double-click to play. With the bundled Node.js, server.mjs checks the game files, starts the game
+rem server in the background (no window) and opens the game in Microsoft Edge (or the default browser); this window then closes.
+rem The server stops by itself about a minute after the last game page closes.
 rem The packer (tools/distribution/pack_browser.mjs) ships it with CRLF line ends under its Chinese name. Every line up to the
 rem first label is ASCII, so the console's code page does not matter there; the messages after it switch the console to UTF-8.
 rem server.mjs exits with 3 after it has shown its own message and the player pressed a key; any other failure is reported here.

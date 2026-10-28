@@ -114,10 +114,16 @@ function startPackageServer() {
   };
 }
 
+/** The page's presence stream (server.mjs PRESENCE_PATH), which the server holds open and so never answers here in full. */
+const PRESENCE_PATH = '/__seer-classic/presence';
+/** Ends the stream at once, and the page's EventSource waits this long (an hour) before it asks again. */
+const PRESENCE_ANSWER = {status: 200, contentType: 'text/event-stream', body: 'retry: 3600000\n\n'};
+
 /** A route answered by the package's server, with the request's method, path, query and headers. */
 async function packageRoute(route) {
-  packageServer ??= startPackageServer();
   const request = route.request(), url = new URL(request.url());
+  if (url.pathname === PRESENCE_PATH) return route.fulfill(PRESENCE_ANSWER);
+  packageServer ??= startPackageServer();
   const {status, headers, body} = await packageServer({method: request.method(), path: url.pathname + url.search, headers: await request.allHeaders()});
   await route.fulfill({status, body: Buffer.from(body), headers: Object.fromEntries(Object.entries(headers).filter(([name]) => !HOP_BY_HOP.has(name)))});
 }
