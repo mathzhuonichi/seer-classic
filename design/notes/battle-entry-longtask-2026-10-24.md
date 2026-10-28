@@ -37,7 +37,8 @@ unchanged at b0f2827 (App.tsx otherwise gained save slots and map music, which t
   first battle has 150-325 ms frames. Removing the readback (mesh) or deferring it does not help in WebKit.
 - **Recommendation: (c3) prewarm.** Mount the battle hidden during the loading screen's last step ("部署出战精灵…", which
   already waits 950 ms). Measured in Chrome at both viewports for 301, 10 and 502, first and second battles alike, it leaves
-  **zero long tasks after the reveal, a worst frame of 16.8 ms**, and **no change in loading time**. It also removes the
+  **zero long tasks after the reveal, a worst frame of 16.8 ms**, and **no change in loading time** (in Chrome; WebKit's first battle
+  pays 0.25-0.3 s on its loading screen, section 10). It also removes the
   first-battle SVG frame. In WebKit it brings 皮皮 from 234-276 ms down to 31-50 ms. The cost moves into the loading screen,
   where one task of the block's size runs (40-170 ms). Follow-up if pet switches mid-battle matter: (b2) registration
   precomputed offline, which halves every mount, including the ones prewarm cannot reach.
@@ -176,7 +177,7 @@ Effects are measured unless marked *estimated*. Chrome numbers are medians over 
 | **(b2) registration precomputed offline** (runtime cost measured as `mesh`) | 皮皮 block 26 ms (-17), no task; 502 62 ms, tasks 66-70; 301 2 ms; second battles' worst frame 17-50 ms | 皮皮 26 ms (-30), no task; 301 2-9 ms (-20): the DPR-2 penalty is gone and second-battle reveal frames are 17-33 ms; 502 63-66 ms, tasks 68-75 | -10-15 ms of 110-150 (no visible gain) | small to medium; see below | box differs slightly from today's runtime measurement, which moves creatures by a pixel or so; must be checked over all species |
 | (c1) preimport Pixi chunk on the loading screen | first-battle frame 101 → 89 ms; nothing else | 102 → 93 ms | not measured | ~5 lines | loading +30-50 ms |
 | (c2) prerender (1x1 renderer on the loading screen) | no gain (107 ms) | worse (123 ms) | not measured | ~10 lines | none, but useless |
-| **(c3) prewarm** (mount the battle hidden from the deploy step) | **after reveal: 0 long tasks, worst frame 16.8 ms for 301, 10 and 502, first and second battle; loading unchanged (1,328-1,626 ms vs 1,319-1,627 ms)**; on the loading screen: one 40-103 ms mount task | **same: 0 tasks, 16.8 ms frames**; loading-screen task 58-68 ms (皮皮), 119-169 ms (502) | 皮皮 first 97-107 ms, second 31-50 ms (from 234-276) | ~30-60 lines: App.tsx, the BattlePreparation type, useBattlePreparation, a verification suite | early side effects of a hidden Battle; one stall of the progress bar at "部署出战精灵…"; mid-battle mounts (pet switch) unchanged |
+| **(c3) prewarm** (mount the battle hidden from the deploy step) | **after reveal: 0 long tasks, worst frame 16.8 ms for 301, 10 and 502, first and second battle; loading unchanged (1,328-1,626 ms vs 1,319-1,627 ms)**; on the loading screen: one 40-103 ms mount task; in WebKit the first battle's screen is 0.25-0.3 s longer (section 10) | **same: 0 tasks, 16.8 ms frames**; loading-screen task 58-68 ms (皮皮), 119-169 ms (502) | 皮皮 first 97-107 ms, second 31-50 ms (from 234-276) | ~30-60 lines: App.tsx, the BattlePreparation type, useBattlePreparation, a verification suite | early side effects of a hidden Battle; one stall of the progress bar at "部署出战精灵…"; mid-battle mounts (pet switch) unchanged |
 | (c4) kept renderer / shared WebGL context across battles (*estimated*) | removes the lead's re-upload after the first battle (9-14 ms; 50-100 ms for ≥ 100 MiB leads) and the opponent's only when the same species repeats | lead 30-35 ms (63-195 for big leads) | lead 25-270 ms | medium-large: renderer outlives the battle layer, canvas moves between hosts, context-loss path, pool | GPU memory held between battles (lead atlas up to 256 MiB) |
 | **(d) downsized atlases** (d2 = half side, 1/4 bytes; d4 = 1/16) | 10d2 18 ms, 10d4 9-16 ms; 502d2 27-30 ms (one 50 ms task), 502d4 12-13 ms | 10d2 29-31 ms, 10d4 26-32 ms; 502d2 42-46 ms (tasks 52-78 ms in 3 of 6), 502d4 34 ms | not measured (≈ 1 ms/MiB) | an asset pipeline pass and a review of 1,483 species; to stay sharp on Retina it needs per-DPR atlas sets (+ payload), chosen at load | at DPR 2 a uniform downsize keeps a median 100% of bytes for ≥ 60 MiB species, so there is no gain without visible blur; at DPR 1 a median 18.5% would do |
 | (e) upload in strips across frames (texStorage2D + texSubImage2D, micro-benchmark) | 皮皮 8 strips, each ≤ 2.6 ms plus ≤ 5.5 ms sync per frame; 502 5.5-17 ms plus ≤ 3 ms | same per frame | 皮皮 10-11 ms plus 3-4 ms (first 26 ms); 502 25-30 ms plus 6-7 ms (first 65 ms) | large: change `@seer-pet-anim/swf-renderer` 0.3.1 (`prepareAtlasTiles`, `releaseAtlasLayoutPixels`) or a custom Pixi texture source; the creature appears about 8 frames later (portrait meanwhile); needs (b2), since the first draw needs the whole texture | Pixi internals; an external package release |
@@ -188,8 +189,9 @@ Effects are measured unless marked *estimated*. Chrome numbers are medians over 
 ## 7. Recommendation: (c3) prewarm, then (b2) if mid-battle mounts matter
 
 (c3) is the only option that removes the long task and the long frames at the reveal for every atlas size (up to 256 MiB), at both
-viewports, for the opponent and the player's pet. It also removes the first-battle SVG frame. It costs no loading time, because the
-deploy step already waits `DEPLOY_MS` + `START_MS` = 950 ms, and the mounts (≤ 170 ms) finish inside that wait. The work does not
+viewports, for the opponent and the player's pet. It also removes the first-battle SVG frame. It costs no loading time in Chrome, because
+the deploy step already waits `DEPLOY_MS` + `START_MS` = 950 ms, and the mounts (≤ 170 ms) finish inside that wait (in WebKit the first
+battle's screen is 0.25-0.3 s longer: section 10). The work does not
 disappear; it moves under the loading screen, which the player sees as a static progress bar.
 
 ### Implementation sketch
@@ -268,3 +270,41 @@ as the tables cite them. Rerunning needs a worktree at a48f2d8 with the hooks ag
 - Two suites that took the command deck's `aria-busy` as the sign of a shown battle now also wait for the loading screen to go
   (`waitCommands`): `browser-regressions` (creature details) and `battle-skill-effects`, whose battle's first frame is now the one
   after the loading screen.
+
+## 10. The loading time in WebKit (2026-10-28)
+
+Section 9's "loading unchanged", like the (c3) row above, was measured in Chrome only. In WebKit the first battle's loading screen
+got about 0.25-0.3 s longer, which `battle-skill-effects` reported from 2026-10-24 on ("the loading screen waited ~1230 ms after its
+art (pauses 950)"). Measured on 2026-10-28 on this Mac (Apple M4, Playwright WebKit 2215 and Chrome at 1280x800@1, the suite's
+build, `performance.mark`s in `useBattlePreparation` on a throwaway copy, every variant alternating with the unchanged code):
+
+- **Before and after**, from the 90 % step 「部署出战精灵…」 to the reveal, WebKit, first battle: 973-992 ms at 27e3b093 (the parent of
+  the prewarm; 976-977 ms from the mark), 1185-1258 ms at 3f24dd38 and main (1172-1270 ms from the mark). The second battle is
+  900-917 ms before and after, and Chrome is 950 ms in both battles before and after.
+- **Mechanism.** At the 90 % step the hidden battle mounts (React's commit, the battle-UI SVGs, both creatures' atlas uploads: one
+  frame gap of 320-430 ms in WebKit) while, on the session's first battle, Ruffle's host starts (gaps of 330-365 and ~190 ms).
+  Together they hold the main thread for about 900 of the step's 950 ms, so the `DEPLOY_MS` timer (600 ms) fires at 720-790 ms,
+  `START_MS` (350 ms) counts from there, and the effects are in at 1170-1270 ms, 95-105 ms after the last pause has ended. On screen
+  the 100 % step still seems to last 300-360 ms, because the frame that shows each step is itself late by the same work: a check that
+  times frames undercounts the step.
+- **Rejected ways to win the time back** (WebKit, first battle, click to reveal; the unchanged code 1640-1744 ms; second battles
+  1390-1413 ms in every variant):
+  - One deadline, `DEPLOY_MS` + `START_MS` from the 90 % step, so that a late deploy timer does not push the last pause later:
+    1729-1796 ms. The effects are the binding wait (in at 1228-1318 ms), so nothing is gained.
+  - Ruffle started after the hidden battle's first paint: the battle's stage takes only a host that is starting or running when the
+    stage mounts, so the host never entered the arena and the suite timed out on its canvas.
+  - Ruffle started after the settle pause (before the images) or after the images (before the animations): the effects are in
+    670-745 ms after the 90 % step and the reveal comes 1037-1111 ms after it, but Ruffle's build lands in the animation step,
+    which grows from about 140 to about 520 ms, so the whole screen is longer: 1944-1958 ms (after the settle pause) and
+    1873-1987 ms (after the images); with the one deadline as well, 1779-1838 ms. Chrome is unaffected by any variant (first
+    battle 1488-1492 ms, 950 ms after the 90 % step).
+- **So the deploy step is the cheapest place for the first battle's Ruffle start:** its pauses absorb most of the build, and nowhere
+  else in the screen is the main thread idle for long, since the preloads are short and network-bound from a local server. The
+  prewarm's cost in WebKit is about 0.25-0.3 s on the first battle's loading screen, for the 150-325 ms first-battle frames and
+  皮皮's 234-276 ms frames it removes at the reveal (section 5); later battles are unchanged. The code stays as section 9 built it.
+- **The check now measures the effects' own hold.** `battle-skill-effects` stamps each progress step and the screen's departure
+  with a mutation observer, in the task that sets them, and asserts that the screen goes within `START_MS` + 250 ms of its 100 %
+  step, the only pause the effects can hold. Its wait limit for a request that never answers (3 s) still counts from the 90 % step,
+  where the effects start. With those stamps WebKit's first battle goes 288-449 ms after its 100 % step and 1115-1201 ms after its
+  90 % step (three runs of the full suite; the 100 % step's own commit can come late under the same work, which makes the first
+  number lenient, never strict); the second battle and Chrome's battles 349-353 and 944-955 ms.

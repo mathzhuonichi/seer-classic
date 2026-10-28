@@ -248,7 +248,7 @@ That harness also stayed in the session's scratch directory.
 - **`tools/verification/battle-skill-effects.mjs`** (`needs-browser`), in Chrome 1280x800@1 and 1920x1080@2 and WebKit 1280x800@1:
   - Before the first battle there is no Ruffle on the page.
   - Two battles in a row use one instance, created while a loading screen showed, never destroyed.
-  - The loading screen waits at most 250 ms past its own last pauses.
+  - The loading screen goes within 250 ms past its last pause, from its 100 % step (the 90 % step's pause stretches under the hidden battle's mount in WebKit: [battle-entry-longtask-2026-10-24](battle-entry-longtask-2026-10-24.md), section 10).
   - The host is in the arena layer at each battle's first frame, and its canvas covers the arena within 1 s, before the first move's effect can start.
   - Placement and mirroring, and the HUD unchanged under 叶绿光束's tint (at most 20/255) while the arena changes (at least 25).
   - The host waits parked and suspended after each battle.
