@@ -606,7 +606,7 @@ async function variantChoice({page, fixture}, {boss, label, caption: named}) {
 
 /**
  * In the page: from now on, what the battle shows of the player's lead on every animation frame, kept when it changed: its HP,
- * whether it acts its move and is greyed out, whether its team strip counts it out and the strip's count, the numbers on the
+ * whether it acts its move and is greyed out, whether its team strip counts it out and how many of the strip's marks are lit, the numbers on the
  * foe (their text and colour) and on the lead, and the dialogue's line.
  */
 function sampleLead() {
@@ -619,7 +619,7 @@ function sampleLead() {
       hp: Number(ally?.querySelector('.classic-hp-track')?.getAttribute('aria-valuenow')),
       acting: !!lead?.querySelector('.classic-combatant-stage.is-acting'), greyed: !!lead?.classList.contains('is-fainted'),
       out: ally?.querySelector('.battle-team-member.is-active')?.dataset.fainted === 'true',
-      count: ally?.querySelector('.battle-team-count strong')?.textContent,
+      count: ally && `${ally.querySelectorAll('.battle-team-marks>:not(.is-down)').length} / ${ally.querySelectorAll('.battle-team-marks>*').length}`,
       foeNumbers: numbers(1).map(number => number.textContent), foeColours: numbers(1).map(number => getComputedStyle(number).color),
       leadNumbers: numbers(0).map(number => number.textContent),
       line: document.querySelector('.classic-dialogue-lines > p')?.textContent,

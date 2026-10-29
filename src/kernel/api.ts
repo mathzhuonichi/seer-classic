@@ -42,6 +42,8 @@ export interface BattleSession {
   readonly appearances: ReadonlyMap<number, Appearance>;
   /** `side:slot` keys whose appearance follows a battle transform. */
   readonly transformedSlots: Set<string>;
+  /** Foe slots that have been in battle: the others stay unknown on the battle screen. */
+  readonly seenFoeSlots: Set<number>;
   resultMessage: string;
   /** What the settlement adds after the outcome: what the battle paid, then why the six-copy allowance kept back an automatic evolution. */
   resultNotes: string[];

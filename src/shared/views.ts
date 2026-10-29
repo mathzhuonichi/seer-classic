@@ -89,6 +89,8 @@ export interface BattleMonsterView {
   levelMasked?: boolean;
   /** Trainer foes: hp and maxHp hold only the bar ratio on a 0–100 scale. */
   hpHidden?: boolean;
+  /** A foe that has not been in battle yet: the battle screen shows it as unknown. */
+  unseen?: boolean;
 }
 /** The type matchup of the two monsters on screen (battle/RULES.md section 6), each attacking with all of its types. */
 export interface TypeMatchupView {

@@ -2,6 +2,14 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Battle health panels: condition badges, a team row of icons, unseen foes kept unknown (2026-10-29)
+
+- **Conditions.** Statuses and stat stages under a health bar are 24 px badges drawn in code (`BattleConditionIcons.tsx`; the art pack has no buff icons): a colour and a white glyph per status and per stat, a stage's level in the corner (+2 yellow, −1 blue). Each names itself on hover; the row reads as one summary as before. The bar behind them is gone; the foe's row is right-aligned.
+- **Team row.** The strip moved into the level row, after the level box on the player's side and mirrored before the LV: label on the foe's. Each member is one 普通 type icon, lit while it can fight and dark once down; the x / y count is gone. Hovering it opens the team details, which now show each revealed member's types.
+- **Unseen foes.** A foe that has not been in battle yet (`BattleSession.seenFoeSlots`: the lead at the start, then every `switch_in`) is `unseen` in the views and frames: the details show it as 未知精灵 · 尚未出场 with the 普通 icon and no name, level, HP or species. The tactical room still lists a trainer's team before the battle.
+- **Portraits.** The foe's portrait is mirrored, so both face the middle.
+- **Checks.** `npm test` 316 tests, 315 pass (the Windows-only `server.test.mjs` case), with a new check that a foe stays unknown until it switches in; `browser-regressions` (its strip sample counts lit icons) and `css-kit-precedence` pass; seen in wild and battle-facility trainer battles in headless Chrome.
+
 ## Battle skill buttons set their name higher (2026-10-28, night)
 
 - **Skill buttons.** A move's icon and name sat in a row that took nearly the whole button, so they showed at 42 % of its height and 威力 / PP at 87 %. The two rows are now equal, as the original button (`battle-skill-outline.svg`) sets its name at 7-23 and 威力 / PP at 27-43 of 48 px: 29 % and 71 %.

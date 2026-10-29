@@ -1,0 +1,6 @@
+/* The badges under a health bar, larger than the footer's line; a stage badge's level sits in its corner, outlined to read on any colour. */
+.classic-conditions{display:flex;align-items:center;gap:3px;min-width:0;flex:1}
+.battle-condition-icon{flex:0 0 auto;width:24px;height:24px;overflow:visible}
+.battle-condition-icon text{font:700 7.5px/1 Arial,sans-serif;fill:#fff;stroke:#04254d;stroke-width:2px;paint-order:stroke}
+.battle-condition-icon text.is-up{fill:#ffe14a}
+.battle-condition-icon text.is-down{fill:#9fdcff}

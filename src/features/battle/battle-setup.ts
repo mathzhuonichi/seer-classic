@@ -38,6 +38,7 @@ export interface BattleSetup {
   name: string;
   appearances: Map<number, Appearance>;
   transformedSlots: Set<string>;
+  seenFoeSlots: Set<number>;
 }
 
 /** Builds the engine battle of `roster` against `foe`. Draws the wild monster and the battle seed from `rng`. */
@@ -63,7 +64,7 @@ export function setupBattle(ctx: GameContext, save: GameSave, rng: Rng, foe: Foe
   return {
     battle, encounter, wild, name: wild ? `野外遭遇 · ${ctx.speciesName(wild.species)}` : encounterName(encounter!, battle),
     appearances: new Map(roster.map((mon, slot) => [slot, { species: mon.species, appearanceSpecies: appearanceSpecies(mon, ctx.skinOptions) }])),
-    transformedSlots: initialTransforms(battle),
+    transformedSlots: initialTransforms(battle), seenFoeSlots: new Set([battle.sides[1].active]),
   };
 }
 

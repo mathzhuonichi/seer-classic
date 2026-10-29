@@ -25,7 +25,7 @@ function show(events, maxHp = [100, 100]) {
   const player = view(0, maxHp[0]), enemy = view(1, maxHp[1]);
   let id = 0;
   const frames = eventFrames(events, {player, enemy, party: [player], enemyParty: [enemy]},
-    {data, hideEnemyHp: false, challenge: true, transformedSlots: new Set(), nextFrameId: () => ++id});
+    {data, hideEnemyHp: false, challenge: true, transformedSlots: new Set(), seenFoeSlots: new Set(), nextFrameId: () => ++id});
   const hits = frames.filter(frame => frame.kind === 'hit').map(frame => ({
     id: frame.id, side: frame.side, amount: frame.amount, numberId: frame.numberId, hp: frame.side ? frame.enemyHp : frame.playerHp, text: frame.text,
   }));

@@ -66,7 +66,7 @@ function applyEvent(member: BattleMonsterView, event: PresentationEvent) {
       member.species = event.species;
       if (event.type === 'transform' || member.species !== previousSpecies) member.appearanceSpecies = member.species;
       member.name = event.name || member.name;
-      if (event.type === 'switch_in') member.level = event.level;
+      if (event.type === 'switch_in') { member.level = event.level; delete member.unseen; }
       member.portrait = portrait(member.appearanceSpecies ?? member.species);
       member.types = event.types.map(typeLabel);
       member.typeIds = [...event.types];
@@ -96,6 +96,8 @@ export interface FrameOptions {
   challenge: boolean;
   /** Receives `side:slot` keys of transformed combatants. */
   transformedSlots: Set<string>;
+  /** Receives the slots of foes that switch in. */
+  seenFoeSlots: Set<number>;
   nextFrameId(): number;
 }
 
@@ -129,7 +131,10 @@ export function eventFrames(events: readonly BattleEvent[], before: BattlePresen
     const [e] = step, side = frameSide(e);
     const activeBefore = side === 1 ? shown.enemy : shown.player;
     if (e.type === 'transform') options.transformedSlots.add(`${side}:${activeBefore.slot}`);
-    for (const event of step) shown = advanceBattlePresentation(shown, event);
+    for (const event of step) {
+      if (event.type === 'switch_in' && event.side === 1) options.seenFoeSlots.add(event.slot);
+      shown = advanceBattlePresentation(shown, event);
+    }
     const share = e.type === 'damage' ? tallies.get(e) : undefined, block = blocks.get(e), drawnBy = share ? share.drawnBy : block?.drawnBy;
     const text = shownStepText(step, tallies, blocks, { data, initialPlayer: shown.player, initialEnemy: shown.enemy, hideEnemyHp, challenge });
     if (drawnBy && last?.event === drawnBy && last.frame.kind === 'hit') {

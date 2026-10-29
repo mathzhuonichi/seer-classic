@@ -17,6 +17,7 @@ export function battleMonsterView(ctx: GameContext, session: BattleSession, mon:
     skills: mon.skills.map(id => skillView(ctx.data, id, mon.pp, mon.skillOverrides?.[id])),
     statuses: mon.conditions.filter(c => c.def.kind === 'status').map(c => statusLabel(c.id) ?? c.def.name?.zh ?? c.id),
     stages: { ...mon.stages }, levelMasked: mon.side === 1 ? session.encounter?.team[mon.slot]?.level_masked : undefined,
+    ...(mon.side === 1 && !session.seenFoeSlots.has(mon.slot) ? { unseen: true } : {}),
   };
 }
 

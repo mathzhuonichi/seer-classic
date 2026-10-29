@@ -13,10 +13,6 @@
 .classic-health-heading{justify-content:space-between}
 .classic-hp-track{margin-top:9px;box-shadow:inset 0 1px 2px #16333899}
 .classic-hp-track i{display:block;height:100%}
-.classic-conditions>span{margin-top:4px;border-radius:3px}
-.classic-conditions .condition{background:#dc705922;color:#9c3827}
-.classic-conditions .stage-up{background:#5cac7433;color:#246342}
-.classic-conditions .stage-down{background:#ce8b7033;color:#8d3b26}
 .classic-creatures{display:flex;justify-content:space-between;z-index:2}
 .classic-combatant{width:42%;position:relative;display:flex;justify-content:center;--direction:1}
 .classic-ground-shadow{position:absolute;left:50%;border-radius:50%;background:radial-gradient(ellipse,#1f3d4666,#1f3d4600 70%)}
@@ -228,14 +224,12 @@
 .classic-hp-track i{transition:width .38s ease-out}
 .classic-hp-track>span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;letter-spacing:.2px;font-variant-numeric:tabular-nums}
 .classic-health-footer{display:flex;align-items:center;gap:5px;margin-top:3px}
-.classic-conditions{display:flex;align-items:center;gap:3px;min-width:0;overflow:hidden;white-space:nowrap;font-size:8px;flex:1;flex-wrap:nowrap}
-.classic-conditions>span{padding:1px 3px;margin:0;line-height:10px;flex-shrink:0}
 .classic-creatures{align-items:center}
 .classic-combatant{height:min(260px,100%);align-items:center}
 .classic-creature-motion.motion-idle{animation:classicIdleBreath 2.533333s ease-in-out infinite;transform-origin:50% var(--ground-y)}
 .side-1 .classic-creature-motion.motion-idle{animation-delay:-1.066667s}
 @keyframes classicIdleBreath{0%,100%{transform:translateY(0) scale(1)}45%,60%{transform:translateY(-1.5px) scale(1.006,1.014)}}
-@media(max-width:620px){.classic-health{padding:5px 7px}.classic-conditions{font-size:7px}.classic-conditions>span{padding:1px 2px}}
+@media(max-width:620px){.classic-health{padding:5px 7px}}
 @media(prefers-reduced-motion:reduce){.classic-creature-motion.motion-idle{animation:none}}
 
 /* The frozen entry scene is below health, native creatures and effects. */
@@ -275,7 +269,6 @@
 .classic-health.foe{background:linear-gradient(#0867bb,#0a397b)}
 .classic-health-heading strong{color:#fff}
 .classic-hp-track{border-color:#08245c}
-.classic-conditions .condition,.classic-conditions .stage-up,.classic-conditions .stage-down{color:#fff;background:#03457c;border-color:#09bdff}
 .classic-battle-result{background:linear-gradient(#0a64a8,#053671);color:#fff;border-top:2px solid #0ccfff}
 @container(max-width:780px){
  .classic-skill,.classic-empty-skill{padding:5px 6px 4px 27px!important}
@@ -406,7 +399,7 @@
 .classic-health.foe .classic-hp-track i{float:right;background-position:right top}
 /* An even glow, like the original GlowFilter: two diagonal offsets drew the digits twice. */
 .classic-hp-track>span{font-size:11px;line-height:20px;color:#fff;text-shadow:0 0 1px #822200,0 0 2px #822200,0 0 2px #822200}
-.classic-health-footer{position:absolute;left:0;right:0;margin:0;padding:1px 4px;border-radius:4px;background:#032651bf}
+.classic-health-footer{position:absolute;left:0;right:0;margin:0;padding:1px 4px}
 .classic-creatures{inset:136px 6% 24px}
 /* The type matchup between the panels, below the caption: my multiplier, how my attack fares, the opponent's multiplier. */
 .classic-matchup{align-self:start;display:flex;align-items:center;gap:4px;margin-top:22px;white-space:nowrap;pointer-events:auto;cursor:help;font-weight:700}
@@ -449,13 +442,19 @@
 
 .classic-health,.classic-health.foe{height:auto;aspect-ratio:586 / 185}
 .classic-health-portrait{left:1.8771%;top:5.4054%;width:20.9898%;height:66.4865%;z-index:1}
-.classic-health.foe .classic-health-portrait{left:auto;right:1.8771%}
+/* The foe's portrait is mirrored, so both portraits face the middle of the screen. */
+.classic-health.foe .classic-health-portrait{left:auto;right:1.8771%;transform:scaleX(-1)}
 .classic-health-heading{left:29%;right:2%;top:0;height:17%;padding:0;align-items:center}
 .classic-health.foe .classic-health-heading{left:2%;right:29%;justify-content:flex-end}
 .classic-health-heading>strong{font-size:clamp(10px,1.4cqw,14px);line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .classic-health-level{position:absolute;left:36%;top:66%;width:13%;height:14%;display:grid;place-items:center;background:linear-gradient(#faffff,#76b7d4);color:#17446c;font-size:11px;font-weight:bold;font-variant-numeric:tabular-nums}
 /* The opponent artwork's Lv label is offset, not a mirror of the player label. */
 .classic-health.foe .classic-health-level{left:auto;right:25.7%}
+/* The team strip sits in the level row after the level box, mirrored on the foe's side before its LV: label, the first member nearest. */
+.classic-health>.battle-team-strip{position:absolute;left:51%;top:66%;height:14%;margin:0}
+.classic-health.foe>.battle-team-strip{left:auto;right:49.5%}
+.classic-health.foe .battle-team-marks{flex-direction:row-reverse}
+.classic-health.foe .classic-conditions{justify-content:flex-end}
 /* Keep the source frame's circular badge in front of the alpha-centered portrait. */
 .classic-health-type{position:absolute;left:.6826%;top:51.3514%;width:7.8498%;height:24.8649%;display:grid;place-items:center;z-index:2;border:1px solid #2c9cf3;border-radius:50%;background:#04366d;box-shadow:inset 0 0 0 1px #0760a7}
 .classic-health.foe .classic-health-type{left:auto;right:.6826%;top:50.2703%}
@@ -468,7 +467,6 @@
 .classic-health.foe .classic-hp-track i{transform:scaleX(-1)}
 .classic-skill.category-属性,.classic-skill.category-特殊{background:#053580 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat;color:#fff;border:0}
 .classic-skill.category-属性:hover:not(:disabled),.classic-skill.category-特殊:hover:not(:disabled){background:#0754a5 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat}
-.classic-health .battle-team-strip>.battle-team-count,.classic-health .battle-team-strip>.battle-team-count i{color:#c8ecff}
 
 
 /* Keep all four moves inside their original SVG frames, including narrow and zoomed views.

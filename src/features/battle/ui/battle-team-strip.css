@@ -1,12 +1,19 @@
 .battle-team-strip{--team-accent:#315b72;position:relative;display:inline-flex;align-items:center;flex-shrink:0;min-width:0;margin-left:auto;font-size:10px;line-height:1}
 .battle-team-strip.is-enemy{--team-accent:#785931}
-.classic-battle .battle-team-count{border:0;background:transparent;padding:1px 2px;border-radius:3px;color:var(--team-accent);font-size:10px;line-height:13px;white-space:nowrap;min-height:0;cursor:help}
+.classic-battle .battle-team-count{display:inline-flex;align-items:center;gap:4px;border:0;background:transparent;padding:1px 2px;border-radius:3px;color:var(--team-accent);font-size:10px;line-height:13px;white-space:nowrap;min-height:0;cursor:help}
 .classic-battle .battle-team-count:hover{background:#a8c8d544;transform:none}
-.battle-team-count strong{font-weight:700;font-variant-numeric:tabular-nums}
-.battle-team-count i{font-style:normal;font-weight:400;color:#6b7f8d}
+/* One 普通 icon per team member, as the original strip marks them: lit while it can fight, dark once it is down. */
+.battle-team-marks{display:inline-flex;align-items:center;gap:1px}
+.battle-team-marks>span{display:grid;place-items:center;width:14px;height:14px}
+.battle-team-marks .battle-type-icon{width:100%;height:100%;flex-basis:auto}
+.battle-team-marks>.is-down{filter:grayscale(1) brightness(.45)}
+/* A foe not yet in battle shows the same icon in the details. */
+.battle-team-unknown{display:inline-grid;place-items:center}
+.battle-team-icon-wrap>.battle-team-unknown{width:100%;height:100%}
+.battle-team-icon-wrap>.battle-team-unknown>.battle-type-icon{width:22px;height:22px;flex-basis:auto}
 .battle-team-overlay{position:absolute;top:calc(100% + 5px);left:0;z-index:20;width:min(290px,70vw);max-height:min(250px,calc(100cqh - 101px));overflow:auto;padding:10px;border:1px solid #7798a9;border-radius:6px;background:#edf5f5fa;color:#2c4a5a;box-shadow:0 8px 23px #1b395d66;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .12s}
+/* Each side's details open towards the middle of the screen from its strip. */
 .battle-team-strip.is-enemy .battle-team-overlay{left:auto;right:0}
-.battle-team-strip.is-player .battle-team-overlay{left:auto;right:0}
 .battle-team-strip:hover .battle-team-overlay,.battle-team-strip:focus-within .battle-team-overlay{opacity:1;visibility:visible;pointer-events:auto}
 .battle-team-overlay:before{content:'';position:absolute;left:0;right:0;top:-6px;height:6px}
 .battle-team-overlay>header{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:8px;font-size:10px;line-height:1.3}
@@ -18,6 +25,8 @@
 .battle-team-icon{width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none}
 .battle-team-member>div{min-width:0}
 .battle-team-member strong{display:block;font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.battle-team-member>div>.battle-team-types{float:right;margin:0 0 0 3px}
+.battle-team-types>.battle-type-icon{width:16px;height:16px;flex-basis:16px}
 .battle-team-member small{font-size:7px;margin-left:3px;font-weight:400;color:#657d89}
 .battle-team-member>div>span{display:block;margin-top:3px;font-size:8px;white-space:nowrap;font-variant-numeric:tabular-nums}
 .battle-team-member em{display:block;font-size:7px;font-style:normal;margin-top:2px;color:var(--team-accent)}

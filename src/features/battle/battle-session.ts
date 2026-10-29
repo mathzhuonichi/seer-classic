@@ -103,6 +103,7 @@ function recordAnimation(rt: Runtime, session: BattleSession, events: BattleEven
   const { ctx, animation } = rt;
   const frames = eventFrames(events, before, {
     data: ctx.data, hideEnemyHp: hidesFoeHp(session), challenge: isChallenge(session), transformedSlots: session.transformedSlots,
+    seenFoeSlots: session.seenFoeSlots,
     nextFrameId: () => ++animation.frameId,
   });
   const now = presentationState(ctx, session), enemy = foeView(session, now.enemy);

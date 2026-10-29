@@ -14,7 +14,7 @@ const before = {player, enemy, party: [player], enemyParty: [enemy]};
 const data = {species: new Map(), skills: new Map(), items: new Map(), types: {chart: {}}};
 const frames = events => {
   let id = 0;
-  return eventFrames(events, before, {data, hideEnemyHp: false, challenge: true, transformedSlots: new Set(), nextFrameId: () => ++id});
+  return eventFrames(events, before, {data, hideEnemyHp: false, challenge: true, transformedSlots: new Set(), seenFoeSlots: new Set(), nextFrameId: () => ++id});
 };
 
 test('a 挣扎 move plays as a physical move at the foe, then its hit and the user\'s recoil', () => {
@@ -47,4 +47,16 @@ test('one monster\'s stage changes at once are one frame that changes every chip
   const [line] = groupedBattleLog(events, {data, initialPlayer: player, initialEnemy: enemy});
   assert.equal(line, `${shown[0].text}　${stages.text}`);
   assert.equal(stages.text, '布布花的所有能力提升 1 级，当前均为 +1 级。');
+});
+
+test('a foe the player has not seen stays unknown until it switches in, and the switch records its slot', () => {
+  const reserve = {...view(1, '布布草'), uid: '1-1', slot: 1, unseen: true}, seen = new Set([0]);
+  let id = 0;
+  const shown = eventFrames([
+    {type: 'faint', side: 1, slot: 0, name: '布布花'},
+    {type: 'switch_in', side: 1, slot: 1, species: 3, types: ['grass'], name: '布布草', level: 50, hp: 100, maxHp: 100},
+  ], {...before, enemyParty: [enemy, reserve]},
+  {data, hideEnemyHp: false, challenge: true, transformedSlots: new Set(), seenFoeSlots: seen, nextFrameId: () => ++id});
+  assert.deepEqual(shown.map(frame => frame.enemyParty[1].unseen), [true, undefined]);
+  assert.deepEqual([...seen], [0, 1]);
 });

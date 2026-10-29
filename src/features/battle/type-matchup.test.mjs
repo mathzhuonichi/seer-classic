@@ -54,7 +54,7 @@ test('each frame carries the matchup of the monsters it shows, through a switch 
     {type: 'switch_in', side: 1, slot: 1, species: 2, types: ['water'], name: '1-1', hp: 100, maxHp: 100, level: 50},
     {type: 'transform', side: 0, species: 3, types: ['fire'], name: '0-0', hp: 100, maxHp: 100},
   ], {player: lead, enemy: foe, party: [lead], enemyParty: [foe, bench]},
-  {data, hideEnemyHp: false, challenge: false, transformedSlots: new Set(), nextFrameId: () => ++id});
+  {data, hideEnemyHp: false, challenge: false, transformedSlots: new Set(), seenFoeSlots: new Set(), nextFrameId: () => ++id});
   assert.deepEqual(frames.map(frame => frame.enemy.typeIds), [['water'], ['water']]);
   assert.deepEqual(frames.map(({matchup}) => [matchup.relation, matchup.mine, matchup.theirs]),
     [['strong', 2, 0.5], ['weak', 0.5, 2]], 'grass, then fire, attacking water');
