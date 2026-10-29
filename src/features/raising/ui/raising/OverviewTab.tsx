@@ -1,5 +1,5 @@
 import type { MonsterView } from '../../../../shared/views.ts';
-import {STAT_KEYS} from '../../../../../raising/core/types.ts';
+import type {StatKey} from '../../../../../raising/core/stats.ts';
 import {IV_MAX} from '../../../../../raising/core/stats.ts';
 import {STAT_LABELS} from '../../../../shared/labels.ts';
 import {speciesNumber} from '../../../../shared/monster-views.ts';
@@ -8,6 +8,9 @@ import {HoverTerm} from '../../../../shared/ui/HoverCard.tsx';
 import {SkillRow} from '../../../../shared/ui/SkillDetail.tsx';
 import StatIcon from '../../../../shared/ui/StatIcon.tsx';
 import TypeIcon from '../../../../shared/ui/TypeIcon.tsx';
+
+/** The original PetBag's order, read row by row in two columns: 攻击 防御 / 特攻 特防 / 速度 体力. */
+const SUMMARY_STATS:readonly StatKey[]=['atk','def','spa','spd','spe','hp'];
 
 /** 信息: the monster's summary; its skins are under the PetBag's portrait. `onAllocate` opens the 经验分配器 under 资料. */
 export default function OverviewTab({m,onAllocate}:{m:MonsterView;onAllocate:()=>void}) {
@@ -24,7 +27,7 @@ function MonsterSummary({m,onAllocate}:{m:MonsterView;onAllocate:()=>void}) {
       <div><span>特性</span>{m.trait?<HoverTerm name={m.trait.name} detail={m.trait.description}/>:<strong>无</strong>}</div>
     </div>
     <p className="engraving-stat-note">基础能力（不含刻印）</p>
-    <div className="petbag-stat-summary">{STAT_KEYS.map(key=>
+    <div className="petbag-stat-summary">{SUMMARY_STATS.map(key=>
       <div key={key}><span><StatIcon stat={key}/>{STAT_LABELS[key]}</span><strong>{m.stats[key]}</strong></div>)}</div>
     <div className="petbag-experience"><span>升级经验</span><meter value={m.exp} max={Math.max(1,m.expToNext)}/><small>{m.exp} / {m.expToNext}</small>
       <button type="button" onClick={onAllocate}>分配经验</button></div>
