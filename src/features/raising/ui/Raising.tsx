@@ -23,7 +23,7 @@ export default function Raising({m,c,requestedTab}:{m:MonsterView;c:GameControll
   const [view,setView]=useState<{tab:RaisingTab;editing:boolean}>({tab:'概况',editing:false}),[feedback,say]=useState('');
   useEffect(()=>{if(requestedTab)setView({tab:requestedTab.tab,editing:requestedTab.editing??requestedTab.tab==='详情'})},[requestedTab?.id]);
   const busy=useGame(c,battleActive),{tab}=view,props={m,c,feedback,say};
-  const panel=tab==='概况'?<OverviewTab m={m}/>
+  const panel=tab==='概况'?<OverviewTab m={m} onAllocate={()=>setView({tab:'养成',editing:false})}/>
     :tab==='详情'?<AbilityTab {...props} editing={view.editing} setEditing={editing=>setView({tab,editing})}
       reveal={requestedTab?.section==='engravings'?requestedTab.id:undefined}/>
     :tab==='技能'?<SkillsTab {...props}/>

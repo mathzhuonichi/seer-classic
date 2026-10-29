@@ -364,6 +364,13 @@
 .official-petbag .petbag-skill-summary>div{display:flex;justify-content:space-between;align-items:center;gap:3px;min-width:0;padding:4px 5px;border:1px solid #1386bd;border-radius:3px;background:#074f95;font-size:clamp(9px,1.6cqw,12px)}
 .official-petbag .petbag-skill-summary>div>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .official-petbag .petbag-skill-summary small{font-size:9px;color:#bdeaff}
+.official-petbag .petbag-stat-summary>div>span{display:inline-flex;align-items:center;gap:.35em}
+.official-petbag .petbag-experience meter{flex:0 1 52%}
+.official-petbag .petbag-experience>button{margin-left:auto;flex-shrink:0;padding:2px 9px;font-size:clamp(10px,1.6cqw,12px);line-height:1.4;white-space:nowrap}
+.official-petbag .petbag-skill-summary>div>.battle-type-icon{width:1.5em;height:1.5em;flex:0 0 1.5em}
+.official-petbag .petbag-skill-summary>div>span{flex:1;min-width:0}
+.official-petbag .petbag-skill-summary small{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.official-petbag .petbag-skill-category{padding:0 4px;border:1px solid #3cc1ff;border-radius:3px;font-weight:400;color:#fff}
 .official-petbag .petbag-party-strip{top:77%;gap:6px}
 .official-petbag .petbag-status{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 
