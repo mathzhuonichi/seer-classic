@@ -2,6 +2,12 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Double-click launchers for a checkout and the 精灵仓库 title (2026-10-28, night)
+
+- **Launchers.** `启动游戏-Windows.bat`, `启动游戏-macOS.command` and `启动游戏-Linux.desktop` at the repository root each run the new `npm run play`: Vite at http://127.0.0.1:1426/ (the browser package's address, so saves carry over) with the default browser opened; closing the window stops it. A checkout without `node_modules` gets `npm ci` first. ART.md and the README describe them.
+- **精灵仓库.** The open box showed the frame art's 精灵背包 title. An inline SVG now covers that lettering with the header's own stripes and draws 精灵仓库 in its white-on-navy style; no art changed (ART.md).
+- **Checks.** `npm run typecheck`; `npm test` 315 tests, 314 pass (the same `server.test.mjs` macOS-privacy case fails on Windows). `npm run verify` 69/77 on Windows: `architecture` counts CRLF checkouts' lines as over 160 characters in files this change does not touch, and six battle, latency and snapshot suites failed in the parallel run (out of memory, CPU-time budgets); this change touches no battle code. The storage title was checked in the browser; each launcher's command served the game.
+
 ## Boss and wild battles last up to 2000 turns (2026-10-28, night)
 
 - **Turn limit.** Every battle ended in a draw (`turn_cap`, no victory bonus) after 200 completed turns, which a long Boss fight such as 谱尼 can pass. The 200-turn limit now applies only when a side is a trainer (the trainer challenges, 随机竞技场 and 巅峰对决, which model player battles); Boss and wild battles end at 2000 (`MAX_TURNS`, `TRAINER_MAX_TURNS`; battle/RULES.md §10.4). An explicit `maxTurns` still wins.

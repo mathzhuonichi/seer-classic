@@ -42,14 +42,16 @@ You need Node.js 22.18 or newer and npm.
      `art pack 0.0.1: 15714 files, 2.77 GiB, all present and unchanged in public/`.
    - Either command exits non-zero when `public/` is incomplete. Extract the package again and repeat.
 
-4. Play:
+4. Play: double-click `启动游戏-Windows.bat`, `启动游戏-macOS.command` or `启动游戏-Linux.desktop` (on Linux, allow it to launch
+   once), or run the command they all run:
 
    ```sh
-   node tools/dev/play.mjs          # or: npm run dev -- --port 1426
+   npm run play
    ```
 
-   `play.mjs` serves the game at http://127.0.0.1:1426/ and opens the browser. Saves live in the browser under that address,
-   which is the same address the browser package uses, so a player's existing save carries over.
+   It serves the game at http://127.0.0.1:1426/ and opens the default browser; closing its window stops the game. Saves live
+   in the browser under that address, which is the same address the browser package uses, so a player's existing save carries
+   over. A launcher in a checkout without `node_modules` runs `npm ci` first.
 
 To update later, run `git pull`, then `npm ci` if `package-lock.json` changed. The art stays where it is because Git ignores
 it. Run `check` whenever you are unsure.

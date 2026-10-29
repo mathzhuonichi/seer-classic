@@ -137,6 +137,8 @@
 .official-petbag .petbag-empty-slot>span{font-size:18px;color:#4d99c6}
 /* The box takes the whole bag below the title: the party strip makes way, and the place dialog shows the party when it is needed. */
 .official-petbag .petbag-storage{position:absolute;z-index:10;left:3%;right:3%;top:12.5%;bottom:3%;display:grid;grid-template-columns:auto minmax(0,1.55fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;gap:6px 10px;min-height:0;background:#123f6a;border:2px solid #46d4ff;border-radius:7px;padding:9px 11px 5px;box-shadow:0 4px 16px #041e4dab;color:#e9f8ff}
+.official-petbag .petbag-storage-title{position:absolute;z-index:1;left:38.1%;top:3.74%;width:23.81%;height:8.88%;pointer-events:none}
+.official-petbag .petbag-storage-title text{font:900 66px 'Microsoft YaHei','PingFang SC','Heiti SC',SimHei,sans-serif;fill:#fff;stroke:#0a3770;stroke-width:11px;stroke-linejoin:round;paint-order:stroke}
 .official-petbag .petbag-storage>header{grid-column:1/-1;display:flex;align-items:center;gap:12px;font-size:15px}
 .official-petbag .petbag-storage>header>span{font-size:11px;color:#a8d6f4}
 .official-petbag .petbag-storage>header>button{margin-left:auto;font-size:11px;padding:4px 10px}

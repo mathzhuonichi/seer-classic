@@ -60,7 +60,7 @@ type Props={monsters:MonsterView[];dexTypes:string[][];box:StorageBoxState;party
 /** 精灵仓库: shelves on the left, the shelf's monsters, and the picked one beside them with the move into the bag. */
 export default function StorageBox({monsters,dexTypes,box,partySize,busy,feedback,onPlace,onFavorite,onDetails,onClose}:Props) {
   const {search,order,stored,shown,pager:{page,setPage,pages,start,end}}=box;
-  return <section className="petbag-storage" aria-label="精灵仓库">
+  return <><StorageTitle/><section className="petbag-storage" aria-label="精灵仓库">
     <header><strong>精灵仓库</strong><span>仓库 {monsters.length-partySize} 只 · 背包 {partySize} / {PARTY_MAX}</span>
       <button aria-label="关闭精灵仓库" onClick={onClose}>返回背包</button></header>
     <Shelves box={box} dexTypes={dexTypes}/>
@@ -83,7 +83,25 @@ export default function StorageBox({monsters,dexTypes,box,partySize,busy,feedbac
       onPlace={()=>onPlace(shown)} onFavorite={()=>onFavorite(shown)} onDetails={()=>onDetails(shown)}/>
       :<div className="storage-info management-empty">仓库里的精灵会显示在这里。</div>}
     <p className="storage-status" role="status">{feedback}</p>
-  </section>;
+  </section></>;
+}
+
+/** The frame's header stripes behind its title, as [frame pixel row, colour] stops from the patch's top (47) to its bottom (132). */
+const TITLE_STRIPES:[number,string][]=[[47,'#2fabf3'],[63,'#2fabf3'],[63,'#1990e7'],[75,'#1990e7'],[75,'#30aaf1'],[83,'#30aaf1'],
+  [83,'#1993e8'],[96,'#1993e8'],[96,'#2fabf2'],[132,'#2fabf2']];
+
+/**
+ * 精灵仓库 over the frame's 精灵背包 title (ART.md: drawn here, not a new image). The viewBox is the frame art's pixels 560–910 ×
+ * 40–135: the patch repeats the header's stripes over the old lettering and its outline, and the text follows its white-on-navy style.
+ */
+function StorageTitle() {
+  return <svg className="petbag-storage-title" viewBox="560 40 350 95" preserveAspectRatio="none" aria-hidden="true">
+    <defs><linearGradient id="petbag-storage-stripes" x1="0" y1="47" x2="0" y2="132" gradientUnits="userSpaceOnUse">
+      {TITLE_STRIPES.map(([y,color],i)=><stop key={i} offset={(y-47)/85} stopColor={color}/>)}
+    </linearGradient></defs>
+    <rect x="584" y="47" width="302" height="85" fill="url(#petbag-storage-stripes)"/>
+    <text x="735" y="90" textAnchor="middle" dominantBaseline="central" textLength="272" lengthAdjust="spacingAndGlyphs">精灵仓库</text>
+  </svg>;
 }
 
 /**

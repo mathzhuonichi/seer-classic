@@ -1,0 +1,8 @@
+[Desktop Entry]
+# Double-click in the file manager to play this checkout (the first time, allow it to launch: right-click › Allow Launching).
+# 启动游戏-Windows.bat and 启动游戏-macOS.command run the same `npm run play`: the game at http://127.0.0.1:1426/ in the default
+# browser. Closing the terminal window stops the game. %k is this file's own path, so the folder can be anywhere.
+Type=Application
+Name=赛尔经典 · Seer Classic
+Exec=sh -c 'cd "$(dirname "$1")" && { [ -d node_modules ] || npm ci; } && npm run play' sh %k
+Terminal=true

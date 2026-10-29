@@ -24,6 +24,7 @@ Requires Node.js 22.18 or newer and npm. The workspace layout around this reposi
 
 ```sh
 npm ci
+npm run play                 # the game at http://127.0.0.1:1426/ in the default browser (what the 启动游戏-* launchers run)
 npm run dev -- --port 1426   # development game at http://127.0.0.1:1426/
 npm run typecheck            # tsc --noEmit
 npm test                     # node --test unit tests
