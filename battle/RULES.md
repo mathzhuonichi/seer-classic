@@ -572,8 +572,11 @@ smart trainer plans first and may restore PP with an item instead.
   `attrition` adjust the evaluation weights only; they do not alter stats or
   damage rules.
 
-The existing default limit of 200 completed turns ends prolonged
-recovery/status battles with `winner: null`, `reason: turn_cap`. The UI
+A limit of completed turns ends prolonged recovery/status battles with
+`winner: null`, `reason: turn_cap`: 200 turns when either side is a trainer
+(the trainer challenges and facilities, which model player battles), 2000
+turns in every other battle, Boss or wild, so a long Boss fight such as 谱尼
+is not cut short. The UI
 identifies this as a draw and grants no victory bonus. Full PP restoration
 (`amount: "all"` or omitted) fills each existing move to its finite maximum.
 

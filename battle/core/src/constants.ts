@@ -30,7 +30,10 @@ export const NEGATIVE_ACC_TABLE = [1, 0.85, 0.70, 0.55, 0.45, 0.35, 0.25];
 export const STATUS_DEFAULT_TURNS: [number, number] = [2, 3];
 export const STATUS_DOT_FRACTION = 1 / 8;
 export const STRUGGLE = { id: 0, power: 50, recoilFraction: 1 / 4 };
-export const MAX_TURNS = 200;
+/** Completed turns before a Boss or wild battle ends in a draw (RULES.md 10.4). */
+export const MAX_TURNS = 2000;
+/** The same limit for a battle with a trainer side, the challenges modelled on player battles. */
+export const TRAINER_MAX_TURNS = 200;
 /** The chance that a Boss with an attack that hurts uses a status move that changes something instead (RULES.md 10.4). */
 export const BOSS_STATUS_CHANCE = 0.2;
 export const CAPTURE_CONTROL_BONUS = 2;

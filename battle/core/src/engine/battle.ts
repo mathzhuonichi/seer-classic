@@ -83,7 +83,6 @@ export class Battle {
     this.rng = new Rng(opts.seed);
     this.scripts = opts.scripts ?? {};
     this.policy = opts.policy;
-    this.maxTurns = opts.maxTurns ?? C.MAX_TURNS;
     this.conventionalMoves = opts.conventionalMoves;
     this.encounter = opts.encounter;
     const enc = opts.encounter;
@@ -92,6 +91,7 @@ export class Battle {
         rules: enc.rules ?? [], ai: enc.ai ?? { kind: 'smart' } }
       : opts.sides[1];
     if (!s1) throw new Error('side 1 or an encounter is required');
+    this.maxTurns = opts.maxTurns ?? ([opts.sides[0], s1].some((s) => s.kind === 'trainer') ? C.TRAINER_MAX_TURNS : C.MAX_TURNS);
     if (enc && opts.variant) {
       this.variant = rules.encounterVariant(enc, opts.variant);
       if (this.variant.rules) s1.rules = [...(s1.rules ?? []), ...this.variant.rules];

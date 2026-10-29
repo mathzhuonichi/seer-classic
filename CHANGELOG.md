@@ -2,6 +2,11 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Boss and wild battles last up to 2000 turns (2026-10-28, night)
+
+- **Turn limit.** Every battle ended in a draw (`turn_cap`, no victory bonus) after 200 completed turns, which a long Boss fight such as 谱尼 can pass. The 200-turn limit now applies only when a side is a trainer (the trainer challenges, 随机竞技场 and 巅峰对决, which model player battles); Boss and wild battles end at 2000 (`MAX_TURNS`, `TRAINER_MAX_TURNS`; battle/RULES.md §10.4). An explicit `maxTurns` still wins.
+- **Checks.** `npm test` 315 tests (new: the limit by side kind), 314 pass; the failure is `server.test.mjs`'s macOS-privacy case, which fails on Windows without this change too. `npm run verify`: the battle suites pass one at a time; `architecture` (lines over 160 characters in untouched files) and `controller-snapshots` (Windows CPU-time p95 15 ms against 4) fail the same way without this change.
+
 ## The SPT 挑战者 reward is 杰奥 (2026-10-28, evening)
 
 - **Journey quest.** 「SPT 挑战者」 (beat any SPT首领) granted 巴鲁斯, the last form of 伊优, which every journey already begins with beside 布布种子 and 小火猴; the reward was the remake's own (revision 30), not the original's. It now grants 杰奥 (397, 战斗), whose only other route is a late recruitment (提坦, 尹赫, 塔拉, 塔克林 and 塔西亚); 巴鲁斯 stays an evolution of 伊优. A save that has claimed the quest keeps its 巴鲁斯.

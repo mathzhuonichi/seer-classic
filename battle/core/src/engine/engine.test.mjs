@@ -1,9 +1,9 @@
-// Engine seams (the injected policy, the read-only damage probe) and two engine rules: 先手权 and status type immunity.
+// Engine seams (the injected policy, the read-only damage probe) and the turn limit and two engine rules: 先手权 and status type immunity.
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {Battle} from './battle.ts';
 import {buildDataSet} from '../data.ts';
-import {MEAN_ROLL} from '../constants.ts';
+import {MAX_TURNS, MEAN_ROLL, TRAINER_MAX_TURNS} from '../constants.ts';
 
 const base = {hp: 100, atk: 100, def: 100, spa: 100, spd: 100, spe: 100};
 const attack = id => ({id, name: {zh: `skill ${id}`}, type: 'normal', category: 'physical', power: 40, accuracy: null, pp: 20, priority: 0});
@@ -101,6 +101,13 @@ test('a script objective is met by its script\'s objective member, and an entry 
 });
 
 // ---------- 先手权 and status type immunity (RULES.md 3 and 7) ----------
+
+test('the turn limit is the trainer one with a trainer side and the long one in Boss and wild battles', () => {
+  const policy = {chooseAction: () => ({kind: 'move', skill: 1}), chooseReplacement: () => undefined};
+  const limit = (kind, extra) => new Battle(options({policy, sides: [{kind: 'player', team: [member()]}, {kind, team: [member()]}], ...extra})).maxTurns;
+  assert.deepEqual([limit('boss'), limit('wild'), limit('trainer')], [MAX_TURNS, MAX_TURNS, TRAINER_MAX_TURNS]);
+  assert.equal(limit('trainer', {maxTurns: 4}), 4, 'an explicit limit wins');
+});
 
 /** Raises atk when its user holds 先手权 and def when it moves last; it also hits, so the journal records the flag. */
 const PROBE = 31, FIRE = 32;

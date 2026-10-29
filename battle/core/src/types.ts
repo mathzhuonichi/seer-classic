@@ -242,7 +242,7 @@ export interface BattleOptions {
   scripts?: ScriptRegistry;
   /** Decisions for automatic sides. The game injects battle/ai's policy; the engine never imports it. */
   policy?: BattlePolicy;
-  maxTurns?: number;             // safety stop, default 200
+  maxTurns?: number;             // safety stop, default 200 with a trainer side and 2000 otherwise
   /** A trainer mode's conventional moveset per species. Planners use it to
    * model an opponent; it is never the opponent's actual loadout. */
   conventionalMoves?: (speciesId: number) => number[];
