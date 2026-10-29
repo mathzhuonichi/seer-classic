@@ -2,6 +2,11 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## Battle skill buttons set their name higher (2026-10-28, night)
+
+- **Skill buttons.** A move's icon and name sat in a row that took nearly the whole button, so they showed at 42 % of its height and 威力 / PP at 87 %. The two rows are now equal, as the original button (`battle-skill-outline.svg`) sets its name at 7-23 and 威力 / PP at 27-43 of 48 px: 29 % and 71 %.
+- **Checks.** Measured in a wild battle in headless Chrome; `browser-regressions` passes.
+
 ## Double-click launchers for a checkout and the 精灵仓库 title (2026-10-28, night)
 
 - **Launchers.** `启动游戏-Windows.bat`, `启动游戏-macOS.command` and `启动游戏-Linux.desktop` at the repository root each run the new `npm run play`: Vite at http://127.0.0.1:1426/ (the browser package's address, so saves carry over) with the default browser opened; closing the window stops it. A checkout without `node_modules` gets `npm ci` first. ART.md and the README describe them.

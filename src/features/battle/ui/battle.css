@@ -476,7 +476,8 @@
 .classic-command-content.command-content-battle{display:grid;grid-template-rows:minmax(0,1fr);overflow:hidden}
 .classic-skill-grid{width:100%;height:100%;min-width:0;min-height:0;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:4px 6px}
 .classic-skill-grid>.classic-skill,.classic-skill-grid>.classic-empty-skill{box-sizing:border-box;width:100%;height:100%;min-width:0;min-height:0;border:0!important;border-radius:6px!important;padding:7px 9px!important;box-shadow:none;color:#fff!important;background:#053580 url('/ui/classic/hd/battle-skill-outline.svg') center / 100% 100% no-repeat;overflow:hidden}
-.classic-skill-grid>.classic-skill{display:grid;grid-template-columns:20px minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;column-gap:5px;row-gap:1px;align-items:center}
+/* Two equal rows, as the original button (battle-skill-outline.svg) sets its name at 7-23 and 威力 / PP at 27-43 of 48 px. */
+.classic-skill-grid>.classic-skill{display:grid;grid-template-columns:20px minmax(0,1fr);grid-template-rows:repeat(2,minmax(0,1fr));column-gap:5px;row-gap:1px;align-items:center}
 .classic-skill-grid>.classic-skill>div{position:static;display:flex;align-items:center;justify-content:center;min-width:0;grid-column:1;grid-row:1}
 .classic-skill-grid>.classic-skill>div>.battle-type-icon{width:20px;height:20px;flex:0 0 20px}
 .classic-skill-grid>.classic-skill>div>small{display:none}
