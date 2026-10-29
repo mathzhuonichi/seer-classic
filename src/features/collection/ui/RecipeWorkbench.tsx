@@ -52,6 +52,20 @@ export function ParentCard({id,label,heading,art,value,disabled,onChange,placeho
   </div>;
 }
 
+interface RecipeSpeciesProps {species:readonly number[];name:(id:number)=>string;owned:(id:number)=>{uid:string;name:string;level:number}|undefined;
+  disabled:boolean;onPick:(uid:string)=>void}
+/**
+ * An empty parent slot: each species the recipe takes, with its art and name. One the player owns picks their highest-level
+ * candidate of it; one they do not own is dimmed.
+ */
+export function RecipeSpecies({species,name,owned,disabled,onPick}:RecipeSpeciesProps) {
+  return <div className={`recipe-species${species.length>1?' is-several':''}`}>{species.map(id=>{
+    const mon=owned(id),title=mon?`选择${mon.name} · Lv.${mon.level}`:`${name(id)}：尚未拥有`;
+    return <button key={id} type="button" disabled={disabled||!mon} className={mon?undefined:'is-missing'} title={title} onClick={()=>mon&&onPick(mon.uid)}>
+      <span className="recipe-species-art"><CreatureArt species={id} name={name(id)}/></span><small>{name(id)}</small></button>;
+  })}</div>;
+}
+
 export function ParentPair({first,second}:{first:ReactNode;second:ReactNode}) {
   return <div className="fusion-parent-grid">{first}<span className="fusion-plus" aria-hidden="true">＋</span>{second}</div>;
 }

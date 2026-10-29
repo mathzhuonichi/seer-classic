@@ -16,6 +16,7 @@ export type RaisingAction =
   | {type: 'setEvs'; uid: string; evs: StatBlock}
   | {type: 'reorderParty'; uids: string[]}
   | {type: 'swapWithBox'; partyUid: string; boxUid: string}
+  | {type: 'favorite'; uid: string; favorite: boolean}
   | {type: 'allocateExp'; uid: string; amount: number}
   | {type: 'evolve'; uid: string; toSpecies?: number}
   | {type: 'setSkin'; uid: string; species: number | null}

@@ -1,4 +1,4 @@
-import {useEffect,useState} from 'react';
+import {useEffect,useRef,useState} from 'react';
 import type { MonsterView } from '../../../../shared/views.ts';
 import {STAT_KEYS} from '../../../../../raising/core/types.ts';
 import {EV_STAT_CAP,EV_TOTAL_CAP,type StatKey} from '../../../../../raising/core/stats.ts';
@@ -8,10 +8,13 @@ import {checkEvDraft,clearedDraft,draftEvs,EV_PRESETS,evDraft,presetDraft,sameEv
 import {EngravingSlots} from '../../../engravings/ui.ts';
 import {feedbackFor,type TabProps} from './dispatch-feedback.ts';
 
-type Props=TabProps&{editing:boolean;setEditing:(editing:boolean)=>void};
+/** `reveal`: a request id that scrolls the engraving slots into view (the portrait's engravings ask for them). */
+type Props=TabProps&{editing:boolean;setEditing:(editing:boolean)=>void;reveal?:number};
 
 /** 能力: base stats, 学习力 with its editor, entry stats including engravings, and the engraving slots. */
-export default function AbilityTab({m,c,feedback,say,editing,setEditing}:Props) {
+export default function AbilityTab({m,c,feedback,say,editing,setEditing,reveal}:Props) {
+  const slots=useRef<HTMLDivElement>(null);
+  useEffect(()=>{if(reveal)slots.current?.scrollIntoView({block:'nearest'})},[reveal]);
   const [evs,setEvs]=useState(()=>evDraft(m.evs)),[preset,setPreset]=useState('');
   const savedKey=STAT_KEYS.map(key=>m.evs[key]).join();
   useEffect(()=>setEvs(evDraft(m.evs)),[m.uid,savedKey]);
@@ -56,7 +59,7 @@ export default function AbilityTab({m,c,feedback,say,editing,setEditing}:Props) 
       </div>
     </div>}
     {!editing&&feedback&&<p className="management-feedback" role="status">{feedback}</p>}
-    <EngravingSlots m={m} c={c}/>
+    <div ref={slots}><EngravingSlots m={m} c={c}/></div>
   </section>;
 }
 

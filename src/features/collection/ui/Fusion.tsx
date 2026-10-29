@@ -7,7 +7,7 @@ import {battleActive} from '../../../shared/view-helpers.ts';
 import {appearanceOf,speciesNamer,type SpeciesName} from '../../../shared/monster-views.ts';
 import {CreatureArt} from '../../../shared/ui/CreatureArt.tsx';
 import {useGame} from '../../../shared/ui/use-game.ts';
-import {ConfirmBar,OutcomeCard,ParentCard,ParentPair,RecipeButton,RecipeHeading,useRecipeWorkbench} from './RecipeWorkbench.tsx';
+import {ConfirmBar,OutcomeCard,ParentCard,ParentPair,RecipeButton,RecipeHeading,RecipeSpecies,useRecipeWorkbench} from './RecipeWorkbench.tsx';
 import './fusion.css';
 
 interface FusionResult {feedback?:string;bead?:FusionOutcome}
@@ -95,8 +95,10 @@ function FusionParent({role,recipe,monster,choices,name,disabled,onChoose}:Fusio
   const isPrimary=role==='primary',label=isPrimary?'主精灵':'副精灵';
   const allowed=isPrimary?recipe.primary:recipe.secondary,minLevel=isPrimary?recipe.minPrimaryLevel:recipe.minSecondaryLevel;
   const option=(mon:MonsterView)=>({value:mon.uid,label:`${mon.inParty?'背包':'仓库'} · ${mon.name} · Lv.${mon.level}`});
+  const best=(id:number)=>choices.filter(mon=>mon.species===id).sort((a,b)=>b.level-a.level)[0];
   return <ParentCard id={`fusion-${role}`} label={label} heading={<><strong>{label}</strong><small>背包 / 仓库</small></>}
-    art={monster?<CreatureArt species={appearanceOf(monster)} name={monster.name}/>:<span aria-hidden="true">◎</span>}
+    art={monster?<CreatureArt species={appearanceOf(monster)} name={monster.name}/>
+      :<RecipeSpecies species={allowed} name={name} owned={best} disabled={disabled} onPick={onChoose}/>}
     value={monster?.uid??''} disabled={disabled} onChange={onChoose} placeholder={choices.length?'选择已有精灵':'暂无符合配方的精灵'}
     options={choices.map(option)} requirement={`${allowed.map(name).join(' / ')}${minLevel>1?` · Lv.${minLevel} 以上`:''}`}>
     {monster&&<small className="fusion-parent-location">{monster.inParty?'来自出战背包':'来自精灵仓库'} · Lv.{monster.level}</small>}

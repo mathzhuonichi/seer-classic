@@ -40,7 +40,8 @@ export default function TypeIcon({ type, focusable = true, showTooltip = true }:
     const parent = icon.current?.closest('button');
     setInsideButton(!!parent);
     if (!parent) return;
-    const focus = () => track(focused, true), blur = () => track(focused, false);
+    // A button focused by a click keeps its focus; only keyboard focus shows the tooltip, so a picked card's tooltip does not stay over its neighbours.
+    const focus = () => { if (parent.matches(':focus-visible')) track(focused, true); }, blur = () => track(focused, false);
     parent.addEventListener('focus', focus);
     parent.addEventListener('blur', blur);
     if (document.activeElement === parent) focus();

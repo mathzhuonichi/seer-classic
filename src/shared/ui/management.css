@@ -135,24 +135,93 @@
 .official-petbag .petbag-party-strip .card-hp>span{display:none}
 .official-petbag .petbag-empty-slot{display:grid;place-items:center;align-content:center;gap:6px;border:2px solid #0d6cac;border-radius:7px;background:#175580;color:#75b7df;font-size:11px;box-shadow:inset 0 0 0 1px #60baec}
 .official-petbag .petbag-empty-slot>span{font-size:18px;color:#4d99c6}
-.official-petbag .petbag-storage{position:absolute;z-index:10;left:3%;right:3%;top:12.5%;bottom:25%;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;gap:6px 10px;min-height:0;background:#123f6a;border:2px solid #46d4ff;border-radius:7px;padding:9px 11px 5px;box-shadow:0 4px 16px #041e4dab;color:#e9f8ff}
+/* The box takes the whole bag below the title: the party strip makes way, and the place dialog shows the party when it is needed. */
+.official-petbag .petbag-storage{position:absolute;z-index:10;left:3%;right:3%;top:12.5%;bottom:3%;display:grid;grid-template-columns:auto minmax(0,1.55fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;gap:6px 10px;min-height:0;background:#123f6a;border:2px solid #46d4ff;border-radius:7px;padding:9px 11px 5px;box-shadow:0 4px 16px #041e4dab;color:#e9f8ff}
 .official-petbag .petbag-storage>header{grid-column:1/-1;display:flex;align-items:center;gap:12px;font-size:15px}
 .official-petbag .petbag-storage>header>span{font-size:11px;color:#a8d6f4}
 .official-petbag .petbag-storage>header>button{margin-left:auto;font-size:11px;padding:4px 10px}
 .official-petbag .storage-browser{display:flex;flex-direction:column;min-height:0;min-width:0}
+/* The shelves: 收藏 and 全部, single or dual elements, and every element's official button in a fixed grid. */
+.official-petbag .storage-shelves{display:flex;flex-direction:column;gap:4px;width:112px;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#3cc1ff #07305a}
+.official-petbag .storage-shelves button{margin:0;color:#cdeeff;background:#0b3159;border:1px solid #1a6fa8;border-radius:4px;box-shadow:none;white-space:nowrap}
+.official-petbag .storage-shelves button:is(:hover,:focus-visible){background:#0f4a80;border-color:#3cc1ff;color:#fff}
+.official-petbag .storage-shelves button[aria-pressed=true]{background:#078fdc;border-color:#0ee2ff;color:#fff;text-shadow:0 1px #064b91}
+.official-petbag .storage-shelves button.storage-shelf{display:flex;align-items:center;gap:6px;flex-shrink:0;padding:2px 8px;font-size:12px;line-height:18px;text-align:left}
+.official-petbag .storage-shelf>i{width:14px;font-style:normal;text-align:center;color:#ffe36c}
+.official-petbag .storage-shelf:nth-child(2)>i{color:#8fd8ff}
+.official-petbag .storage-kinds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;flex-shrink:0}
+.official-petbag .storage-kinds>button{padding:1px 0;font-size:11px;line-height:17px}
+.official-petbag .storage-kinds>button.is-shown:not([aria-pressed=true]){border-color:#3cc1ff}
+.official-petbag .storage-with-duals{display:flex;align-items:center;gap:4px;flex-shrink:0;font-size:10px;line-height:14px;color:#a8d6f4;cursor:pointer}
+.official-petbag .storage-with-duals>input{width:12px;height:12px;margin:0;padding:0;accent-color:#078fdc}
+.official-petbag .storage-elements{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px;flex-shrink:0}
+.official-petbag .storage-elements>button{display:grid;place-items:center;aspect-ratio:1;padding:0}
+.official-petbag .storage-elements .battle-type-icon{width:70%;height:70%}
+.official-petbag .storage-elements>button.is-empty:not([aria-pressed=true]){opacity:.38}
+.official-petbag .storage-elements>p{grid-column:1/-1;margin:4px 0;font-size:10px;line-height:15px;color:#a8d6f4}
+.official-petbag .petbag-storage .management-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#a8d6f4}
+.official-petbag .storage-browser>.management-empty{flex:1;min-height:0}
+.official-petbag .petbag-storage .management-empty>button{font-size:11px;padding:4px 12px}
 .official-petbag .petbag-storage .management-filter{display:flex;gap:5px;padding:0 0 6px;flex-wrap:nowrap}
 .official-petbag .petbag-storage .management-filter input{flex:1;min-width:0}
 .official-petbag .petbag-storage .management-filter select{flex:0 1 auto;min-width:0;max-width:32%}
 .official-petbag .storage-slot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:5px;flex:1;min-height:0}
 .official-petbag .petbag-storage .management-pagination{margin:6px 0 0;border:1px solid #1381bb;border-radius:3px;background:#0a3158;color:#bceaff;padding:3px 8px}
 .official-petbag .storage-info{display:flex;flex-direction:column;gap:4px;min-height:0;min-width:0;background:#0b3159;border:1px solid #1a7fbf;border-radius:6px;padding:6px 8px}
-.official-petbag .storage-info>header{display:grid;grid-template-columns:15px minmax(0,1fr) auto auto;align-items:center;gap:5px;flex-shrink:0;background:#078fdc;border:1px solid #0ee2ff;border-radius:6px;padding:2px 6px;font-size:13px;text-shadow:0 1px #064b91}
+.official-petbag .storage-info>header{display:grid;grid-template-columns:15px minmax(0,1fr) auto auto auto;align-items:center;gap:5px;flex-shrink:0;background:#078fdc;border:1px solid #0ee2ff;border-radius:6px;padding:2px 6px;font-size:13px;text-shadow:0 1px #064b91}
 .official-petbag .storage-info>header>strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400}
 .official-petbag .storage-info>header .battle-type-icon{width:15px;height:15px}
-.official-petbag .storage-info-art{position:relative;container-type:size;height:22%;min-height:44px;flex-shrink:0}
+.official-petbag button.petbag-favorite{padding:0 2px;font-size:16px;line-height:18px;color:#ffe36c;background:transparent;border:0;box-shadow:none}
+.official-petbag button.petbag-favorite[aria-pressed=false]{color:#cdeeff}
+.official-petbag button.petbag-favorite:is(:hover,:focus-visible){color:#fff36c;background:transparent;text-shadow:0 0 4px #ffe36c}
+/* 放入背包: the party over a dimmed bag. */
+.official-petbag .petbag-dialog-backdrop{position:absolute;inset:0;z-index:30;display:grid;place-items:center;background:#021a3699}
+.official-petbag .petbag-place-dialog{display:flex;flex-direction:column;gap:7px;width:88%;padding:10px 14px 14px;background:#123f6a;border:2px solid #46d4ff;
+ border-radius:7px;box-shadow:0 6px 20px #020f2bcc;color:#e9f8ff;outline:none}
+.official-petbag .petbag-place-dialog>header{display:flex;align-items:center;justify-content:space-between;font-size:15px}
+.official-petbag .petbag-place-dialog>header>button{padding:0 9px;font-size:16px;line-height:22px}
+.official-petbag .petbag-place-dialog>p{margin:0;font-size:11px;color:#a8d6f4}
+.official-petbag .petbag-place-dialog .petbag-party-strip{position:static;height:150px;padding:0}
+/* The stored monster's summary fits the panel: the art takes the height the fixed rows leave, and the summary scrolls only below that. */
+.official-petbag .storage-summary{display:flex;flex-direction:column;gap:4px;flex:1;min-height:0;overflow:auto;scrollbar-color:#3cc1ff #07305a}
+.official-petbag .storage-summary-top{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.official-petbag .storage-info-art{position:relative;container-type:size;width:clamp(68px,32%,112px);aspect-ratio:1;flex-shrink:0}
 .official-petbag .storage-info-art>.creature-art{position:absolute!important;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100cqw,100cqh)!important;height:min(100cqw,100cqh)!important;aspect-ratio:1}
-.official-petbag .storage-info-scroll{flex:1;min-height:0;overflow:auto;padding-right:3px;scrollbar-color:#3cc1ff #07305a}
-.official-petbag .storage-swap-hint{margin:0;flex-shrink:0;font-size:10px;color:#ffe98a;text-align:center}
+.official-petbag .storage-facts{display:grid;gap:3px;flex:1;min-width:0;margin:0}
+.official-petbag .storage-facts>div{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:12px;line-height:17px}
+.official-petbag .storage-facts dt{color:#8fcef3;white-space:nowrap}
+.official-petbag .storage-facts dd{margin:0;color:#fff;white-space:nowrap}
+.official-petbag .storage-facts strong{font-weight:400}
+.official-petbag :is(.storage-stats,.storage-skills){display:grid;gap:3px;flex-shrink:0}
+.official-petbag .storage-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+.official-petbag .storage-skills{grid-template-columns:minmax(0,1fr);grid-template-rows:repeat(4,minmax(22px,34px));flex:1 1 0;min-height:97px;align-content:start}
+.official-petbag :is(.storage-stats,.storage-skills)>div{display:flex;align-items:center;gap:5px;min-width:0;padding:2px 6px;font-size:11px;line-height:16px;border-radius:3px}
+.official-petbag .storage-stats>div{justify-content:space-between;background:#082d57;border:1px solid #126397}
+.official-petbag .storage-stats span{color:#8fcef3;white-space:nowrap}
+.official-petbag .storage-stats strong{color:#fff;font-weight:400}
+.official-petbag .storage-stats em{margin-left:2px;font-style:normal;font-size:10px;color:#7ee08a}
+/* The two engravings side by side, each with its art, its slot and its name; an empty one shows the bare slot. */
+.official-petbag .storage-engravings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px;flex-shrink:0}
+.official-petbag .storage-engravings>div{display:flex;align-items:center;gap:6px;min-width:0;padding:4px 6px;background:#082d57;border:1px solid #126397;border-radius:3px}
+.official-petbag .storage-engravings>div>span:last-child{display:grid;min-width:0;line-height:14px}
+.official-petbag .storage-engravings small{font-size:9px;color:#8fcef3}
+.official-petbag .storage-engravings strong{overflow:hidden;font-size:11px;font-weight:400;color:#fff;text-overflow:ellipsis;white-space:nowrap}
+.official-petbag .storage-engravings .engraving-mark{flex:0 0 26px}
+.official-petbag .storage-skills>div{background:#0d3d6e;border:1px solid #1a6fa8;color:#fff;cursor:help}
+/* A skill per row, as tall as the panel allows (22-34 px): its element, name, 威力 (or category) and PP. */
+.official-petbag .storage-skills>div{display:grid;grid-template-columns:16px minmax(0,1fr) auto 4.4em;align-items:center;gap:6px;padding:0 7px}
+.official-petbag .storage-skills strong{overflow:hidden;font-size:12px;font-weight:400;text-overflow:ellipsis;white-space:nowrap}
+.official-petbag .storage-skills small{font-size:10px;color:#a9d8f5;text-align:right;white-space:nowrap}
+.official-petbag .storage-experience{display:flex;align-items:center;gap:6px;flex-shrink:0;font-size:11px;line-height:16px;color:#a9d8f5}
+.official-petbag .storage-experience meter{flex:1;min-width:30px;height:9px}
+.official-petbag .storage-experience small{font-size:10px;white-space:nowrap}
+/* A short window drops the EXP bar and tightens the facts before the summary would scroll. */
+.official-petbag .storage-info{container-type:size}
+@container (max-height:360px){.official-petbag .storage-experience{display:none}.official-petbag .storage-facts>div{line-height:15px}}
+/* A narrow one leaves a skill's name the room of its 威力 and a stat the room of its bonus (the skill's card and the engraving tell them). */
+@container (max-width:200px){.official-petbag .storage-skills>div{grid-template-columns:16px minmax(0,1fr) 4.4em}.official-petbag .storage-skills small:first-of-type,
+ .official-petbag .storage-stats em{display:none}}
+.official-petbag .storage-skills .battle-type-icon{width:15px;height:15px}
 .official-petbag .storage-actions{display:flex;gap:6px;flex-shrink:0}
 .official-petbag .storage-actions>button{flex:1;padding:5px 6px;font-size:12px}
 .official-petbag .storage-status{grid-column:1/-1;margin:0;min-height:14px;font-size:11px;line-height:14px;color:#ffe98a;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -196,6 +265,11 @@
 .official-petbag .petbag-nav>span{font-size:9px;line-height:1.2;padding:0 3px}
 /* Coordinates follow the clean #735 display-list frame (1295 × 940). */
 .management-panel.official-petbag{display:block;padding:0;background:#2da3e8 url('/ui/classic/hd/petbag-frame-v44.png') center/100% 100% no-repeat}
+/*
+ * The frame art is transparent inside and rounded at its corners (31 of its 1470 × 1070 px): the blue fill and the window's
+ * shadow follow those corners, so no square of them shows behind the frame.
+ */
+.management-panel.official-petbag,.scene-window:has(>.window-body>.official-petbag){border-radius:2.1%/2.9%}
 .official-petbag .petbag-navigation{position:absolute;left:3.1%;top:18.4%;width:14%;height:47%;display:block}
 .official-petbag button.petbag-nav{position:absolute;left:0;width:60%;height:21%;margin:0;background-position:center;background-size:68% 68%;background-repeat:no-repeat}
 .official-petbag button.petbag-nav:nth-child(even){left:auto;right:0}
@@ -237,10 +311,35 @@
 /* Portrait geometry is normalized only inside the PetBag projector. */
 .official-petbag .petbag-portrait-art{container-type:size}
 .official-petbag .petbag-portrait-art>.creature-art{position:absolute!important;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100cqw,100cqh)!important;height:min(100cqw,100cqh)!important;aspect-ratio:1}
+/*
+ * An engraving slot as the original 精灵刻印 window draws it: the equipped mark, or its kind's outline sunk into the panel, navy
+ * #09396C with a dark rim at the top left and a light bevel at the bottom right. A mark that does not apply yet is greyed.
+ */
+.official-petbag .engraving-mark.is-empty{position:relative;display:inline-block;flex-shrink:0;filter:drop-shadow(-1px -1px 0 #04153b) drop-shadow(1px 1px 0 #879fb8)}
+.official-petbag .engraving-mark.is-empty>i{position:absolute;inset:0;background:#09396c;mask-size:contain;mask-position:center;mask-repeat:no-repeat;
+ -webkit-mask-size:contain;-webkit-mask-position:center;-webkit-mask-repeat:no-repeat}
+.official-petbag .engraving-mark.is-inactive{filter:grayscale(1);opacity:.7}
+/* The two engravings under the PetBag's portrait, side by side, with no frame, as in the original window. */
+.official-petbag .petbag-engravings{display:flex;justify-content:center;gap:18px;flex-shrink:0;margin:1px 0 3px}
+.official-petbag button.petbag-engraving{display:grid;place-items:center;width:48px;height:48px;padding:0;background:transparent;border:0;border-radius:8px;box-shadow:none}
+.official-petbag button.petbag-engraving:is(:hover,:focus-visible){background:#ffffff26;box-shadow:0 0 0 1px #3cc1ff}
+/* 皮肤: a button at the art's top left that drops a column of the forms; the pressed form glows like a picked card. */
+.official-petbag .petbag-skins{position:absolute;left:4px;top:4px;z-index:2;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+.official-petbag .petbag-skins button{margin:0;color:#e9f8ff;background:#062a55d9;border:1px solid #1a7fbf;border-radius:5px;box-shadow:none}
+.official-petbag .petbag-skins button:is(:hover,:focus-visible){background:#0f4a80;border-color:#3cc1ff;color:#fff}
+.official-petbag button.petbag-skin-toggle{display:flex;align-items:center;gap:3px;padding:2px 7px;font-size:11px;line-height:16px}
+.official-petbag .petbag-skin-toggle[aria-expanded=true]{background:#078fdc;border-color:#0ee2ff}
+.official-petbag .petbag-skin-toggle>i{font-style:normal;font-size:9px}
+.official-petbag .petbag-skin-list{display:flex;flex-direction:column;gap:3px;padding:3px;background:#03183acc;border:1px solid #1a7fbf;border-radius:6px}
+.official-petbag .petbag-skin-list>button{display:grid;justify-items:center;width:56px;padding:3px 2px 2px}
+.official-petbag .petbag-skin-list>button[aria-pressed=true]{border-color:#ffe36c;box-shadow:0 0 4px #ffe36c}
+.official-petbag .petbag-skin-art{position:relative;display:block;width:40px;height:40px}
+.official-petbag .petbag-skin-art>.creature-art{position:absolute!important;inset:0;width:auto!important;height:auto!important}
+.official-petbag .petbag-skin-list small{max-width:100%;overflow:hidden;font-size:10px;line-height:13px;text-overflow:ellipsis;white-space:nowrap}
 
 /* Compact native PetBag content: let artwork, not duplicate identity rows, fill the wells. */
 .official-petbag .petbag-portrait{padding:5px 7px 6px}
-.official-petbag .petbag-portrait-name{display:grid;grid-template-columns:15px minmax(0,1fr) auto;gap:4px;padding:3px 5px;min-height:32px;text-align:center}
+.official-petbag .petbag-portrait-name{display:grid;grid-template-columns:15px minmax(0,1fr) auto auto;gap:4px;padding:3px 5px;min-height:32px;text-align:center}
 .official-petbag .petbag-portrait-name>strong{max-width:none;font-size:clamp(11px,1.9cqw,15px);font-weight:400}
 .official-petbag .petbag-portrait-name .battle-type-icon{width:15px;height:15px;flex:0 0 15px}
 .official-petbag .petbag-level{display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:15px;gap:0}
@@ -280,17 +379,10 @@
 .raising-evolution-confirm{width:100%;margin-top:3px;font-size:11px!important}
 
 /* Per-instance skins share the information panel without changing identity. */
-.raising-skins{margin:0 0 10px;padding:8px 9px;border:1px solid #9fc1cf;border-radius:5px;background:#eaf5f8;color:#18394d}
-.raising-skin-picker{display:flex;align-items:center;gap:10px}
-.raising-skin-picker>label{font-size:11px;font-weight:700;white-space:nowrap}
-.raising-skin-picker>select{flex:1;min-width:0;font-size:11px;padding:5px 7px}
-.raising-skins>p{margin:6px 0 0;font-size:10px;line-height:1.5}
 .raising-engravings{margin:0 0 6px;padding:4px;border:1px solid #78aed0;border-radius:4px;background:#eaf5f8;color:#18394d}
 .raising-scroll .raising-engravings .stat-table-heading{margin:0 0 3px;gap:6px;font-size:11px;line-height:15px}
 .raising-engravings .stat-table-heading>span{font-size:10px}
 .engraving-stat-note{margin:5px 0;font-size:10px;line-height:1.5;color:#53798c}
-.official-petbag .raising-skins{background:#074f95;border-color:#1386bd;color:#e1f5ff}
-.official-petbag .raising-skin-picker>select{background:#0d426e;border-color:#299ed3;color:#fff;text-shadow:none}
 .official-petbag .raising-engravings{background:#074f95;border-color:#1386bd;color:#e1f5ff}
 .official-petbag .raising-scroll .raising-engravings .stat-table-heading,.official-petbag .raising-scroll .raising-engravings .stat-table-heading>span{color:#e1f5ff}
 .official-petbag .raising-scroll .ev-save-row{position:static;padding:6px 0;box-shadow:none}

@@ -35,7 +35,8 @@ const RAISED_LEVEL = 100;
 const RAISED_COINS = 999_999;
 const RAISED_ENGRAVING = '10001';
 /** The box save adds these to the three starters: the first three fill the bag, the other two wait in the box. */
-const BOX_SPECIES = [70, 15, 12, 300, 400];
+/** The last three go to the box: 谱尼 (圣灵), 萨帕克 (龙) and 罗特 (火·超能); 小火猴 (火) is a starter in the party. */
+const BOX_SPECIES = [70, 15, 12, 300, 400, 466];
 const BOX_LEVEL = 10;
 /** 玄武, whose encyclopedia entry leads to its campaign stage scene. */
 const CAMPAIGN_SPECIES = 501;
@@ -321,22 +322,102 @@ async function dialogueEscape({page}) {
 /** The state of the window's layers: windows, the engraving picker and the item tooltip. */
 const layers = async page => ({windows: await windows(page), picker: await count(page, '.engraving-picker'), tooltip: await count(page, '.item-tooltip')});
 
-/** A monster picked in the box shows beside the list, and with the bag full it takes the party slot picked next. */
+/**
+ * The bag opens on the lead and the box on its 收藏, empty at first; a monster picked on 全部 shows beside the list, a 收藏 mark
+ * puts it on that shelf, and with the bag full 换入背包's dialog swaps it into the party slot picked there (Escape closes the
+ * dialog only). With room in the bag, 放入背包 adds a monster at once.
+ */
 async function storageSwap({page, fixture}) {
   await waitWorld(page);
   await openTool(page, tool(fixture, 'monsters'));
+  const name = card => card.locator('.petbag-party-identity strong').textContent(), lead = await name(page.locator('.petbag-party-strip > *').first());
+  assert.equal(await page.locator('.petbag-portrait-name strong').textContent(), lead, 'the bag opens on its lead');
   await page.click('.petbag-nav-storage');
-  const name = card => card.locator('.petbag-party-identity strong').textContent(), picked = page.locator('.storage-slot-grid > *').nth(1);
-  const incoming = await name(picked);
+  assert.equal(await count(page, '.petbag-party-strip'), 0, 'the box takes the party strip\'s place');
+  assert.equal(await count(page, '.storage-slot-grid'), 0, 'the box opens on its empty 收藏');
+  await page.click('.storage-shelves button[aria-label="全部"]');
+  const picked = page.locator('.storage-slot-grid > *').nth(1), incoming = await name(picked);
   await picked.click();
   assert.equal(await page.locator('.storage-info > header strong').textContent(), incoming, 'the picked monster is shown');
-  assert.equal(await count(page, '.petbag-storage'), 1, 'picking a monster keeps the box open');
-  await page.click('.storage-actions button:text-is("替换背包精灵")');
-  const slot = page.locator('.petbag-party-strip > *').nth(1), outgoing = await name(slot);
+  await page.click('.storage-info .petbag-favorite');
+  await page.click('.storage-shelves button[aria-label^="收藏"]');
+  assert.deepEqual(await page.locator('.storage-slot-grid .petbag-party-identity strong').allTextContents(), [incoming], 'the 收藏 shelf holds it');
+  await page.click('.storage-actions button:text-is("换入背包")');
+  await press(page, ['Escape']);
+  assert.deepEqual([await count(page, '.petbag-place-dialog'), await count(page, '.petbag-storage')], [0, 1], 'Escape closes the dialog only');
+  await page.click('.storage-actions button:text-is("换入背包")');
+  const slot = page.locator('.petbag-place-dialog .petbag-party-strip > *').nth(1), outgoing = await name(slot);
   await slot.click();
   await wait(SETTLE_MS);
-  assert.equal(await name(slot), incoming, 'the picked monster takes the second slot');
+  assert.equal(await count(page, '.petbag-place-dialog'), 0, 'the dialog closes');
   assert.equal(await page.locator('.storage-status').textContent(), `${incoming}已换入背包第 2 位，${outgoing}已放回仓库。`);
+  await page.click('.petbag-storage header button');
+  assert.equal(await name(page.locator('.petbag-party-strip > *').nth(1)), incoming, 'the picked monster takes the second slot');
+  // With room in the bag, 放入背包 needs no dialog.
+  await page.locator('.petbag-party-strip > *').nth(5).click();
+  const deposited = await name(page.locator('.petbag-party-strip > *').nth(5));
+  await page.click('.petbag-nav-party');
+  await page.click('.petbag-nav-storage');
+  await page.click('.storage-shelves button[aria-label="全部"]');
+  const back = page.locator('.storage-slot-grid > *').first(), returning = await name(back);
+  await back.click();
+  await page.click('.storage-actions button:text-is("放入背包")');
+  await wait(SETTLE_MS);
+  assert.equal(await count(page, '.petbag-place-dialog'), 0, 'a bag with room takes the monster without a dialog');
+  assert.equal(await page.locator('.storage-status').textContent(), `${returning}已放入背包第 6 位。`, `after ${deposited} went to the box`);
+}
+
+/**
+ * The box's shelves: the dex's elements (none after 2013), those the box holds first; an element lists its single-element
+ * monsters, and with 包含双属性 also the dual ones that have it; 双属性 shows the dex's dual pairs, the box's one first.
+ */
+async function storageShelves({page, fixture}) {
+  await waitWorld(page);
+  await openTool(page, tool(fixture, 'monsters'));
+  await page.click('.petbag-nav-storage');
+  const names = () => page.locator('.storage-slot-grid .petbag-party-identity strong').allTextContents();
+  const buttons = () => page.locator('.storage-elements button')
+    .evaluateAll(all => all.map(button => [button.getAttribute('aria-label'), !button.classList.contains('is-empty')]));
+  const singles = await buttons();
+  assert.deepEqual(singles.slice(0, 2), [['龙属性', true], ['圣灵属性', true]], 'the box\'s single elements come first, in source order');
+  assert(singles.slice(2).every(([, held]) => !held), 'the other elements follow, dimmed');
+  assert(!singles.some(([label]) => ['远古属性', '邪灵属性', '自然属性'].includes(label)), 'no element after 2013');
+  await page.click('.storage-elements button[aria-label="火属性"]');
+  assert.deepEqual(await names(), [], '火 alone lists no stored monster: 小火猴 is in the party, 罗特 is 火·超能');
+  await page.click('.storage-with-duals input');
+  assert.deepEqual(await names(), ['罗特'], 'with 包含双属性, 火 lists 罗特');
+  await page.click('.storage-elements button[aria-label="圣灵属性"]');
+  assert.deepEqual(await names(), ['谱尼'], '圣灵 lists 谱尼');
+  await page.click('.storage-kinds button:text-is("双属性")');
+  const duals = await buttons();
+  assert.deepEqual(duals[0], ['火·超能（双属性）', true], '双属性 shows the box\'s one dual pair first');
+  assert(duals.length > 1 && duals.slice(1).every(([label, held]) => label.endsWith('（双属性）') && !held), 'then the dex\'s other pairs, dimmed');
+  assert.deepEqual(await names(), ['罗特'], '双属性 lists the dual-element monsters');
+}
+
+/** The portrait's 皮肤 drops 天雷鼠's three forms, first form first; a pick closes the column and becomes its look. */
+async function portraitSkins({page, fixture}) {
+  await waitWorld(page);
+  await openTool(page, tool(fixture, 'monsters'));
+  await page.locator('.petbag-party-strip > *').nth(4).click();
+  assert.equal(await page.locator('.petbag-portrait-name strong').textContent(), '天雷鼠');
+  await page.click('.petbag-skin-toggle');
+  const forms = () => page.locator('.petbag-skin-list button').evaluateAll(all => all.map(b => [b.title, b.getAttribute('aria-pressed')]));
+  assert.deepEqual(await forms(), [['比比鼠', 'false'], ['闪电鼠', 'false'], ['天雷鼠（默认）', 'true']]);
+  await page.locator('.petbag-skin-list button').first().click();
+  await wait(SETTLE_MS);
+  assert.equal(await count(page, '.petbag-skin-list'), 0, 'a pick closes the column');
+  await page.click('.petbag-skin-toggle');
+  assert.deepEqual((await forms()).map(([, pressed]) => pressed), ['true', 'false', 'false'], '比比鼠 is the look');
+  await press(page, ['Escape']);
+  assert.deepEqual([await count(page, '.petbag-skin-list'), (await windows(page)).length], [0, 1], 'Escape closes the column, not the bag');
+  // Under the art, the two engravings as the original window draws them: empty, each is its kind's outline.
+  const slots = await page.locator('.petbag-engraving')
+    .evaluateAll(all => all.map(button => [button.title.split('：')[0], !!button.querySelector('.engraving-mark.is-empty')]));
+  assert.deepEqual(slots, [['能力刻印', true], ['技能刻印', true]]);
+  await page.locator('.petbag-engraving').first().click();
+  await page.waitForSelector('.engraving-equipped-slot');
+  assert.equal(await count(page, '.raising-ability-panel.is-editing'), 0, 'an engraving opens 能力 without the 学习力 editor');
 }
 
 async function nestedEscape({page, fixture}) {
@@ -644,7 +725,12 @@ const CHECKS = [
   {name: 'the arrows do not walk the hidden robot during a campaign stage scene, and walk again after leaving it', run: arrowsBehindCampaign},
   {name: 'the scene is inert behind a window and the modifier: Tab cannot reach exits or creatures, and Enter does not use them', run: inertScene},
   {name: 'the world dialogue closes on Escape with the focus on any of its buttons', run: dialogueEscape},
-  {name: 'a monster picked in the box shows beside it, and with the bag full swaps into the party slot picked next', save: 'box', run: storageSwap},
+  {name: 'the bag opens on its lead, the box on its 收藏; a picked monster is marked and swapped into a full bag through the place dialog', save: 'box',
+    run: storageSwap},
+  {name: 'the box\'s element buttons, its own first: single-element monsters, with 包含双属性 also dual ones; 双属性 shows the dual pairs', save: 'box',
+    run: storageShelves},
+  {name: 'the portrait\'s 皮肤 drops the forms (a pick becomes the look, Escape closes the column only); its engravings open 能力', save: 'box',
+    run: portraitSkins},
   {name: 'Escape closes an item tooltip, then the engraving slot picker, then the window', save: 'raised', run: nestedEscape},
   {name: 'an item tile opens its tooltip on keyboard focus, not on the focus a click gives', run: tooltipFocus},
   {name: 'once the essence the bag shows, or one picked in its content tab, runs out, the bag selects nothing and 确认孵化 is disabled', save: 'essence',

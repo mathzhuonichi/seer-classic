@@ -71,6 +71,8 @@ export interface Monster {
   generation?: number;
   /** Cosmetic ancestor form; absent means the current species appearance. */
   skinSpecies?: number;
+  /** One of the box's 收藏 (favourites); absent means not. */
+  favorite?: true;
 }
 
 export interface Save {

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  addMonster, computeStats, createMonster, deposit, hatchEssence, healAll, PARTY_MAX, rename, setPartyOrder, swapWithBox, withdraw,
+  addMonster, computeStats, createMonster, deposit, hatchEssence, healAll, PARTY_MAX, rename, setFavorite, setPartyOrder, swapWithBox, withdraw,
 } from './index.ts';
 import {dex, emptySave, guard, rng} from './test-fixture.mjs';
 
@@ -32,6 +32,15 @@ test('a box monster takes a party monster\'s slot, also in a full party', () => 
   assert.throws(() => swapWithBox(s, 'm6', 'm2'), /not in the party/);
   assert.throws(() => swapWithBox(s, 'm2', 'm3'), /already in the party/);
   assert.throws(() => swapWithBox(s, 'm2', 'nope'), /no monster nope/);
+});
+
+test('a favourite mark is set and cleared on one record, which is copied, not changed', () => {
+  const s = saveWith(PARTY_MAX + 1), marked = setFavorite(s, 'm6', true), cleared = setFavorite(marked, 'm6', false);
+  assert.equal(marked.storage.find((m) => m.uid === 'm6').favorite, true);
+  assert.equal(s.storage.find((m) => m.uid === 'm6').favorite, undefined);
+  assert.equal('favorite' in cleared.storage.find((m) => m.uid === 'm6'), false);
+  assert.equal(marked.storage[0], s.storage[0]);
+  assert.throws(() => setFavorite(s, 'nope', true), /no monster nope/);
 });
 
 test('deposit and withdraw keep at least one party monster and at most six', () => {

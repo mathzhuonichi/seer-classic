@@ -179,6 +179,9 @@ consumer needs the formulas. `medium_slow` really does need *less* EXP for level
   into a party monster's slot (that one goes to the box), which works in a full
   party. The last party monster can't be deposited. A monster is never
   released: there is no 放生 [chosen].
+- Optional `favorite` marks one of the box's 收藏, which the box shows when it
+  opens. It is the player's own bookmark: it changes no rule, and 精灵还原
+  keeps it [chosen].
 - 精灵恢复舱: `healAll` restores HP, PP and status for free [chosen; Seer charged
   赛尔豆 without 超能NoNo, which has no meaning here].
 

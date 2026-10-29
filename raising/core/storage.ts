@@ -74,6 +74,12 @@ export function swapWithBox(save: Save, partyUid: string, boxUid: string): Save 
   return { ...save, party };
 }
 
+// Marks a monster as one of the box's 收藏 (favourites), which the box shows first, or clears the mark.
+export function setFavorite(save: Save, uid: string, favorite: boolean): Save {
+  const { favorite: _old, ...mon } = findMon(save, uid);
+  return withMon(save, favorite ? { ...mon, favorite: true } : mon);
+}
+
 // Reorders the party; the first monster is the one sent out first.
 export function setPartyOrder(save: Save, order: string[]): Save {
   const same = order.length === save.party.length && order.every((u) => save.party.includes(u));

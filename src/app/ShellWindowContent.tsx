@@ -43,7 +43,7 @@ export function ShellWindowContent(
     case 'dex': return <Dex c={c} onLocate={routes.locate} focusSpecies={focus.dexSpecies}/>;
     case 'challenge': return <ChallengeCenter c={c} initialCategory={focus.challengeCategory} onExplore={() => show('atlas')}
       onTravel={routes.travelToChallenge} onCampaign={routes.openCampaign} onTower={routes.openTower}/>;
-    case 'facilities': return <BattleFacilities c={c} facilityId={focus.facilityId} onManage={openMonsters}/>;
+    case 'facilities': return <BattleFacilities c={c} facilityId={focus.facilityId} onManage={() => { onSelect(''); openMonsters(); }}/>;
     case 'tower': return <BraveTower c={c} onEnter={routes.enterTower}/>;
     case 'quests': return <QuestPanel c={c} focusQuestId={focus.questId} onTravel={routes.travelToChallenge} onLocateSpecies={openDex}
       onOpenBag={itemId => openBag('essence', itemId)}/>;

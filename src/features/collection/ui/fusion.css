@@ -30,6 +30,18 @@
 .fusion-parent-card label>small{font-size:9px;color:#708a99}
 .fusion-parent-art{width:99px;height:99px;margin:4px auto 8px;display:flex;align-items:center;justify-content:center}
 .fusion-parent-art>span{font-size:50px;color:#acc4d0}
+/* An empty slot shows the species the recipe takes: one large, several side by side; those not owned are dimmed. */
+.fusion-parent-art:has(.recipe-species.is-several){width:100%}
+.recipe-species{display:flex;justify-content:center;align-items:flex-end;gap:6px;width:100%;height:100%}
+.window-body .management-panel div.recipe-species>button{display:grid;justify-items:center;gap:2px;min-width:0;flex:1 1 0;max-width:99px;height:100%;
+ padding:2px;background:transparent;border:1px solid transparent;border-radius:6px;box-shadow:none}
+.window-body .management-panel .recipe-species>button:not(:disabled):is(:hover,:focus-visible){background:#ffffff99;border-color:#5fb4e0}
+.window-body .management-panel .recipe-species>button:disabled{opacity:1;cursor:default}
+.recipe-species-art{position:relative;display:block;width:100%;min-height:0;flex:1}
+.recipe-species>button{grid-template-rows:minmax(0,1fr) auto}
+.recipe-species>button.is-missing .recipe-species-art{opacity:.4;filter:grayscale(.7)}
+.recipe-species small{max-width:100%;overflow:hidden;font-size:10px;line-height:13px;color:#2f5e78;text-overflow:ellipsis;white-space:nowrap}
+.recipe-species>button.is-missing small{color:#8aa3b2}
 .window-body .management-panel .fusion-parent-card select{width:100%;font-size:10px;padding:7px 5px}
 .fusion-parent-requirement{font-size:10px;line-height:1.8;color:#5f7c8d;margin:8px 0 0;overflow-wrap:anywhere}
 .fusion-parent-location{display:block;font-size:9px;color:#467e76;margin-top:5px}

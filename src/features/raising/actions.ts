@@ -1,7 +1,7 @@
 // Action handlers that raise and organise owned monsters, including the editor's cheats.
 import {
   addEvs, allocatePoolExp, changeNature, computeStats, deposit, equipSkills, EV_STAT_CAP, EV_TOTAL_CAP, evolutionOptions, evolve, evTotal, findMon, gainLevels,
-  healAll, IV_MAX, IV_MIN, MAX_LEVEL, rename, requiresEvolutionChoice, setIv, setPartyOrder, STAT_KEYS, swapWithBox, withdraw, type Monster,
+  healAll, IV_MAX, IV_MIN, MAX_LEVEL, rename, requiresEvolutionChoice, setFavorite, setIv, setPartyOrder, STAT_KEYS, swapWithBox, withdraw, type Monster,
 } from '../../../raising/core/index.ts';
 import { traits } from '../../domain/traits.ts';
 import { STAT_LABELS } from '../../shared/labels.ts';
@@ -97,6 +97,7 @@ export const raisingActions = {
     notice(rt, '出战顺序已调整。');
   },
   swapWithBox: (rt, action) => commit(rt, swapWithBox(rt.save, action.partyUid, action.boxUid)),
+  favorite: (rt, action) => commit(rt, setFavorite(rt.save, action.uid, action.favorite)),
   setEvs,
   rename: (rt, action) => commit(rt, rename(rt.save, action.uid, action.name || null)),
   equip: (rt, action) => replaceMonster(rt, equipSkills(findMon(rt.save, action.uid), action.skills, rt.ctx.dex)),

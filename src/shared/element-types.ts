@@ -39,10 +39,18 @@ export function matchesElement(types:readonly string[],filter:string):boolean {
   if(filter===DUAL_ELEMENTS)return types.length===2;
   return types.includes(filter)||elementName(types)===filter;
 }
+/** Every single element with official art, in the art's order (草, 水, 火, 飞行, …); 属性 is the status moves' symbol, not an element. */
+export const ELEMENTS=Object.keys(typeAssets).filter(name=>!typeAssets[name].types&&name!=='属性');
+/** The single elements of some type lists (the dex's: the elements of 2013), in the art's order. */
+export const singleElements=(groups:readonly (readonly string[])[])=>{const present=new Set(groups.flat());return ELEMENTS.filter(name=>present.has(name))};
+/** The dual pairs among some type lists, each by the name of its official art, in source order. */
+export function dualElements(groups:readonly (readonly string[])[]):string[] {
+  return [...new Set(groups.filter(types=>types.length===2).map(elementName))]
+    .sort((a,b)=>(typeAssets[a]?.typeId??0)-(typeAssets[b]?.typeId??0));
+}
 /** Filter choices for some type lists: the count filters, each element present, then dual pairs in source order. */
 export function elementFilterOptions(groups:readonly (readonly string[])[]):ElementFilterOption[] {
-  const duals=[...new Set(groups.filter(types=>types.length===2).map(elementName))]
-    .sort((a,b)=>(typeAssets[a]?.typeId??0)-(typeAssets[b]?.typeId??0));
+  const duals=dualElements(groups);
   return [
     ...[ALL_ELEMENTS,SINGLE_ELEMENTS,DUAL_ELEMENTS].map(value=>({value,label:value,kind:'count' as const})),
     ...[...new Set(groups.flat())].map(value=>({value,label:value,kind:'single' as const})),

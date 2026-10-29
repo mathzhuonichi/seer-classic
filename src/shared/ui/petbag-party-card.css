@@ -4,14 +4,24 @@
  position:relative;isolation:isolate;display:grid;grid-template-rows:minmax(0,1fr) auto auto;gap:2px;width:100%;height:100%;min-width:0;min-height:0;
  padding:7px 6px 5px;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:hidden;color:#fff;text-align:center;transform:none;
 }
-/* Stretch the source window's center, keeping the existing portrait stage unchanged. */
-.official-petbag .petbag-party-card::before,.official-petbag .petbag-empty-slot::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:5px 4px 3px;border-image:url('/ui/classic/hd/petbag-slot.svg') 18.867925% 16.315789% 22.641509% 18.421053% fill / 5px 4px 3px 4px / 0 stretch}
+/*
+ * The source slot, sliced past its inner box's rounded corners and drawn at one scale (0.2 px per source unit), so that no corner is
+ * squeezed. The source leaves the gap between its frame and its box transparent; the dark fill closes it inside the frame's outline
+ * (corners cut at the top left and bottom right, rounded at the others), so no background shows behind the frame or under a glow.
+ */
+.official-petbag .petbag-party-card::before,.official-petbag .petbag-empty-slot::before{
+ content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;border:solid transparent;border-width:9.4px 7.6px 10.8px 8.4px;
+ border-image:url('/ui/classic/hd/petbag-slot.svg') 22.17% 20% 25.47% 22.1% fill / 9.4px 7.6px 10.8px 8.4px / 0 stretch;
+ background:linear-gradient(#000033,#000033) 1px 1px/calc(100% - 2px) calc(100% - 2px) no-repeat border-box;border-radius:0 4.8px 0 5px;
+ clip-path:polygon(4.7px 0,100% 0,100% calc(100% - 5.2px),calc(100% - 5.2px) 100%,0 100%,0 4.7px);
+}
 .official-petbag div.petbag-party-strip .petbag-empty-slot{position:relative;isolation:isolate;background:transparent}
 .official-petbag :is(div.petbag-party-strip,div.storage-slot-grid) button.petbag-party-card:is(:hover,:focus-visible,.selected){
  background:transparent;border:0;box-shadow:none;transform:none;filter:drop-shadow(0 0 3px #ffe36c);
 }
 .official-petbag :is(div.petbag-party-strip,div.storage-slot-grid) button.petbag-party-card:focus-visible{outline:2px solid #ffe36c;outline-offset:-2px}
 .petbag-party-card .petbag-party-number{position:absolute;top:5px;left:7px;z-index:1;font-size:9px;line-height:1;color:#b6eaff;text-shadow:0 1px #083464}
+.petbag-party-card .petbag-party-favorite{margin-left:3px;font-style:normal;color:#ffe36c}
 .petbag-party-card .petbag-party-level{position:absolute;top:5px;right:7px;z-index:1;font-size:9px;line-height:1;color:#dff4ff;text-shadow:0 1px #083464}
 .petbag-party-card .petbag-party-art{position:relative;container-type:size;width:100%;height:100%;min-height:0;overflow:visible}
 .petbag-party-card .petbag-party-art>.creature-art{position:absolute!important;left:50%;top:50%;transform:translate(-50%,-50%);width:min(100cqw,100cqh)!important;height:min(100cqw,100cqh)!important;aspect-ratio:1}
@@ -23,10 +33,6 @@
 .petbag-party-card .petbag-party-hp{display:grid;gap:1px;min-width:0;width:100%;font-size:8px;line-height:10px;color:#caedff;white-space:nowrap}
 .petbag-party-card .petbag-party-hp-track{display:block;width:100%;height:3px;background:#092348;border-radius:2px;overflow:hidden}
 .petbag-party-card .petbag-party-hp-track>i{display:block;height:100%;background:#69d978;border-radius:2px}
-/* While a box monster waits to be swapped in, every party card offers its slot; the empty slots open the box. */
-.official-petbag div.petbag-party-strip.swapping button.petbag-party-card:not(:hover,:focus-visible){
- filter:drop-shadow(0 0 2px #7fe7ff) drop-shadow(0 0 4px #7fe7ff);
-}
 /* A stored monster's HP matters less than its art: the box's cards leave the bar out. */
 .official-petbag div.storage-slot-grid button.petbag-party-card{grid-template-rows:minmax(0,1fr) auto}
 .official-petbag div.storage-slot-grid .petbag-party-hp{display:none}

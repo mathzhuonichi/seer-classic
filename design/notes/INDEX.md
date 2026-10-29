@@ -192,7 +192,7 @@ Add every new note to this index with a status (AGENTS.md rule 9).
 
 | Note | Summary | Status |
 | --- | --- | --- |
-| [pet-storage-2026-10-28](pet-storage-2026-10-28.md) | The 精灵仓库 shows a picked monster with 放入背包, a one-step swap into a full bag and 查看详情; the 2013 PetBag buttons and icons. | current |
+| [pet-storage-2026-10-28](pet-storage-2026-10-28.md) | The 精灵仓库: shelves for 收藏 (the default) and 全部, a 单属性 / 双属性 switch and a fixed grid of the official element buttons; the 收藏 ☆ in the box and the bag; a fitted summary with 放入背包 through a party dialog that also swaps into a full bag; the window's and the slot frame's corners; the PetBag opening on its lead; the 2013 PetBag buttons and icons. | current |
 | [hd-integration-v44](hd-integration-v44.md) | Revision 44 HD scenes, portraits and UI; asset transfer requirements. | current for scenes, portraits and UI; its skill-effect frames are superseded by [skill-effects-ruffle-2026-10-22](skill-effects-ruffle-2026-10-22.md) |
 | [hd-original-art-v44](hd-original-art-v44.md) | Source exports of UI, leaf-map and atlas art for revision 44. | current |
 | [portrait-source-recovery-v44](portrait-source-recovery-v44.md) | Original portrait source selection for every species; the species 910 reconstruction. | current |

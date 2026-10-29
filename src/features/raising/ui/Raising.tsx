@@ -12,17 +12,20 @@ import '../../../shared/ui/management.css';
 import './Raising.css';
 
 export type RaisingTab='概况'|'详情'|'技能'|'养成'|'道具';
+/** A side button's request: the tab, with 学习力 editing (on by default for 能力) and a section to scroll to. */
+export interface TabRequest {tab:RaisingTab;id:number;editing?:boolean;section?:'engravings'}
 /** The PetBag tab buttons. 技能 has no button: it opens from the bag's skill button and lights up 能力. */
 const TABS:readonly (readonly [RaisingTab,string])[]=[['概况','信息'],['详情','能力'],['道具','道具'],['养成','资料']];
 
 /** One monster's PetBag detail panel; `requestedTab` opens a tab from the bag's side buttons. */
-export default function Raising({m,c,requestedTab}:{m:MonsterView;c:GameController;requestedTab?:{tab:RaisingTab;id:number}}) {
+export default function Raising({m,c,requestedTab}:{m:MonsterView;c:GameController;requestedTab?:TabRequest}) {
   // `editing` is the 学习力 editor; the bag's 学习力 button opens 能力 with it on.
   const [view,setView]=useState<{tab:RaisingTab;editing:boolean}>({tab:'概况',editing:false}),[feedback,say]=useState('');
-  useEffect(()=>{if(requestedTab)setView({tab:requestedTab.tab,editing:requestedTab.tab==='详情'})},[requestedTab?.id]);
+  useEffect(()=>{if(requestedTab)setView({tab:requestedTab.tab,editing:requestedTab.editing??requestedTab.tab==='详情'})},[requestedTab?.id]);
   const busy=useGame(c,battleActive),{tab}=view,props={m,c,feedback,say};
-  const panel=tab==='概况'?<OverviewTab m={m} c={c}/>
-    :tab==='详情'?<AbilityTab {...props} editing={view.editing} setEditing={editing=>setView({tab,editing})}/>
+  const panel=tab==='概况'?<OverviewTab m={m}/>
+    :tab==='详情'?<AbilityTab {...props} editing={view.editing} setEditing={editing=>setView({tab,editing})}
+      reveal={requestedTab?.section==='engravings'?requestedTab.id:undefined}/>
     :tab==='技能'?<SkillsTab {...props}/>
     :tab==='养成'?<ProfileTab {...props}/>
     :<ItemsTab {...props}/>;

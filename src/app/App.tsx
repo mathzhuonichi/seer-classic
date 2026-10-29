@@ -113,6 +113,8 @@ function Game({controller:c,saves}:{controller:GameController;saves:SaveLibrary}
  }}),[c]);
  function openTool(kind:WindowKind){
   if(preparation)return;
+  // The PetBag opens on the lead; only a window that asks for a monster (a breeding pair, a located species) picks another.
+  if(kind==='monsters')setSelected('');
   toggle(kind);
  }
  function exportFile(text:string,fileName?:string){
@@ -133,7 +135,7 @@ function Game({controller:c,saves}:{controller:GameController;saves:SaveLibrary}
      onInteract={event=>{if(event.kind==='species')show('dex',{dexSpecies:event.species});else show('quests',{questId:event.questId})}}/>
    </div>
    {activeCampaign&&!battleOpen&&<ChallengeCampaignScene campaign={activeCampaign} c={uiController} background={backdrops.current.campaign?.src}
-    onLeave={leaveCampaign} onManage={()=>show('monsters')}/>}
+    onLeave={leaveCampaign} onManage={()=>{setSelected('');show('monsters')}}/>}
    {/* Mounted hidden behind the loading screen from its deploy step; the same layer then shows, so the battle is not mounted again. */}
    {battleOpen&&(!preparation||preparation.deploying)&&<div className={`battle-layer${preparation?' is-deploying':''}`} inert={!!preparation}>
     <Battle c={uiController} background={battle.backdrop.src}

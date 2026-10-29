@@ -18,7 +18,7 @@ export default function MonsterCard({monster,onClick,selected=false,compact=fals
   if(presentation==='petbag-party') {
     const title=`${monster.name}${mon?` · Lv.${mon.level} · 体力 ${mon.hp}/${mon.stats.hp}`:''}`;
     return <button type="button" className={`monster-card petbag-party-card ${selected?'selected':''}`} aria-pressed={selected} onClick={onClick} title={title}>
-      <span className="petbag-party-number">{slot??`#${species}`}</span>
+      <span className="petbag-party-number">{slot??`#${species}`}{mon?.favorite&&<i className="petbag-party-favorite" title="已收藏">★</i>}</span>
       <small className="petbag-party-level">{tag}</small>
       <div className="petbag-party-art"><CreatureArt species={art} name={monster.name} fill={.96} verticalAlign="center"/></div>
       <span className="petbag-party-identity"><strong>{monster.name}</strong><span className="petbag-party-type">{types}</span></span>

@@ -67,7 +67,7 @@ function recordView(ctx: GameContext, mon: Monster): Omit<MonsterView, keyof Sav
     stats: computeStats(mon, dex), evs: mon.evs, hp: mon.hp,
     skills: mon.skills.map(id => skillView(data, id, mon.pp)), learned: mon.learned.map(id => skillView(data, id, mon.pp)),
     portrait: portrait(appearance), evolution: evolutions.length ? evolutions.map(id => ctx.speciesName(id)).join(' / ') : null,
-    gender: getBreedingGender(sp.id), generation: mon.generation ?? 0,
+    gender: getBreedingGender(sp.id), generation: mon.generation ?? 0, favorite: mon.favorite === true,
   };
 }
 
