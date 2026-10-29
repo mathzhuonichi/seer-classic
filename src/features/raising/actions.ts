@@ -40,7 +40,7 @@ const train: ActionHandler<'train'> = (rt, action) => {
 
 const setSkin: ActionHandler<'setSkin'> = (rt, action) => {
   const mon = findMon(rt.save, action.uid), target = action.species === null ? mon.species : action.species;
-  if (!Number.isInteger(target) || !rt.ctx.skinOptions.get(mon.species)?.includes(target)) throw new Error('只能选择当前形态或其进化前形态作为皮肤。');
+  if (!Number.isInteger(target) || !rt.ctx.skinOptions.get(mon.species)?.includes(target)) throw new Error('只能选择当前形态、其进化前形态或融合父母的形态作为皮肤。');
   const next = { ...mon };
   if (target === mon.species) delete next.skinSpecies; else next.skinSpecies = target;
   replaceMonster(rt, next);

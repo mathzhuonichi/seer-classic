@@ -1,6 +1,9 @@
 /** Skin permissions, persisted identity, gameplay invariance, and battle presentation. */
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import { memoryStorage, suite, withSsr } from './_harness.mjs';
+
+const fusionSource=JSON.parse(fs.readFileSync(new URL('../../data/fusion.json',import.meta.url),'utf8'));
 
 const exhaustive={total:0,defaultOnly:0,multiple:0,partyCases:0,storageCases:0,selectionActions:0,resetActions:0,batches:0,npcModifierSpecies:[],species:[]};
 memoryStorage();
@@ -39,6 +42,16 @@ await withSsr('skins', async load => {
         seen.add(edge.to);expectedSkins.get(edge.to).set(ancestor.id,distance+1);queue.push([edge.to,distance+1]);
       }
     }
+  }
+  // A fusion infant one recipe alone hatches, and its evolved forms, may also wear each parent's highest accepted form: a form the
+  // recipe lists that does not evolve into another listed form. Read straight from data/fusion.json; parent forms count as distance 0.
+  const hatchedBy=new Map();
+  for(const recipe of fusionSource.recipes)for(const outcome of recipe.outcomes)hatchedBy.set(outcome.species,(hatchedBy.get(outcome.species)??0)+1);
+  const forward=ids=>{const seen=new Set(ids),queue=[...ids];for(let index=0;index<queue.length;index++)for(const edge of byId.get(queue[index]).evolution)if(!seen.has(edge.to)){seen.add(edge.to);queue.push(edge.to);}return seen;};
+  for(const recipe of fusionSource.recipes){
+    const listed=new Set([...recipe.primary,...recipe.secondary]);
+    const highest=[...listed].filter(id=>!byId.get(id).evolution.some(edge=>listed.has(edge.to)));
+    for(const id of forward(recipe.outcomes.map(outcome=>outcome.species).filter(species=>hatchedBy.get(species)===1)))for(const parent of highest)if(!expectedSkins.get(id).has(parent))expectedSkins.get(id).set(parent,0);
   }
   check('All 1483 catalog species expose exact directed skin choices and support selection plus reset at level one',()=>{
     assert.equal(catalog.species.length,1483);
@@ -101,6 +114,12 @@ await withSsr('skins', async load => {
 
   for(const [species,ancestors] of [[1,[]],[3,[1,2]],[93,[91]],[1316,[65,66,67]],[1317,[65,66,67]],[1428,[738,739]],[1459,[77,78,79]],[1019,[820,821,1017,1018]]])check(`${species}: only current form and directed ancestors are selectable even at level one`,()=>{
     for(const level of [1,100]){const {game,uid}=fixture(species,level),choices=view(game,uid).skinOptions.map(choice=>choice.species);assert.equal(choices[0],species);assert.deepEqual([...choices].sort((a,b)=>a-b),[species,...ancestors].sort((a,b)=>a-b));for(const id of choices){assert.equal(view(game,uid).skinOptions.find(choice=>choice.species===id).name,byId.get(id).name.zh);select(game,uid,id);}select(game,uid,null);}
+  });
+  check("Single-recipe fusion lines add both parents' highest accepted forms, never a further form the recipe does not list",()=>{
+    for(const species of [301,302,303]){const {game,uid}=fixture(species),choices=view(game,uid).skinOptions.map(choice=>choice.species);assert.equal(choices[0],species);assert(choices.includes(3)&&choices.includes(29),`${species} wears 布布花 and 魔花仙子`);assert(!choices.includes(1216)&&!choices.includes(27)&&!choices.includes(28));select(game,uid,29);select(game,uid,null);}
+    for(const species of [3,29])assert(!buildSkinOptions(catalog.species).get(species).includes(301),'Parents do not gain the infant');
+    for(const [species,own] of [[325,[325]],[327,[325,326,327]],[639,[639]]])
+      assert.deepEqual([...buildSkinOptions(catalog.species).get(species)].sort((a,b)=>a-b),own,`${species}: an infant several recipes hatch keeps its own line`);
   });
   check('Reverse ancestry and artwork metadata cannot grant an unimplemented or sibling skin',()=>{
     const rows=[{id:1,evolution:[{to:2}]},{id:2,evolution:[{to:3},{to:4}]},{id:3,evolution:[],evolves_from:9,familyRoot:9,evolutionStage:9},{id:4,evolution:[]},{id:9,evolution:[]}];

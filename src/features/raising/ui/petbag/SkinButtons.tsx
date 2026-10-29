@@ -4,8 +4,8 @@ import {appearanceOf} from '../../../../shared/monster-views.ts';
 import {CreatureArt} from '../../../../shared/ui/CreatureArt.tsx';
 
 /**
- * 皮肤 over the portrait: a button that drops a column of the forms the monster may look like (from its first form to its own),
- * each showing that form; the pressed one is its look. Only the look changes; its stats and skills stay its current form's. A
+ * 皮肤 over the portrait: a button that drops a column of the forms the monster may look like (a fusion line's parent forms, then
+ * its first form to its own), each showing that form; the pressed one is its look. Only the look changes; its stats and skills stay its current form's. A
  * pick, a click elsewhere or Escape closes the column. None for a monster with one form.
  */
 export default function SkinButtons({m,onPick}:{m:MonsterView;onPick:(species:number)=>void}) {
@@ -20,7 +20,7 @@ export default function SkinButtons({m,onPick}:{m:MonsterView;onPick:(species:nu
     return()=>{document.removeEventListener('pointerdown',away);document.removeEventListener('keydown',escape)};
   },[open]);
   if(m.skinOptions.length<2)return null;
-  // The options list the monster's own form first.
+  // The options list the monster's own form first, then its ancestors, then any fusion parent forms.
   const appearance=appearanceOf(m),options=[...m.skinOptions].reverse();
   const pick=(species:number)=>{setOpen(false);if(species!==appearance)onPick(species)};
   return <div ref={root} className="petbag-skins">

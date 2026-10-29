@@ -166,9 +166,13 @@ consumer needs the formulas. `medium_slow` really does need *less* EXP for level
   (auto-equipping into free slots). HP shifts by the change in max HP [chosen].
 - Optional `skinSpecies` is cosmetic. The application validates it against the
   current species and its directed ancestors; it never changes battle or raising
-  identity. Evolution retains a still-valid ancestor skin, and same-species
-  restoration retains it. Absent or invalid skins use the current appearance.
-  Sibling branches and descendants are not valid ancestor skins.
+  identity. A fusion infant that exactly one recipe hatches, and every form it
+  evolves into, may also wear each parent's highest form that recipe accepts (a
+  listed parent form that does not evolve into another listed form); an infant
+  several recipes share (卡门兔, 辛克, 伊达, 希格) keeps only its own line [chosen]. Evolution retains a
+  still-valid skin, and same-species restoration retains it. Absent or invalid
+  skins use the current appearance. Sibling branches and descendants are not
+  valid ancestor skins.
 
 ## 8. Party, box and healing
 
