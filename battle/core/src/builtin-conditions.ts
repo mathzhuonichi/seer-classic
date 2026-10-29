@@ -12,7 +12,7 @@ export const BUILTIN_CONDITIONS: ConditionDef[] = [
   { id: 'poison', name: { zh: '中毒' }, kind: 'status', default_turns: T, stack: 'fail', hooks: [dot] },
   {
     id: 'burn', name: { zh: '烧伤' }, kind: 'status', default_turns: T, stack: 'fail',
-    hooks: [dot, { on: 'modify_damage_dealt', multiplier: BURN_DAMAGE_MULTIPLIER, kinds: ['attack'] }],
+    hooks: [dot, { on: 'modify_damage_dealt', multiplier: BURN_DAMAGE_MULTIPLIER, kinds: ['attack'], when: { skill_has_power: true } }],
   },
   {
     id: 'leech', name: { zh: '寄生' }, kind: 'status', default_turns: 5, stack: 'fail',

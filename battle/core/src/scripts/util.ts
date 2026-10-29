@@ -37,7 +37,7 @@ export const fromFoeAttack = (c: HookCtx): c is HookCtx & { source: Mon } => c.i
 // ---------- damage and stages ----------
 
 /** Extra damage from the move to the foe: only when it landed, rounded down, at least 1. */
-export function hitFoe(c: ApplyCtx, n: number, kind: 'fixed' | 'percent' = 'fixed'): void {
+export function hitFoe(c: ApplyCtx, n: number, kind: 'fixed' | 'percent' | 'attack' = 'fixed'): void {
   if (!landed(c) || n < 1) return;
   c.battle.dealDamage(c.foe, Math.floor(n), { kind, source: c.user, skill: c.ctx?.skill, sureHit: c.ctx?.sureHit });
 }

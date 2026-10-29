@@ -90,3 +90,30 @@ test('圣洁 (seer_eff_86) still makes a 必中 status move miss', () => {
   assert(use(STATUS_SURE).some(e => e.type === 'miss'), 'the status move misses');
   assert.equal(holder.stages.atk, 0, 'its effect does not apply');
 });
+
+// 同生共死 (seer_eff_7) brings the foe down to the user's HP as physical attack damage, so a physical-damage boost such as 强袭 adds to it.
+const ENDEAVOR = 21, WAIT = 22;
+const endeavorData = () => buildDataSet({types: {chart: {normal: {normal: 1}}}, skills: [
+  {...skill(ENDEAVOR, [{op: 'script', id: 'seer_eff_7', params: []}]), category: 'physical', accuracy: 100},
+  skill(WAIT, [{op: 'stat_stage', target: 'self', stats: {def: 1}}]),
+], conditions: [{id: 'cond_strike', name: {zh: '强袭'}, kind: 'buff', hooks: [
+  {on: 'modify_damage_dealt', multiplier: 1.03, when: {category: 'physical'}, kinds: ['attack']}]}],
+species: [{id: 1, name: {zh: 'fixture'}, types: ['normal'], base}]});
+const endeavor = (boosted, weaken = () => {}) => {
+  const one = (spe) => ({species: 1, level: 50, skills: [ENDEAVOR, WAIT], stats: {...base, hp: 300, spe}});
+  const sides = [{kind: 'player', team: [one(200)]}, {kind: 'player', team: [one(100)]}];
+  const battle = new Battle({data: endeavorData(), seed: 5, scripts: SEER_SCRIPTS, sides});
+  const [user, foe] = [battle.active(0), battle.active(1)];
+  user.hp = 1; foe.hp = 45;
+  if (boosted) battle.addCondition(user, battle.data.conditions.get('cond_strike'));
+  weaken(battle, user);
+  turn(battle, ENDEAVOR, WAIT);
+  return foe;
+};
+
+test('同生共死 (seer_eff_7) leaves the foe at the user\'s HP, and 强袭\'s physical boost carries it past', () => {
+  assert.equal(endeavor(false).hp, 1, 'unboosted, the foe keeps exactly the user\'s HP');
+  assert.equal(endeavor(true).hp, 0, '44 damage × 1.03 is 45: the boosted move knocks the foe out');
+  assert.equal(endeavor(false, (battle, user) => assert(battle.applyStatus(user, 'burn', {}))).hp, 1, '烧伤 does not halve it');
+  assert.equal(endeavor(false, (_battle, user) => { user.stages.atk = -6; }).hp, 1, 'lowered 攻击 stages do not reduce it');
+});

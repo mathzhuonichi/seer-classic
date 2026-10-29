@@ -54,6 +54,8 @@ const TESTS: Record<string, Test> = {
     const sk = c.skill ?? c.ctx?.skill;
     return !!sk && typeIdentity(b.data.types, sk.type) === typeIdentity(b.data.types, v);
   },
+  /** The skill has a power (true), or deals damage without one (false), as 同生共死 does. */
+  skill_has_power: (_b, c, v) => { const sk = c.skill ?? c.ctx?.skill; return !!sk && (sk.power > 0) === v; },
   damage_kind: (_b, c, v) => Array.isArray(v) ? v.includes(c.kind) : c.kind === v,
   speed_faster: (b, c, v) => !!c.foe && (b.effStat(c.self, 'spe') > b.effStat(c.foe, 'spe')) === v,
   all: (b, c, v) => (v as When[]).every((w) => b.evalWhen(w, c)),

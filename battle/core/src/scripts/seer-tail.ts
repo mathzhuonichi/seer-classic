@@ -351,10 +351,10 @@ const ENTRIES: Record<string, ScriptEntry> = {
     },
     changes: placesCondition('seer_eff_183'),
   },
-  // 对方体力高于自己时才能命中，将对方体力减到和自己相同
+  // 对方体力高于自己时才能命中，将对方体力减到和自己相同; the difference is physical attack damage, so 强袭 and reductions scale it
   seer_eff_7: {
     accuracy(c) { return c.foe.hp > c.user.hp ? undefined : false; },
-    apply(c) { hitFoe(c, c.foe.hp - c.user.hp); },
+    apply(c) { hitFoe(c, c.foe.hp - c.user.hp, 'attack'); },
   },
   // 伤害大于对方体力时，对方会余下1体力
   seer_eff_8: { finalDamage(c, _p, d) { return c.info.kind === 'attack' ? Math.min(d, Math.max(0, c.foe.hp - 1)) : undefined; } },

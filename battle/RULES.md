@@ -194,6 +194,11 @@ are sequential and can introduce further floors.
 | `percent` | `pct_damage`, poison, burn, freeze, leech | same as fixed | "百分比伤害" |
 | `true` | scripts only | never | bypasses damage reducers and final shield scripts; explicit encounter restrictions still govern opponent attacks |
 
+同生共死 (effect 7) deals the HP difference as `attack` damage: it is a physical
+attack, so attack-damage modifiers such as 强袭 and the target's reductions scale
+it. 烧伤 does not (its halving needs a skill with power), nor do attack stages,
+type or critical hits, which only enter the power formula [user decision 2026-10-29].
+
 Boss rules filter on kind (`immune_fixed_damage`, `immune_percent_damage`,
 `damage_only_from`).
 Non-OHKO true self-costs also bypass encounter HP floors so sacrifice effects
