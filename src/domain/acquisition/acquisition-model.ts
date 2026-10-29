@@ -12,7 +12,8 @@ export interface JourneyQuest { id: string; name: string; task: string; goal: nu
 export const JOURNEY_QUESTS: readonly JourneyQuest[] = [
   { id: 'first-victory', name: '初次胜利', task: '赢得一次野外遭遇或首领挑战（捕捉成功也算）', goal: 1, counts: 'wins', species: 10 },
   { id: 'three-victories', name: '成长之路', task: '赢得三场战斗（捕捉成功也算）', goal: 3, counts: 'wins', species: 13 },
-  { id: 'first-spt', name: 'SPT 挑战者', task: '击败星际挑战档案「SPT首领」中的任意一位首领', goal: 1, counts: 'spt-clears', species: 6 },
+  // 杰奥 (397, 战斗), not 巴鲁斯 (6): the journey begins with all three starters, and 巴鲁斯 is 伊优's last form (2026-10-28).
+  { id: 'first-spt', name: 'SPT 挑战者', task: '击败星际挑战档案「SPT首领」中的任意一位首领', goal: 1, counts: 'spt-clears', species: 397 },
 ];
 
 export interface AcquisitionRoute {

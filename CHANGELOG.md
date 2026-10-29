@@ -2,6 +2,11 @@
 
 Newest first. Each entry links the design note with its details and checks; [design/notes/INDEX.md](design/notes/INDEX.md) gives each note's current status. The follow-ups between version 0.3.2 and revision 18 had no revision number; their headings use the design note's version where it has one. No note or commit is labeled revision 55. Versions 0.1 and 0.2 have no design note with their checks, so their entries carry them.
 
+## The SPT 挑战者 reward is 杰奥 (2026-10-28, evening)
+
+- **Journey quest.** 「SPT 挑战者」 (beat any SPT首领) granted 巴鲁斯, the last form of 伊优, which every journey already begins with beside 布布种子 and 小火猴; the reward was the remake's own (revision 30), not the original's. It now grants 杰奥 (397, 战斗), whose only other route is a late recruitment (提坦, 尹赫, 塔拉, 塔克林 and 塔西亚); 巴鲁斯 stays an evolution of 伊优. A save that has claimed the quest keeps its 巴鲁斯.
+- **Checks.** The same runs as the entry below: `npm run verify` 77/77 (the acquisition gates with the new quest route) and `browser-regressions` 72.
+
 ## The pet storage, second version (2026-10-28, evening)
 
 - **Shelves.** The box opens on its new 收藏 and has 全部, then 单属性 and 双属性 tabs with the official element buttons of the dex's 17 elements or its 28 dual pairs, the ones the box holds first and the others dimmed. 包含双属性 adds, to an element, the dual-element monsters that have it. The element dropdown is gone from the box. The original box, found on the official server as `PetStorageOld.swf`, also filtered by element tiles with 单属性 and 双属性 and had a 精英收藏 ([pet-storage-2026-10-28](design/notes/pet-storage-2026-10-28.md)).

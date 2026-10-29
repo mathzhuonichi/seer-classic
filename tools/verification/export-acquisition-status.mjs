@@ -37,7 +37,7 @@ await withSsr('export-acquisition-status', async load => {
   const seeds = new Map(), conditionalCaptures = [];
   const seed = (id, witness) => { if (byId.has(id) && !NPC_ONLY_SPECIES.has(id) && !seeds.has(id)) seeds.set(id, witness); };
   for (const id of [1, 4, 7]) seed(id, { kind: 'starter' });
-  for (const [id, questId] of [[10, 'first-victory'], [13, 'three-victories'], [6, 'first-spt']]) seed(id, { kind: 'journey', questId });
+  for (const [id, questId] of [[10, 'first-victory'], [13, 'three-victories'], [397, 'first-spt']]) seed(id, { kind: 'journey', questId });
   const intercepted = new Set(catalog.bosses.filter(boss => !boss.id.includes('tower') && !boss.id.includes('dark_door')).flatMap(boss => boss.team.map(mon => mon.species)));
   for (const planet of WORLD_PLANETS) for (const region of planet.regions) for (const id of region.creatures) {
     const species = byId.get(id);
