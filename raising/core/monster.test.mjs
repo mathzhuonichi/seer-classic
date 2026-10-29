@@ -106,10 +106,11 @@ test('equipSkills: 1-4 learned, distinct skills; equipped PP is kept and new one
   assert.throws(() => equipSkills(m, [6], dex), /not learned/);
 });
 
-test('restoreMonster: level 1, fresh 个体 and 性格, no 学习力; uid, species, nickname, skin and generation kept', () => {
-  const m = {...addEvs(make(3, 50), {atk: 100}).mon, nickname: '老友', skinSpecies: 1, generation: 1};
+test('restoreMonster: fresh 个体 and 性格, no 学习力; level, EXP, skills, uid, species, nickname, skin and generation kept', () => {
+  const m = {...addEvs(make(3, 50), {atk: 100}).mon, exp: 7, nickname: '老友', skinSpecies: 1, generation: 1};
   const r = restoreMonster(m, dex, rng(7));
-  assert.deepEqual([r.mon.uid, r.mon.species, r.mon.level, r.mon.nickname, r.mon.skinSpecies, r.mon.generation], [m.uid, 3, 1, '老友', 1, 1]);
+  assert.deepEqual([r.mon.uid, r.mon.species, r.mon.level, r.mon.exp, r.mon.nickname, r.mon.skinSpecies, r.mon.generation], [m.uid, 3, 50, 7, '老友', 1, 1]);
+  assert.deepEqual([r.mon.skills, r.mon.learned, r.mon.pp], [m.skills, m.learned, m.pp]);
   assert.equal(restoreMonster(make(3, 50), dex, rng(7)).mon.generation, undefined);
   assert.equal(r.mon.evs.atk, 0);
   assert.deepEqual(r.events.map((e) => e.kind), ['iv_changed', 'nature_changed', 'evs_reset']);

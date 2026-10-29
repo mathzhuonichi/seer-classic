@@ -151,20 +151,15 @@ export function rerollIv(mon: Monster, dex: Dex, rng: Rng): Result {
   return setIv(mon, rollIv(rng, IV_MIN), dex);
 }
 
-// 精灵还原: back to level 1 with a fresh 个体 and 性格 and no 学习力; species is kept.
+// 精灵还原: a fresh 个体 and 性格 and no 学习力. Species, level, EXP and learned and equipped skills are kept; current HP shifts with max HP.
 export function restoreMonster(mon: Monster, dex: Dex, rng: Rng): Result {
-  const fresh = createMonster(dex, mon.species, 1, rng, {
-    uid: mon.uid, iv: rollIv(rng, IV_MIN), how: mon.obtained.how, at: mon.obtained.at,
-  });
-  fresh.nickname = mon.nickname;
-  if (mon.skinSpecies !== undefined) fresh.skinSpecies = mon.skinSpecies;
-  if (mon.generation !== undefined) fresh.generation = mon.generation;
-  if (mon.favorite) fresh.favorite = true;
+  const iv = rollIv(rng, IV_MIN), nature = rollNature(dex, rng);
+  const m = restat(mon, dex, (x) => { x.iv = iv; x.nature = nature; x.evs = zeroStats(); });
   return {
-    mon: fresh,
+    mon: m,
     events: [
-      { kind: "iv_changed", uid: mon.uid, from: mon.iv, to: fresh.iv },
-      { kind: "nature_changed", uid: mon.uid, from: mon.nature, to: fresh.nature },
+      { kind: "iv_changed", uid: mon.uid, from: mon.iv, to: iv },
+      { kind: "nature_changed", uid: mon.uid, from: mon.nature, to: nature },
       { kind: "evs_reset", uid: mon.uid, stats: [...STAT_KEYS] },
     ],
   };

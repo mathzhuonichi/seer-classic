@@ -28,7 +28,7 @@ export function itemDescription(item: CatalogItem): string {
   if (effect?.op === 'heal') return `战斗中恢复选中精灵 ${effect.amount ?? '全部'} 点体力。`;
   if (effect?.op === 'restore_pp') return `战斗中为每个技能补充 ${effect.amount ?? '全部'} 点 PP。`;
   switch (raising?.op) {
-    case 'restore': return '恢复选中精灵的初始培养状态。';
+    case 'restore': return '重新随机选中精灵的个体值和性格并清空学习力，等级和技能保留。';
     case 'levels': return `精灵等级 ${raising.amount! > 0 ? '+' : ''}${raising.amount}。`;
     case 'iv_reroll': return '重新生成潜力数值。';
     case 'nature_reroll': return '重新生成精灵性格。';

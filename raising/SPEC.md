@@ -47,8 +47,8 @@ gifted) roll uniformly **1–31**; 0 only comes from a re-roll item [sourced: 43
 Changing it:
 - `iv_reroll` item: new random 0–31, level and 性格 kept [sourced: 天赋改造药剂].
 - `iv_set` item: fixed value (for 满个体 boss rewards) [chosen].
-- `restore` item (精灵还原药剂): back to level 1 with fresh 个体 and 性格 and no 学习力,
-  same species and uid [sourced].
+- `restore` item (精灵还原药剂): fresh 个体 and 性格 and no 学习力; species, uid, level,
+  EXP and learned and equipped skills are kept [recalled: user 2026-10-29].
 
 ### 3.2 潜力 (display tier) [not implemented]
 The game shows the raw 个体值; no tier is displayed. The original's tier wording could not
